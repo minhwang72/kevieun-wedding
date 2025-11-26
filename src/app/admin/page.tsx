@@ -133,13 +133,7 @@ const LoginForm = ({ onLogin }: { onLogin: (username: string, password: string) 
 }
 
 const defaultBlessingContent = [
-  '하나님께서 인도하신 만남 속에서',
-  '서로의 깊은 존재를 알아가며',
-  '가장 진실한 사랑으로 하나 되고자 합니다.',
-  '',
-  '소중한 분들을 모시고',
-  '그 첫걸음을 함께 나누고 싶습니다.',
-  '축복으로 함께해 주시면 감사하겠습니다.'
+  '지정된 문구 없음 문구를 작성 및 수정해주세요'
 ].join('\n')
 
 // 메인 이미지 섹션 컴포넌트
