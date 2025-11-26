@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect, useCallback, Suspense } from 'react'
+import type { FormEvent } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import type { Gallery, Guestbook, ContactPerson } from '@/types'
+import type { Gallery, Guestbook, ContactPerson, BlessingContent } from '@/types'
 
 import MainImageUploader from '@/components/MainImageUploader'
 import GlobalLoading from '@/components/GlobalLoading'
@@ -72,7 +73,7 @@ const LoginForm = ({ onLogin }: { onLogin: (username: string, password: string) 
     }
   }, [searchParams])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setLoading(true)
     await onLogin(username, password)
@@ -130,6 +131,16 @@ const LoginForm = ({ onLogin }: { onLogin: (username: string, password: string) 
     </div>
   )
 }
+
+const defaultBlessingContent = [
+  '하나님께서 인도하신 만남 속에서',
+  '서로의 깊은 존재를 알아가며',
+  '가장 진실한 사랑으로 하나 되고자 합니다.',
+  '',
+  '소중한 분들을 모시고',
+  '그 첫걸음을 함께 나누고 싶습니다.',
+  '축복으로 함께해 주시면 감사하겠습니다.'
+].join('\n')
 
 // 메인 이미지 섹션 컴포넌트
 const MainImageSection = ({ onUpdate, showToast, setGlobalLoading }: { onUpdate?: () => void, showToast: (message: string, type: 'success' | 'error') => void, setGlobalLoading: (loading: boolean, message?: string) => void }) => {
@@ -1449,6 +1460,114 @@ const GuestbookSection = ({ guestbook, onUpdate, loading, setGlobalLoading }: { 
   )
 }
 
+interface BlessingManagerProps {
+  content: BlessingContent | null
+  onRefresh: () => Promise<void> | void
+  showToast: (message: string, type: 'success' | 'error') => void
+  setGlobalLoading: (loading: boolean, message?: string) => void
+  loading: boolean
+}
+
+const BlessingManagerSection = ({
+  content,
+  onRefresh,
+  showToast,
+  setGlobalLoading,
+  loading
+}: BlessingManagerProps) => {
+  const [formContent, setFormContent] = useState(content?.content || defaultBlessingContent)
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    setFormContent(content?.content || defaultBlessingContent)
+  }, [content])
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!formContent.trim()) {
+      showToast('문구를 입력해주세요.', 'error')
+      return
+    }
+
+    setSaving(true)
+    setGlobalLoading(true, '문구 저장 중...')
+
+    try {
+      const res = await fetch('/api/admin/blessing', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: formContent })
+      })
+      const data = await res.json()
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || '저장에 실패했습니다.')
+      }
+      showToast('축복 문구를 저장했습니다.', 'success')
+      await onRefresh()
+    } catch (error) {
+      console.error('Blessing save error:', error)
+      showToast('문구 저장에 실패했습니다.', 'error')
+    } finally {
+      setSaving(false)
+      setGlobalLoading(false)
+    }
+  }
+
+  return (
+    <div className="bg-white shadow rounded-lg p-4 sm:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">축복 문구 관리</h2>
+          <p className="text-sm text-gray-500 mt-1">초대장 Blessing 섹션에 표시될 문구를 관리합니다.</p>
+        </div>
+        {content?.updated_at && (
+          <p className="text-xs text-gray-500 sm:text-right">
+            마지막 수정: {new Date(content.updated_at).toLocaleString('ko-KR')}
+          </p>
+        )}
+      </div>
+
+      {loading ? (
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-300 mx-auto"></div>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Blessing 문구 *</label>
+            <textarea
+              value={formContent}
+              onChange={(e) => setFormContent(e.target.value)}
+              rows={10}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-purple-500 focus:border-purple-500 font-sans text-sm"
+              placeholder="초대장에 표시할 문구를 입력하세요."
+            />
+            <p className="text-xs text-gray-500 mt-1">줄바꿈(Enter)을 그대로 반영해 표시합니다.</p>
+          </div>
+
+          <div className="flex justify-end gap-3">
+            <button
+              type="button"
+              onClick={() => setFormContent(content?.content || defaultBlessingContent)}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 min-h-[44px]"
+              disabled={saving}
+            >
+              되돌리기
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg min-h-[44px] disabled:opacity-70"
+              disabled={saving}
+            >
+              {saving ? '저장 중...' : '저장하기'}
+            </button>
+          </div>
+        </form>
+      )}
+    </div>
+  )
+}
+
 export default function AdminPage() {
   return (
     <Suspense fallback={
@@ -1466,12 +1585,14 @@ function AdminPageContent() {
   const [gallery, setGallery] = useState<Gallery[]>([])
   const [guestbook, setGuestbook] = useState<Guestbook[]>([])
   const [contacts, setContacts] = useState<ContactPerson[]>([])
+  const [blessingContent, setBlessingContent] = useState<BlessingContent | null>(null)
   const [toasts, setToasts] = useState<Toast[]>([])
   const [loading, setLoading] = useState({
     auth: true,
     gallery: false,
     guestbook: false,
-    contacts: false
+    contacts: false,
+    blessing: false
   })
   // 전역 로딩 상태 추가
   const [globalLoading, setGlobalLoading] = useState({
@@ -1482,15 +1603,15 @@ function AdminPageContent() {
   const searchParams = useSearchParams()
   
   // URL에서 활성 탭 읽기 (기본값: 'main')
-  const getActiveTabFromUrl = useCallback((): 'main' | 'contacts' | 'gallery' | 'guestbook' => {
+  const getActiveTabFromUrl = useCallback((): 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' => {
     const tab = searchParams.get('tab')
-    if (tab && ['main', 'contacts', 'gallery', 'guestbook'].includes(tab)) {
-      return tab as 'main' | 'contacts' | 'gallery' | 'guestbook'
+    if (tab && ['main', 'contacts', 'gallery', 'guestbook', 'blessing'].includes(tab)) {
+      return tab as 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing'
     }
     return 'main'
   }, [searchParams])
   
-  const [activeTab, setActiveTab] = useState<'main' | 'contacts' | 'gallery' | 'guestbook'>(getActiveTabFromUrl())
+  const [activeTab, setActiveTab] = useState<'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing'>(getActiveTabFromUrl())
   
   // 전역 로딩 설정 함수
   const setGlobalLoadingState = useCallback((isLoading: boolean, message: string = 'LOADING') => {
@@ -1498,7 +1619,7 @@ function AdminPageContent() {
   }, [])
   
   // 탭 변경 함수 (URL 업데이트 포함)
-  const changeTab = (newTab: 'main' | 'contacts' | 'gallery' | 'guestbook') => {
+  const changeTab = (newTab: 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing') => {
     setActiveTab(newTab)
     // URL 업데이트 (히스토리에 추가)
     router.push(`/admin?tab=${newTab}`)
@@ -1568,27 +1689,30 @@ function AdminPageContent() {
     if (!isAuthenticated) return
 
     try {
-      setLoading(prev => ({ ...prev, gallery: true, guestbook: true, contacts: true }))
+      setLoading(prev => ({ ...prev, gallery: true, guestbook: true, contacts: true, blessing: true }))
 
-      const [galleryRes, guestbookRes, contactsRes] = await Promise.all([
+      const [galleryRes, guestbookRes, contactsRes, blessingRes] = await Promise.all([
         fetch('/api/gallery'),
         fetch('/api/admin/guestbook'),
         fetch('/api/contacts'),
+        fetch('/api/admin/blessing'),
       ])
 
-      const [galleryData, guestbookData, contactsData] = await Promise.all([
+      const [galleryData, guestbookData, contactsData, blessingData] = await Promise.all([
         galleryRes.json(),
         guestbookRes.json(),
         contactsRes.json(),
+        blessingRes.json(),
       ])
 
       if (galleryData.success) setGallery(galleryData.data)
       if (guestbookData.success) setGuestbook(guestbookData.data)
       if (contactsData.success) setContacts(contactsData.data)
+      if (blessingData.success) setBlessingContent(blessingData.data)
     } catch (error) {
       console.error('Error fetching data:', error)
     } finally {
-      setLoading(prev => ({ ...prev, gallery: false, guestbook: false, contacts: false }))
+      setLoading(prev => ({ ...prev, gallery: false, guestbook: false, contacts: false, blessing: false }))
     }
   }, [isAuthenticated])
 
@@ -1641,6 +1765,21 @@ function AdminPageContent() {
     } finally {
       setLoading(prev => ({ ...prev, contacts: false }))
       console.log('🔍 [DEBUG] updateContacts completed')
+    }
+  }, [])
+
+  const updateBlessingContent = useCallback(async () => {
+    try {
+      setLoading(prev => ({ ...prev, blessing: true }))
+      const res = await fetch(`/api/admin/blessing?t=${Date.now()}`)
+      const data = await res.json()
+      if (data.success) {
+        setBlessingContent(data.data)
+      }
+    } catch (error) {
+      console.error('Error updating blessing content:', error)
+    } finally {
+      setLoading(prev => ({ ...prev, blessing: false }))
     }
   }, [])
 
@@ -1704,10 +1843,11 @@ function AdminPageContent() {
                 { key: 'contacts', label: '연락처 관리' },
                 { key: 'gallery', label: '갤러리 관리' },
                 { key: 'guestbook', label: '방명록 관리' },
+                { key: 'blessing', label: '축복 문구' },
               ].map((tab) => (
                 <button
                   key={tab.key}
-                  onClick={() => changeTab(tab.key as 'main' | 'contacts' | 'gallery' | 'guestbook')}
+                  onClick={() => changeTab(tab.key as 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing')}
                   className={`py-3 sm:py-4 px-3 sm:px-1 border-b-2 font-medium text-sm sm:text-base whitespace-nowrap min-h-[44px] ${
                     activeTab === tab.key
                       ? 'border-purple-500 text-purple-600'
@@ -1741,6 +1881,16 @@ function AdminPageContent() {
           {/* 방명록 관리 탭 */}
           {activeTab === 'guestbook' && (
             <GuestbookSection guestbook={guestbook} onUpdate={updateGuestbook} loading={loading.guestbook} setGlobalLoading={setGlobalLoadingState} />
+          )}
+
+          {activeTab === 'blessing' && (
+            <BlessingManagerSection
+              content={blessingContent}
+              onRefresh={updateBlessingContent}
+              showToast={showToast}
+              setGlobalLoading={setGlobalLoadingState}
+              loading={loading.blessing}
+            />
           )}
         </div>
       </main>

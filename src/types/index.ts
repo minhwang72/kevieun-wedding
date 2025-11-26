@@ -29,6 +29,12 @@ export interface Guestbook {
   deleted_at?: Date | string | null;
 }
 
+export interface BlessingContent {
+  id: number;
+  content: string;
+  updated_at?: Date | string;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;

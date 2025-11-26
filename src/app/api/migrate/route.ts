@@ -302,6 +302,46 @@ export async function POST() {
     // 12. 카카오페이 링크 업데이트 제거 - API로만 관리
     migrations.push('kakaopay link updates removed - managed via API only')
 
+    // 13. blessing_content 테이블 생성
+    try {
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS blessing_content (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          content LONGTEXT NOT NULL,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        )
+      `)
+      migrations.push('blessing_content table created or already exists')
+    } catch (error) {
+      console.error('Blessing content table creation error:', error)
+      throw error
+    }
+
+    // 13-1. blessing_content 기본 데이터 삽입 (테이블 비어있는 경우)
+    try {
+      const [countRows] = await pool.query('SELECT COUNT(*) AS count FROM blessing_content')
+      const [{ count }] = countRows as { count: number }[]
+      if (count === 0) {
+        const defaultContent = [
+          '하나님께서 인도하신 만남 속에서',
+          '서로의 깊은 존재를 알아가며',
+          '가장 진실한 사랑으로 하나 되고자 합니다.',
+          '',
+          '소중한 분들을 모시고',
+          '그 첫걸음을 함께 나누고 싶습니다.',
+          '축복으로 함께해 주시면 감사하겠습니다.'
+        ].join('\n')
+
+        await pool.query('INSERT INTO blessing_content (content) VALUES (?)', [defaultContent])
+        migrations.push('blessing_content default row inserted')
+      } else {
+        migrations.push('blessing_content table already has data')
+      }
+    } catch (error) {
+      console.error('Blessing content default data error:', error)
+      migrations.push('blessing_content default data insertion failed (non-critical)')
+    }
+
     // 13. admin 테이블 생성 및 username 컬럼 추가
     try {
       await pool.query(`
