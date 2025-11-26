@@ -1,5 +1,6 @@
 'use client'
 
+import SectionHeading from '@/components/SectionHeading'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 
 export default function WeddingDateSection() {
@@ -57,14 +58,14 @@ export default function WeddingDateSection() {
   return (
     <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans bg-white">
       <div className="max-w-xl mx-auto text-center w-full px-6 md:px-8">
-        {/* 제목 */}
-        <h2 
-          ref={titleAnimation.ref}
-          className={`text-3xl md:text-4xl font-semibold mb-12 md:mb-16 tracking-wider text-black transition-all duration-800 ${titleAnimation.animationClass}`}
-          style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
-        >
-          WEDDING DATE
-        </h2>
+        <div ref={titleAnimation.ref} className={`transition-all duration-800 ${titleAnimation.animationClass}`}>
+          <SectionHeading
+            kicker="Schedule"
+            title="4월"
+            description=" "
+            size="md"
+          />
+        </div>
 
         {/* 상단 가로선 */}
         <div className="w-full h-px bg-gray-200 mb-6 md:mb-8"></div>
@@ -77,9 +78,12 @@ export default function WeddingDateSection() {
           {/* 요일 헤더 */}
           <div className="grid grid-cols-7 gap-2 md:gap-3 mb-4 md:mb-6">
             {weekDays.map((day) => (
-                          <div key={day} className="text-xs md:text-sm font-semibold text-black text-center py-2 md:py-3" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-              {day}
-            </div>
+              <div
+                key={day}
+                className="text-[11px] md:text-xs font-heading text-gray-500 tracking-[0.35em] py-2 md:py-3"
+              >
+                {day}
+              </div>
             ))}
           </div>
 
@@ -114,11 +118,11 @@ export default function WeddingDateSection() {
           ref={dateInfoAnimation.ref}
           className={`space-y-3 md:space-y-4 transition-all duration-800 ${dateInfoAnimation.animationClass}`}
         >
-          <div className="text-base md:text-lg font-semibold text-black tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+          <div className="text-base md:text-lg font-heading text-gray-700 tracking-[0.4em] uppercase">
             2026년 4월 11일 토요일&nbsp;&nbsp;|&nbsp;&nbsp;오후 1시
           </div>
           
-          <div className="text-base md:text-lg font-semibold text-black tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+          <div className="text-base md:text-lg font-heading text-gray-700 tracking-[0.4em] uppercase">
             Saturday, April 11, 2026&nbsp;&nbsp;|&nbsp;&nbsp;PM 1:00
           </div>
         </div>

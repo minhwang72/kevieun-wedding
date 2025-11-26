@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import type { Gallery } from '@/types'
+import SectionHeading from '@/components/SectionHeading'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 
 interface GallerySectionProps {
@@ -153,14 +154,16 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
     <>
       <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans bg-white">
         <div className="max-w-xl mx-auto text-center w-full px-4 md:px-6">
-          {/* 제목 */}
-          <h2 
+          <div 
             ref={titleAnimation.ref}
-            className={`text-3xl md:text-4xl font-semibold mb-12 md:mb-16 tracking-wider text-black transition-all duration-800 ${titleAnimation.animationClass}`}
-            style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+            className={`transition-all duration-800 mb-10 md:mb-14 ${titleAnimation.animationClass}`}
           >
-            GALLERY
-          </h2>
+            <SectionHeading
+              kicker="Gallery"
+              title="갤러리"
+              size="sm"
+            />
+          </div>
 
           {/* 상단 가로선 */}
           <div className="w-full h-px bg-gray-200 mb-6 md:mb-8"></div>

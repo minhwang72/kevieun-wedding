@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import type { ContactPerson } from '@/types'
+import SectionHeading from '@/components/SectionHeading'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 
 export default function ContactSection() {
@@ -138,73 +139,51 @@ export default function ContactSection() {
     <>
       <section className="w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-10 font-sans bg-[#FFFDFC]">
         <div className="max-w-xl mx-auto text-center w-full">
-          {/* 제목 */}
-          <h2 
+          <div 
             ref={titleAnimation.ref}
-            className={`text-3xl md:text-4xl font-semibold mb-12 md:mb-16 tracking-wider text-black transition-all duration-800 ${titleAnimation.animationClass}`}
-            style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+            className={`transition-all duration-800 ${titleAnimation.animationClass}`}
           >
-            CONTACT
-          </h2>
+            <SectionHeading
+              kicker="Contact"
+              title="축하 연락하기"
+              size="sm"
+            />
+          </div>
           
           <div className="max-w-md mx-auto space-y-8">
-            {/* 신랑신부 정보 가로 배치 */}
             <div 
               ref={contactAnimation.ref}
               className={`grid grid-cols-2 gap-8 py-8 transition-all duration-800 ${contactAnimation.animationClass}`}
             >
-              {/* 신랑측 */}
-              <div className="text-center space-y-4">
-                {(() => {
-                  const contactText = formatContactText(groomSide, 'groom')
-                  return (
-                    <>
-                      {contactText.line1 && (
-                        <div className="text-xs md:text-sm font-semibold text-black" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                          {contactText.line1}
-                        </div>
-                      )}
-                      <div className="text-base md:text-lg font-semibold text-black" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                        <span className="text-sm md:text-base font-semibold text-black mr-2" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>신랑</span>
-                        {contactText.line2}
-                      </div>
-                    </>
-                  )
-                })()}
-              </div>
-
-              {/* 신부측 */}
-              <div className="text-center space-y-4">
-                {(() => {
-                  const contactText = formatContactText(brideSide, 'bride')
-                  return (
-                    <>
-                      {contactText.line1 && (
-                        <div className="text-xs md:text-sm font-semibold text-black" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                          {contactText.line1}
-                        </div>
-                      )}
-                      <div className="text-base md:text-lg font-semibold text-black" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                        <span className="text-sm md:text-base font-semibold text-black mr-2" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>신부</span>
-                        {contactText.line2}
-                      </div>
-                    </>
-                  )
-                })()}
-              </div>
+              {[
+                { side: 'groom' as const, label: '신랑', data: formatContactText(groomSide, 'groom') },
+                { side: 'bride' as const, label: '신부', data: formatContactText(brideSide, 'bride') }
+              ].map(({ label, data }, idx) => (
+                <div key={label + idx} className="text-center space-y-4">
+                  {data.line1 && (
+                    <div className="text-xs md:text-sm font-heading text-gray-500 tracking-[0.35em] uppercase">
+                      {data.line1}
+                    </div>
+                  )}
+                  <div className="text-base md:text-lg font-heading text-gray-900 tracking-[0.2em]">
+                    <span className="text-sm md:text-base font-heading text-gray-500 mr-2 tracking-[0.35em] uppercase">
+                      {label}
+                    </span>
+                    {data.line2}
+                  </div>
+                </div>
+              ))}
             </div>
 
-            {/* 연락하기 버튼 */}
             <div 
               ref={buttonAnimation.ref}
               className={`pt-4 transition-all duration-800 ${buttonAnimation.animationClass}`}
             >
               <button
                 onClick={handleModalOpen}
-                className="w-full py-3 bg-gray-900 text-white rounded-lg font-medium text-sm md:text-base"
-                style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+                className="w-full py-3 bg-gray-900 text-white rounded-lg font-heading tracking-[0.35em] text-xs md:text-sm uppercase"
               >
-                축하 연락하기
+                Send Regards
               </button>
             </div>
           </div>
@@ -229,10 +208,10 @@ export default function ContactSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              <h3 className="text-xl font-semibold text-black mb-2" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+              <h3 className="text-xl font-semibold text-black mb-2">
                 축하연락하기
               </h3>
-              <p className="text-sm font-medium text-black" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+              <p className="text-sm font-medium text-black">
                 연락으로 마음을 전해요
               </p>
             </div>
@@ -246,7 +225,7 @@ export default function ContactSection() {
                     ? 'bg-gray-900 text-white'
                     : 'bg-gray-200 text-gray-800'
                 }`}
-                style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+               
               >
                 신랑측
               </button>
@@ -257,7 +236,7 @@ export default function ContactSection() {
                     ? 'bg-gray-900 text-white'
                     : 'bg-gray-200 text-gray-800'
                 }`}
-                style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+               
               >
                 신부측
               </button>
@@ -273,11 +252,11 @@ export default function ContactSection() {
                   <div key={contact.id} className="border-b border-gray-100 pb-4 last:border-b-0 last:pb-0 mb-4 last:mb-0">
                     <div className="mb-3">
                       {getRelationshipLabel(contact.relationship) && (
-                        <div className="text-xs mb-1 font-semibold text-black" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                        <div className="text-xs mb-1 font-semibold text-black">
                           {getRelationshipLabel(contact.relationship)}
                         </div>
                       )}
-                      <div className="text-base font-semibold text-black" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                      <div className="text-base font-semibold text-black">
                         {contact.name}
                       </div>
                     </div>
@@ -287,7 +266,7 @@ export default function ContactSection() {
                         <button
                           onClick={() => handleCall(contact.phone)}
                           className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-white font-semibold shadow-sm bg-gray-900 text-sm"
-                          style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+                         
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.129-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -297,7 +276,7 @@ export default function ContactSection() {
                         <button
                           onClick={() => handleSMS(contact.phone)}
                           className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-gray-900 font-semibold shadow-sm bg-gray-100 text-sm"
-                          style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+                         
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />

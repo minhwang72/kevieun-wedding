@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import type { ContactPerson } from '@/types'
+import SectionHeading from '@/components/SectionHeading'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 
 export default function HeartMoneySection() {
@@ -113,14 +114,16 @@ export default function HeartMoneySection() {
     <>
       <section className="w-full py-16 md:py-20 px-0 font-sans bg-white">
         <div className="max-w-xl mx-auto text-center w-full px-8">
-          {/* 제목 */}
-          <h2 
+          <div 
             ref={titleAnimation.ref}
-            className={`text-xl md:text-2xl font-semibold mb-8 tracking-wider text-black transition-all duration-800 ${titleAnimation.animationClass}`}
-            style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
+            className={`transition-all duration-800 ${titleAnimation.animationClass}`}
           >
-            마음 전하실 곳
-          </h2>
+            <SectionHeading
+              kicker="Gifts"
+              title="마음 전하실 곳"
+              size="sm"
+            />
+          </div>
           
           <div className="space-y-4">
             {/* 신랑측 */}
@@ -133,7 +136,7 @@ export default function HeartMoneySection() {
                 className="w-full px-4 py-3 bg-white transition-colors text-left flex justify-between items-center border-b border-gray-100"
               >
                 <div className="flex items-center space-x-3">
-                  <span className="text-sm md:text-base font-medium text-gray-800" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                  <span className="text-sm md:text-base font-medium text-gray-800">
                     {groomSide.length > 0 ? getSideLabel('groom') : '신랑측'}
                   </span>
                 </div>
@@ -156,16 +159,16 @@ export default function HeartMoneySection() {
                       <div className="flex justify-between items-start mb-2">
                         <div className="text-left">
                           {contact.relationship === 'person' && (
-                            <div className="text-xs text-gray-500 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            <div className="text-xs text-gray-500 mb-1 font-medium">
                               {getSideLabel(contact.side)}
                             </div>
                           )}
                           {getRelationshipLabel(contact.relationship) && (
-                            <div className="text-xs text-gray-500 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            <div className="text-xs text-gray-500 mb-1 font-medium">
                               {getRelationshipLabel(contact.relationship)}
                             </div>
                           )}
-                          <div className="text-sm font-medium text-gray-800" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                          <div className="text-sm font-medium text-gray-800">
                             {contact.name}
                           </div>
                         </div>
@@ -221,7 +224,7 @@ export default function HeartMoneySection() {
                 className="w-full px-4 py-3 bg-white transition-colors text-left flex justify-between items-center border-b border-gray-100"
               >
                 <div className="flex items-center space-x-3">
-                  <span className="text-sm md:text-base font-medium text-gray-800" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                  <span className="text-sm md:text-base font-medium text-gray-800">
                     {brideSide.length > 0 ? getSideLabel('bride') : '신부측'}
                   </span>
                 </div>
@@ -244,16 +247,16 @@ export default function HeartMoneySection() {
                       <div className="flex justify-between items-start mb-2">
                         <div className="text-left">
                           {contact.relationship === 'person' && (
-                            <div className="text-xs text-gray-500 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            <div className="text-xs text-gray-500 mb-1 font-medium">
                               {getSideLabel(contact.side)}
                             </div>
                           )}
                           {getRelationshipLabel(contact.relationship) && (
-                            <div className="text-xs text-gray-500 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            <div className="text-xs text-gray-500 mb-1 font-medium">
                               {getRelationshipLabel(contact.relationship)}
                             </div>
                           )}
-                          <div className="text-sm font-medium text-gray-800" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                          <div className="text-sm font-medium text-gray-800">
                             {contact.name}
                           </div>
                         </div>

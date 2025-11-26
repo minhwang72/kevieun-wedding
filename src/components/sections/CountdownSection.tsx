@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
+import SectionHeading from '@/components/SectionHeading'
 
 export default function CountdownSection() {
   const [timeLeft, setTimeLeft] = useState({
@@ -62,33 +63,38 @@ export default function CountdownSection() {
     <section className="w-full min-h-screen flex flex-col justify-center text-center mb-0 px-4 md:px-8 py-12 md:py-16 bg-[#FFFEFB]">
       <div
         ref={titleAnimation.ref}
-        className={`flex items-center justify-center gap-2 mb-6 md:mb-8 transition-all duration-700 ${titleAnimation.animationClass}`}
+        className={`transition-all duration-700 ${titleAnimation.animationClass}`}
       >
-        <span className="text-gray-800 text-sm md:text-base font-semibold tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-          도찬
-        </span>
-        <svg className="w-4 h-4 md:w-5 md:h-5 text-[#F8DDE4]" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-        </svg>
-        <span className="text-gray-800 text-sm md:text-base font-semibold tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-          은진
-        </span>
-        <span className="text-gray-600 text-sm md:text-base font-semibold tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-          {isPast ? '의 결혼한지' : '의 결혼까지...'}
-        </span>
+        <SectionHeading
+          kicker="Countdown"
+          title=""
+          size="sm"
+        />
+        <div className="mt-6 flex flex-col items-center gap-2 text-[0.75rem] md:text-sm text-gray-500 font-heading tracking-[0.35em] uppercase">
+          <div className="flex items-center gap-3">
+            <span>도찬</span>
+            <svg className="w-4 h-4 md:w-5 md:h-5 text-[#F8DDE4]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+            <span>은진</span>
+          </div>
+          <p className="text-[0.65rem] md:text-xs tracking-[0.4em] text-gray-400">
+            {isPast ? 'SINCE VOWS' : 'UNTIL VOWS'}
+          </p>
+        </div>
       </div>
 
       <div
         ref={counterAnimation.ref}
-        className={`grid grid-cols-4 gap-4 md:gap-8 max-w-md md:max-w-2xl mx-auto transition-all duration-700 ${counterAnimation.animationClass}`}
+        className={`grid grid-cols-4 gap-6 md:gap-10 max-w-md md:max-w-2xl mx-auto mt-10 md:mt-12 transition-all duration-700 ${counterAnimation.animationClass}`}
       >
         {countdownItems.map(({ value, label }) => (
           <div key={label} className="relative">
-            <div className={`flex flex-col items-center transition-all duration-300 ${animate ? 'countdown-fade' : ''}`}>
-              <div className="text-2xl md:text-4xl font-semibold text-gray-900" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+            <div className={`flex flex-col items-center gap-3 md:gap-4 transition-all duration-300 ${animate ? 'countdown-fade' : ''}`}>
+              <div className="text-[2.05rem] md:text-[3rem] font-heading text-gray-900 tracking-[0.3em] leading-[1.3]">
                 {value}
               </div>
-              <div className="text-[11px] md:text-xs text-gray-500 mt-1 md:mt-2 tracking-wider font-semibold" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+              <div className="text-[11px] md:text-xs text-gray-500 tracking-[0.5em] uppercase font-heading">
                 {label}
               </div>
             </div>

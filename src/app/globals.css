@@ -67,8 +67,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+SA+Hand:wght@400;500;600;700&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fffeFB;
+  --foreground: #1d1d1f;
+  --color-muted: #6f6f6f;
+  --font-heading: 'S-CoreDream-3Light', 'Pretendard', 'Inter', sans-serif;
+  --font-body: 'Pretendard', 'Inter', 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 }
 
 @theme inline {
@@ -87,18 +90,47 @@
 
 body {
   color: var(--foreground);
-  font-family: 'MaruBuri', 'Edu SA Hand', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background-color: var(--background);
+  font-family: var(--font-body);
+  letter-spacing: -0.01em;
 }
 
-/* 영어 텍스트 전용 폰트 클래스 */
+.font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: 0.04em;
+}
+
 .font-english {
   font-family: 'Edu SA Hand', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
 }
 
-/* 영어 숫자 텍스트 스타일 강화 */
 .english-text {
   font-family: 'Edu SA Hand', sans-serif !important;
   font-feature-settings: "liga" 1, "kern" 1;
+}
+
+.section-kicker {
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #a4a4a4;
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--foreground);
+}
+
+.section-description {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--color-muted);
 }
 
 @keyframes fade-in-out {
