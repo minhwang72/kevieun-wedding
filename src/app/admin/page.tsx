@@ -1502,7 +1502,7 @@ const BlessingManagerSection = ({
       if (!res.ok || !data.success) {
         throw new Error(data.error || '저장에 실패했습니다.')
       }
-      showToast('축복 문구를 저장했습니다.', 'success')
+      showToast('문구를 저장했습니다.', 'success')
       await onRefresh()
     } catch (error) {
       console.error('Blessing save error:', error)
@@ -1517,7 +1517,7 @@ const BlessingManagerSection = ({
     <div className="bg-white shadow rounded-lg p-4 sm:p-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">축복 문구 관리</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">문구 관리</h2>
           <p className="text-sm text-gray-500 mt-1">초대장 Blessing 섹션에 표시될 문구를 관리합니다.</p>
         </div>
         {content?.updated_at && (
@@ -1546,14 +1546,6 @@ const BlessingManagerSection = ({
           </div>
 
           <div className="flex justify-end gap-3">
-            <button
-              type="button"
-              onClick={() => setFormContent(content?.content || defaultBlessingContent)}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 min-h-[44px]"
-              disabled={saving}
-            >
-              되돌리기
-            </button>
             <button
               type="submit"
               className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg min-h-[44px] disabled:opacity-70"
