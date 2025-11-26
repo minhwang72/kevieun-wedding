@@ -89,14 +89,15 @@ export default function MainImageUploader({
       // FormData 생성
       const formData = new FormData()
       formData.append('file', croppedFile)
-      formData.append('targetId', 'main_cover')
+      formData.append('image_type', 'main')
 
       console.log('🔍 [DEBUG] Starting upload request...')
       
       // 업로드 API 호출
-      const response = await fetch('/api/upload/image', {
+      const response = await fetch('/api/admin/upload', {
         method: 'POST',
         body: formData,
+        credentials: 'include'
       })
 
       console.log('🔍 [DEBUG] Upload response:', {
@@ -123,13 +124,12 @@ export default function MainImageUploader({
       const result = await response.json()
       console.log('🔍 [DEBUG] Upload result:', result)
       
-      if (result.success && result.data?.fileUrl) {
-        // 브라우저 캐싱 방지를 위해 타임스탬프 추가
-        const timestampedUrl = `${result.data.fileUrl}?t=${Date.now()}`
+      if (result.success && result.data?.filename) {
+        const fileUrl = `/uploads/${result.data.filename}`
+        const timestampedUrl = `${fileUrl}?t=${Date.now()}`
         
-        // 미리보기 업데이트
         setPreview(timestampedUrl)
-        onUploadSuccess(result.data.fileUrl) // 원본 URL을 콜백으로 전달
+        onUploadSuccess(fileUrl)
         
         // 3초 후 미리보기 정리 (혼란 방지)
         setTimeout(() => {
