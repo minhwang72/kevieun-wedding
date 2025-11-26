@@ -150,18 +150,18 @@ export default function HeartMoneySection() {
               <div className={`transition-all duration-500 ease-in-out overflow-hidden ${
                 expandedSides.has('groom') ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
               }`}>
-                <div className="px-4 py-4 space-y-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+                <div className="px-4 py-4 space-y-4 bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100">
                   {groomSide.map((contact) => (
-                    <div key={contact.id} className="border-b border-blue-100 pb-3 last:border-b-0 last:pb-0">
+                    <div key={contact.id} className="border-b border-gray-200 pb-3 last:border-b-0 last:pb-0">
                       <div className="flex justify-between items-start mb-2">
                         <div className="text-left">
                           {contact.relationship === 'person' && (
-                            <div className="text-xs text-blue-600 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            <div className="text-xs text-gray-500 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
                               {getSideLabel(contact.side)}
                             </div>
                           )}
                           {getRelationshipLabel(contact.relationship) && (
-                            <div className="text-xs text-purple-600 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            <div className="text-xs text-gray-500 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
                               {getRelationshipLabel(contact.relationship)}
                             </div>
                           )}
@@ -172,7 +172,7 @@ export default function HeartMoneySection() {
                       </div>
                       
                       {contact.bank_name && contact.account_number && (
-                        <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 mt-2 border border-blue-100/50">
+                        <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 mt-2 border border-gray-200/80">
                           <div className="flex justify-between items-center">
                             <div className="text-left flex-1">
                               <div className="text-xs text-gray-800 mb-1 font-medium">{contact.bank_name}</div>
@@ -181,7 +181,7 @@ export default function HeartMoneySection() {
                             <div className="flex items-center gap-2 ml-2">
                               <button
                                 onClick={() => copyAccountNumber(contact.account_number!, contact.name)}
-                                className="text-purple-500 hover:text-purple-600 transition-colors p-1"
+                                className="text-gray-700 hover:text-black transition-colors p-1"
                                 aria-label={`${contact.name} 계좌번호 복사`}
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -191,11 +191,11 @@ export default function HeartMoneySection() {
                               {contact.kakaopay_link && (
                                 <button
                                   onClick={() => openKakaoPay(contact.kakaopay_link!)}
-                                  className="text-pink-500 hover:text-pink-600 transition-colors p-1"
+                                  className="text-gray-700 hover:text-black transition-colors p-1"
                                   aria-label={`${contact.name} 카카오페이로 송금`}
                                 >
-                                  <div className="w-4 h-4 bg-yellow-400 rounded flex items-center justify-center">
-                                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="black">
+                                  <div className="w-4 h-4 bg-gray-900 rounded flex items-center justify-center">
+                                    <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="currentColor">
                                       <path d="M12 3C6.48 3 2 6.58 2 11.25C2 14.17 4.09 16.68 7.25 18.03C6.94 19.1 6.44 20.75 6.44 20.75C6.44 20.75 6.84 20.97 7.25 20.75C8.31 20.19 9.81 19.31 10.75 18.75C11.15 18.81 11.56 18.84 12 18.84C17.52 18.84 22 15.26 22 10.59C22 5.92 17.52 2.34 12 2.34" />
                                     </svg>
                                   </div>
@@ -238,18 +238,18 @@ export default function HeartMoneySection() {
               <div className={`transition-all duration-500 ease-in-out overflow-hidden ${
                 expandedSides.has('bride') ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
               }`}>
-                <div className="px-4 py-4 space-y-4 bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
+                <div className="px-4 py-4 space-y-4 bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100">
                   {brideSide.map((contact) => (
-                    <div key={contact.id} className="border-b border-pink-100 pb-3 last:border-b-0 last:pb-0">
+                    <div key={contact.id} className="border-b border-gray-200 pb-3 last:border-b-0 last:pb-0">
                       <div className="flex justify-between items-start mb-2">
                         <div className="text-left">
                           {contact.relationship === 'person' && (
-                            <div className="text-xs text-pink-600 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            <div className="text-xs text-gray-500 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
                               {getSideLabel(contact.side)}
                             </div>
                           )}
                           {getRelationshipLabel(contact.relationship) && (
-                            <div className="text-xs text-purple-600 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                            <div className="text-xs text-gray-500 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
                               {getRelationshipLabel(contact.relationship)}
                             </div>
                           )}
@@ -260,7 +260,7 @@ export default function HeartMoneySection() {
                       </div>
                       
                       {contact.bank_name && contact.account_number && (
-                        <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 mt-2 border border-pink-100/50">
+                        <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 mt-2 border border-gray-200/80">
                           <div className="flex justify-between items-center">
                             <div className="text-left flex-1">
                               <div className="text-xs text-gray-800 mb-1 font-medium">{contact.bank_name}</div>
@@ -269,7 +269,7 @@ export default function HeartMoneySection() {
                             <div className="flex items-center gap-2 ml-2">
                               <button
                                 onClick={() => copyAccountNumber(contact.account_number!, contact.name)}
-                                className="text-purple-500 hover:text-purple-600 transition-colors p-1"
+                                className="text-gray-700 hover:text-black transition-colors p-1"
                                 aria-label={`${contact.name} 계좌번호 복사`}
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -279,11 +279,11 @@ export default function HeartMoneySection() {
                               {contact.kakaopay_link && (
                                 <button
                                   onClick={() => openKakaoPay(contact.kakaopay_link!)}
-                                  className="text-pink-500 hover:text-pink-600 transition-colors p-1"
+                                  className="text-gray-700 hover:text-black transition-colors p-1"
                                   aria-label={`${contact.name} 카카오페이로 송금`}
                                 >
-                                  <div className="w-4 h-4 bg-yellow-400 rounded flex items-center justify-center">
-                                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="black">
+                                  <div className="w-4 h-4 bg-gray-900 rounded flex items-center justify-center">
+                                    <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="currentColor">
                                       <path d="M12 3C6.48 3 2 6.58 2 11.25C2 14.17 4.09 16.68 7.25 18.03C6.94 19.1 6.44 20.75 6.44 20.75C6.44 20.75 6.84 20.97 7.25 20.75C8.31 20.19 9.81 19.31 10.75 18.75C11.15 18.81 11.56 18.84 12 18.84C17.52 18.84 22 15.26 22 10.59C22 5.92 17.52 2.34 12 2.34" />
                                     </svg>
                                   </div>

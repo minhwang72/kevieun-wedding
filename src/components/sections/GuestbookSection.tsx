@@ -220,7 +220,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
 
   return (
     <>
-      <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans bg-purple-50/50">
+      <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans bg-[#FFFEFB]">
         <div className="max-w-xl mx-auto text-center w-full px-6 md:px-8">
           {/* 제목 */}
           <h2 
@@ -238,7 +238,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
           >
             <button
               onClick={handleWrite}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-300 hover:bg-blue-400 text-black rounded-lg transition-colors font-sans font-medium text-sm md:text-base"
+              className="flex items-center gap-2 px-4 py-2 bg-gray-900 hover:bg-black text-white rounded-lg transition-colors font-sans font-medium text-sm md:text-base"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -273,7 +273,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
                       </div>
                       <button
                         onClick={() => handleDelete(item.id)}
-                        className="text-pink-400 transition-colors p-1 flex-shrink-0"
+                        className="text-gray-500 transition-colors p-1 flex-shrink-0"
                         aria-label="메시지 삭제"
                       >
                         <svg
@@ -294,7 +294,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
                     </div>
                     <div className="flex justify-between items-end">
                       <div className="text-sm md:text-base" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                        <span className="text-sky-400 font-medium">From.</span>
+                        <span className="text-gray-500 font-medium">From.</span>
                         <span className="text-gray-800 font-medium ml-1">{item.name}</span>
                       </div>
                       <div className="text-xs md:text-sm text-gray-500">{formatDate(String(item.created_at))}</div>
@@ -409,7 +409,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 py-2 px-4 text-sm md:text-base bg-blue-300 disabled:bg-blue-200 text-black rounded-md transition-colors"
+                  className="flex-1 py-2 px-4 text-sm md:text-base bg-gray-900 disabled:bg-gray-400 text-white rounded-md transition-colors"
                 >
                   <span style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
                     {isSubmitting ? '작성 중...' : '작성하기'}
@@ -455,7 +455,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
               <button
                 onClick={handleDeleteConfirm}
                 disabled={isDeleting}
-                className="flex-1 py-2 px-4 text-sm md:text-base bg-pink-400 disabled:bg-pink-200 text-black rounded-md transition-colors"
+                className="flex-1 py-2 px-4 text-sm md:text-base bg-gray-900 disabled:bg-gray-400 text-white rounded-md transition-colors"
               >
                                   <span style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
                     {isDeleting ? '삭제 중...' : '삭제'}

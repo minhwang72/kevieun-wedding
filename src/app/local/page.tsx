@@ -193,7 +193,7 @@ export default function LocalPage() {
   const groomSide = contacts.filter(contact => contact.side === 'groom')
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-[#F8F0FF] py-0 md:py-8">
+    <main className="min-h-screen flex flex-col items-center justify-center bg-[#FFFEFB] md:bg-[#E5E5E7] py-0 md:py-8">
       <div className="w-full max-w-[500px] mx-auto relative">
         {/* 청첩장 보기 버튼 - 500px 라인에서 왼쪽 정렬 */}
         <div className="absolute top-8 left-8 z-10">
@@ -227,29 +227,29 @@ export default function LocalPage() {
               ref={titleAnimation.ref}
               className={`transition-all duration-800 ${titleAnimation.animationClass}`}
             >
-              <div className="border-2 border-purple-200 rounded-2xl p-10 md:p-12 shadow-lg bg-white/90 relative">
+              <div className="border border-gray-200 rounded-2xl p-10 md:p-12 shadow-lg bg-white/95 relative">
                 {/* 새로운 장식 무늬 - 모든 디바이스에서 표시 */}
                 {/* 상단 장식 */}
-                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-200 via-pink-200 to-purple-200"></div>
-                <div className="absolute top-4 left-4 right-4 h-1 bg-gradient-to-r from-purple-100 via-pink-100 to-purple-100 rounded-full"></div>
+                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200"></div>
+                <div className="absolute top-4 left-4 right-4 h-1 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded-full"></div>
                 
                 {/* 하단 장식 */}
-                <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-200 via-pink-200 to-purple-200"></div>
-                <div className="absolute bottom-4 left-4 right-4 h-1 bg-gradient-to-r from-purple-100 via-pink-100 to-purple-100 rounded-full"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200"></div>
+                <div className="absolute bottom-4 left-4 right-4 h-1 bg-gradient-to-r from-gray-100 via-gray-50 to-gray-100 rounded-full"></div>
                 
                 {/* 좌측 장식 */}
-                <div className="absolute top-0 bottom-0 left-0 w-2 bg-gradient-to-b from-purple-200 via-pink-200 to-purple-200"></div>
-                <div className="absolute top-4 bottom-4 left-4 w-1 bg-gradient-to-b from-purple-100 via-pink-100 to-purple-100 rounded-full"></div>
+                <div className="absolute top-0 bottom-0 left-0 w-2 bg-gradient-to-b from-gray-200 via-gray-100 to-gray-200"></div>
+                <div className="absolute top-4 bottom-4 left-4 w-1 bg-gradient-to-b from-gray-100 via-gray-50 to-gray-100 rounded-full"></div>
                 
                 {/* 우측 장식 */}
-                <div className="absolute top-0 bottom-0 right-0 w-2 bg-gradient-to-b from-purple-200 via-pink-200 to-purple-200"></div>
-                <div className="absolute top-4 bottom-4 right-4 w-1 bg-gradient-to-b from-purple-100 via-pink-100 to-purple-100 rounded-full"></div>
+                <div className="absolute top-0 bottom-0 right-0 w-2 bg-gradient-to-b from-gray-200 via-gray-100 to-gray-200"></div>
+                <div className="absolute top-4 bottom-4 right-4 w-1 bg-gradient-to-b from-gray-100 via-gray-50 to-gray-100 rounded-full"></div>
                 
                 {/* 모서리 장식 */}
-                <div className="absolute top-2 left-2 w-3 h-3 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full"></div>
-                <div className="absolute top-2 right-2 w-3 h-3 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full"></div>
-                <div className="absolute bottom-2 left-2 w-3 h-3 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full"></div>
-                <div className="absolute bottom-2 right-2 w-3 h-3 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full"></div>
+                <div className="absolute top-2 left-2 w-3 h-3 bg-gradient-to-br from-gray-400 to-gray-200 rounded-full"></div>
+                <div className="absolute top-2 right-2 w-3 h-3 bg-gradient-to-br from-gray-400 to-gray-200 rounded-full"></div>
+                <div className="absolute bottom-2 left-2 w-3 h-3 bg-gradient-to-br from-gray-400 to-gray-200 rounded-full"></div>
+                <div className="absolute bottom-2 right-2 w-3 h-3 bg-gradient-to-br from-gray-400 to-gray-200 rounded-full"></div>
                 
                 {/* 제목 */}
                 <h1 className="text-2xl md:text-3xl font-semibold mb-12 md:mb-16 tracking-wider text-black" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
@@ -281,7 +281,7 @@ export default function LocalPage() {
                   <div className="flex items-center justify-center gap-2 mb-4">
                     <span className="text-gray-700 text-lg font-extralight tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>신랑</span>
                     <svg 
-                      className="w-5 h-5 text-pink-300"
+                      className="w-5 h-5 text-gray-400"
                       viewBox="0 0 24 24"
                       fill="currentColor"
                     >
@@ -311,12 +311,12 @@ export default function LocalPage() {
             {/* 스크롤 안내 - 카드 아래 공간에 표시 */}
             <div className="mt-8 text-center">
               <div className="flex flex-col items-center space-y-2">
-                <div className="w-6 h-10 border-2 border-purple-300 rounded-full flex justify-center">
-                  <div className="w-1 h-3 bg-purple-300 rounded-full mt-2 animate-bounce"></div>
+                <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
+                  <div className="w-1 h-3 bg-gray-500 rounded-full mt-2 animate-bounce"></div>
                 </div>
-                                            <p className="text-xs text-purple-500 font-extralight tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
-                              아래로 스크롤
-                            </p>
+                <p className="text-xs text-gray-500 font-extralight tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                  아래로 스크롤
+                </p>
               </div>
             </div>
           </div>
@@ -325,7 +325,7 @@ export default function LocalPage() {
         {/* 하얀 배경 컨테이너 - 하단 섹션들을 감싸는 배경 */}
         <div className="bg-white md:rounded-2xl md:shadow-lg overflow-hidden">
           {/* 상세 정보 섹션 - 원래 청첩장 스타일 */}
-          <section className="w-full py-16 md:py-20 px-0 font-sans bg-blue-50/30">
+          <section className="w-full py-16 md:py-20 px-0 font-sans bg-[#FFFEFD]">
             <div className="max-w-xl mx-auto text-center w-full px-0">
               {/* 제목 */}
               <h2 
@@ -361,7 +361,7 @@ export default function LocalPage() {
                     </div>
                     <button
                       onClick={handleCopyAddress}
-                      className="text-blue-500 hover:text-blue-600 transition-colors p-2 rounded-lg hover:bg-blue-50"
+                      className="text-gray-700 hover:text-black transition-colors p-2 rounded-lg hover:bg-gray-100"
                       aria-label="주소 복사"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -401,7 +401,7 @@ export default function LocalPage() {
           </section>
 
           {/* 마음전하실 곳 섹션 - HeartMoneySection과 ContactSection 참고한 하이브리드 */}
-          <section className="w-full py-16 md:py-20 px-4 font-sans bg-purple-50/30">
+          <section className="w-full py-16 md:py-20 px-4 font-sans bg-[#FFFEFD]">
             <div className="max-w-xl mx-auto">
               {/* 제목 */}
               <h2 
@@ -423,11 +423,11 @@ export default function LocalPage() {
                 ) : groomSide.length > 0 ? (
                   <div className="space-y-6">
                     {groomSide.map((contact) => (
-                      <div key={contact.id} className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-xl p-6 md:p-8 shadow-lg border border-gray-100">
+                      <div key={contact.id} className="bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100 rounded-xl p-6 md:p-8 shadow-lg border border-gray-100">
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                           <div className="text-left mb-4 md:mb-0">
                             {getRelationshipLabel(contact.relationship) && (
-                              <div className="text-xs text-purple-600 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+                              <div className="text-xs text-gray-500 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
                                 {getRelationshipLabel(contact.relationship)}
                               </div>
                             )}
@@ -441,7 +441,7 @@ export default function LocalPage() {
                             <div className="flex gap-2">
                               <button
                                 onClick={() => contact.phone && handleCall(contact.phone)}
-                                className="flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-black font-medium shadow-sm bg-blue-300 text-sm hover:bg-blue-400 transition-colors"
+                                className="flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-white font-medium shadow-sm bg-gray-900 text-sm hover:bg-black transition-colors"
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.129-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -450,7 +450,7 @@ export default function LocalPage() {
                               </button>
                               <button
                                 onClick={() => contact.phone && handleSMS(contact.phone)}
-                                className="flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-black font-medium shadow-sm bg-pink-300 text-sm hover:bg-pink-400 transition-colors"
+                                className="flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-gray-900 font-medium shadow-sm bg-gray-100 text-sm hover:bg-gray-200 transition-colors"
                               >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -463,7 +463,7 @@ export default function LocalPage() {
                         
                         {/* 계좌정보 */}
                         {contact.bank_name && contact.account_number && (
-                          <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-blue-100/50">
+                          <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-gray-200/80">
                             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                               <div className="text-left flex-1 mb-3 md:mb-0">
                                 <div className="text-sm text-gray-800 mb-1 font-medium" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>{contact.bank_name}</div>
@@ -472,7 +472,7 @@ export default function LocalPage() {
                               <div className="flex items-center gap-2">
                                 <button
                                   onClick={() => contact.account_number && copyAccountNumber(contact.account_number, contact.name)}
-                                  className="text-purple-500 hover:text-purple-600 transition-colors p-2 rounded-lg hover:bg-purple-50"
+                                  className="text-gray-700 hover:text-black transition-colors p-2 rounded-lg hover:bg-gray-100"
                                   aria-label={`${contact.name} 계좌번호 복사`}
                                 >
                                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -482,11 +482,11 @@ export default function LocalPage() {
                                 {contact.kakaopay_link && (
                                   <button
                                     onClick={() => contact.kakaopay_link && openKakaoPay(contact.kakaopay_link)}
-                                    className="text-pink-500 hover:text-pink-600 transition-colors p-2 rounded-lg hover:bg-pink-50"
+                                    className="text-gray-700 hover:text-black transition-colors p-2 rounded-lg hover:bg-gray-100"
                                     aria-label={`${contact.name} 카카오페이로 송금`}
                                   >
-                                    <div className="w-5 h-5 bg-yellow-400 rounded flex items-center justify-center">
-                                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="black">
+                                    <div className="w-5 h-5 bg-gray-900 rounded flex items-center justify-center">
+                                      <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M12 3C6.48 3 2 6.58 2 11.25C2 14.17 4.09 16.68 7.25 18.03C6.94 19.1 6.44 20.75 6.44 20.75C6.44 20.75 6.84 20.97 7.25 20.75C8.31 20.19 9.81 19.31 10.75 18.75C11.15 18.81 11.56 18.84 12 18.84C17.52 18.84 22 15.26 22 10.59C22 5.92 17.52 2.34 12 2.34" />
                                       </svg>
                                     </div>
@@ -513,11 +513,11 @@ export default function LocalPage() {
           </section>
 
           {/* 푸터 */}
-          <footer className="w-full py-8 md:py-12 px-4 bg-pink-50/30">
+          <footer className="w-full py-8 md:py-12 px-4 bg-[#FFFEFD]">
             <div className="max-w-md mx-auto">
               <div className="flex flex-col items-center space-y-3">
                 {/* 장식용 하트 아이콘 */}
-                <div className="w-6 h-6 text-purple-300 animate-pulse">
+                <div className="w-6 h-6 text-gray-400 animate-pulse">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                   </svg>
@@ -529,7 +529,7 @@ export default function LocalPage() {
                 </p>
 
                 {/* 구분선 */}
-                <div className="w-12 h-px bg-blue-200/50"></div>
+                <div className="w-12 h-px bg-gray-200/60"></div>
 
                 {/* 추가 메시지 */}
                 <p className="text-xs text-gray-500 font-light italic">

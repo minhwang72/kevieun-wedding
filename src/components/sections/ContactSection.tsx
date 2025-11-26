@@ -111,7 +111,7 @@ export default function ContactSection() {
 
   if (loading) {
     return (
-      <section className="w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-10 font-sans bg-purple-50/50">
+      <section className="w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-10 font-sans bg-[#FFFDFC]">
         <div className="max-w-xl mx-auto text-center w-full">
           {/* 제목 스켈레톤 */}
           <div className="h-10 md:h-12 bg-gray-200 rounded animate-pulse mb-12 md:mb-16 w-32 mx-auto"></div>
@@ -136,7 +136,7 @@ export default function ContactSection() {
 
   return (
     <>
-      <section className="w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-10 font-sans bg-purple-50/50">
+      <section className="w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-10 font-sans bg-[#FFFDFC]">
         <div className="max-w-xl mx-auto text-center w-full">
           {/* 제목 */}
           <h2 
@@ -201,7 +201,7 @@ export default function ContactSection() {
             >
               <button
                 onClick={handleModalOpen}
-                className="w-full py-3 bg-blue-100 text-black rounded-lg font-medium text-sm md:text-base"
+                className="w-full py-3 bg-gray-900 text-white rounded-lg font-medium text-sm md:text-base"
                 style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
               >
                 축하 연락하기
@@ -243,8 +243,8 @@ export default function ContactSection() {
                 onClick={() => setActiveTab('groom')}
                 className={`flex-1 py-2 px-4 rounded-md text-sm font-semibold transition-colors ${
                   activeTab === 'groom'
-                    ? 'bg-blue-100 text-black border-2 border-black'
-                    : 'bg-blue-100 text-black'
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-gray-200 text-gray-800'
                 }`}
                 style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
               >
@@ -254,8 +254,8 @@ export default function ContactSection() {
                 onClick={() => setActiveTab('bride')}
                 className={`flex-1 py-2 px-4 rounded-md text-sm font-semibold transition-colors ${
                   activeTab === 'bride'
-                    ? 'bg-blue-100 text-black border-2 border-black'
-                    : 'bg-blue-100 text-black'
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-gray-200 text-gray-800'
                 }`}
                 style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
               >
@@ -286,7 +286,7 @@ export default function ContactSection() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleCall(contact.phone)}
-                          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-black font-semibold shadow-sm bg-blue-100 text-sm"
+                          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-white font-semibold shadow-sm bg-gray-900 text-sm"
                           style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -296,7 +296,7 @@ export default function ContactSection() {
                         </button>
                         <button
                           onClick={() => handleSMS(contact.phone)}
-                          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-black font-semibold shadow-sm bg-pink-100 text-sm"
+                          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-gray-900 font-semibold shadow-sm bg-gray-100 text-sm"
                           style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

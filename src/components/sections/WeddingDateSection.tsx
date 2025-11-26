@@ -45,18 +45,13 @@ export default function WeddingDateSection() {
     // 실제 날짜를 기반으로 요일 계산
     const actualDate = new Date(year, month - 1, dayInfo.day)
     const dayOfWeek = actualDate.getDay()
-    let weekendClass = ''
-    if (dayOfWeek === 6) { // 토요일 - 베이비블루
-      weekendClass = 'text-sky-500'
-    } else if (dayOfWeek === 0) { // 일요일 - 연핑크
-      weekendClass = 'text-pink-400'
-    }
+    const weekendClass = dayOfWeek === 0 || dayOfWeek === 6 ? 'text-gray-600' : 'text-gray-700'
     
     if (dayInfo.isWeddingDay) {
       return `h-10 md:h-12 w-full text-center flex items-center justify-center text-sm md:text-base relative ${weekendClass}`
     }
     
-    return `h-10 md:h-12 w-full text-center flex items-center justify-center text-sm md:text-base text-gray-700 transition-colors rounded ${weekendClass}`
+    return `h-10 md:h-12 w-full text-center flex items-center justify-center text-sm md:text-base transition-colors rounded ${weekendClass}`
   }
 
   return (
@@ -94,9 +89,9 @@ export default function WeddingDateSection() {
               <div key={dayIndex} className={getDayClass(dayInfo)}>
                 {dayInfo?.isWeddingDay ? (
                   <>
-                    {/* 작은 라벤더 원 배경 */}
+                    {/* 강조 원 배경 */}
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-8 md:w-10 h-8 md:h-10 bg-purple-300 rounded-full shadow-sm"></div>
+                      <div className="w-8 md:w-10 h-8 md:h-10 bg-gray-900 rounded-full shadow-sm"></div>
                     </div>
                     {/* 흰색 숫자 */}
                     <span className="relative z-10 text-white font-medium">

@@ -59,18 +59,18 @@ export default function CountdownSection() {
   ]
 
   return (
-    <section className="w-full min-h-screen flex flex-col justify-center text-center mb-0 px-4 md:px-8 py-12 md:py-16 bg-[#FDF7FF]">
+    <section className="w-full min-h-screen flex flex-col justify-center text-center mb-0 px-4 md:px-8 py-12 md:py-16 bg-[#FFFEFB]">
       <div
         ref={titleAnimation.ref}
         className={`flex items-center justify-center gap-2 mb-6 md:mb-8 transition-all duration-700 ${titleAnimation.animationClass}`}
       >
-        <span className="text-gray-700 text-sm md:text-base font-semibold tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+        <span className="text-gray-800 text-sm md:text-base font-semibold tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
           도찬
         </span>
-        <svg className="w-4 h-4 md:w-5 md:h-5 text-pink-300" viewBox="0 0 24 24" fill="currentColor">
+        <svg className="w-4 h-4 md:w-5 md:h-5 text-[#F8DDE4]" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
         </svg>
-        <span className="text-gray-700 text-sm md:text-base font-semibold tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+        <span className="text-gray-800 text-sm md:text-base font-semibold tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
           은진
         </span>
         <span className="text-gray-600 text-sm md:text-base font-semibold tracking-wide" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
@@ -85,10 +85,10 @@ export default function CountdownSection() {
         {countdownItems.map(({ value, label }) => (
           <div key={label} className="relative">
             <div className={`flex flex-col items-center transition-all duration-300 ${animate ? 'countdown-fade' : ''}`}>
-              <div className="text-2xl md:text-4xl font-semibold text-[#9B6B9E]" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+              <div className="text-2xl md:text-4xl font-semibold text-gray-900" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
                 {value}
               </div>
-              <div className="text-[11px] md:text-xs text-[#B3D4FF] mt-1 md:mt-2 tracking-wider font-semibold" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
+              <div className="text-[11px] md:text-xs text-gray-500 mt-1 md:mt-2 tracking-wider font-semibold" style={{ fontFamily: 'MaruBuri, -apple-system, BlinkMacSystemFont, system-ui, sans-serif' }}>
                 {label}
               </div>
             </div>

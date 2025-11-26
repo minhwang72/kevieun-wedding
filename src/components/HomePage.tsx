@@ -183,7 +183,7 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-sky/10 py-0 md:py-8">
+    <main className="min-h-screen flex flex-col items-center justify-center bg-[#FFFEFB] md:bg-[#E5E5E7] py-0 md:py-8">
       <DevToolsBlocker />
       <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-2xl md:shadow-lg overflow-hidden">
         <CoverSection />
@@ -231,7 +231,7 @@ export default function HomePage() {
 
         {/* 메인 공유 버튼 */}
         <button
-          className="bg-purple-400 text-white p-3 md:p-4 rounded-full shadow-lg transition-colors"
+          className="bg-gray-950 text-white p-3 md:p-4 rounded-full shadow-lg transition-colors"
           onClick={defaultShare}
         >
           {shareMenuOpen ? (

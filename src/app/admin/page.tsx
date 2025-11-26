@@ -488,7 +488,7 @@ const ContactsSection = ({ contacts, onUpdate, showToast, setGlobalLoading }: { 
 
         {/* 신부측 */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-pink-200">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">
             신부측 연락처
           </h3>
           <div className="space-y-3">
