@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import CoverSection from '@/components/sections/CoverSection'
+import CountdownSection from '@/components/sections/CountdownSection'
 import WeddingDateSection from '@/components/sections/WeddingDateSection'
 import ContactSection from '@/components/sections/ContactSection'
 import BlessingSection from '@/components/sections/BlessingSection'
@@ -186,6 +187,7 @@ export default function HomePage() {
       <DevToolsBlocker />
       <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-2xl md:shadow-lg overflow-hidden">
         <CoverSection />
+        <CountdownSection />
         <BlessingSection />
         
         <WeddingDateSection />
