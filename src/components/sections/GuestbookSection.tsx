@@ -26,7 +26,6 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
   const [showAll, setShowAll] = useState(false)
 
   // 스크롤 애니메이션 훅들
-  const titleAnimation = useScrollAnimation({ threshold: 0.4, animationDelay: 200 })
   const writeButtonAnimation = useScrollAnimation({ threshold: 0.3, animationDelay: 400 })
   const guestbookListAnimation = useScrollAnimation({ threshold: 0.2, animationDelay: 600 })
 
