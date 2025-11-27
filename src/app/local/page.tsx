@@ -193,7 +193,7 @@ export default function LocalPage() {
   const groomSide = contacts.filter(contact => contact.side === 'groom')
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-[#FFFEFB] md:bg-[#E5E5E7] py-0 md:py-8">
+    <main className="min-h-screen flex flex-col items-center justify-center theme-bg-main md:theme-bg-secondary py-0 md:py-8">
       <div className="w-full max-w-[500px] mx-auto relative">
         {/* 청첩장 보기 버튼 - 500px 라인에서 왼쪽 정렬 */}
         <div className="absolute top-8 left-8 z-10">
@@ -325,7 +325,7 @@ export default function LocalPage() {
         {/* 하얀 배경 컨테이너 - 하단 섹션들을 감싸는 배경 */}
         <div className="bg-white md:rounded-2xl md:shadow-lg overflow-hidden">
           {/* 상세 정보 섹션 - 원래 청첩장 스타일 */}
-          <section className="w-full py-16 md:py-20 px-0 font-sans bg-[#FFFEFD]">
+          <section className="w-full py-16 md:py-20 px-0 font-sans theme-bg-section">
             <div className="max-w-xl mx-auto text-center w-full px-0">
               {/* 제목 */}
               <h2 
@@ -401,7 +401,7 @@ export default function LocalPage() {
           </section>
 
           {/* 마음전하실 곳 섹션 - HeartMoneySection과 ContactSection 참고한 하이브리드 */}
-          <section className="w-full py-16 md:py-20 px-4 font-sans bg-[#FFFEFD]">
+          <section className="w-full py-16 md:py-20 px-4 font-sans theme-bg-section">
             <div className="max-w-xl mx-auto">
               {/* 제목 */}
               <h2 
@@ -513,7 +513,7 @@ export default function LocalPage() {
           </section>
 
           {/* 푸터 */}
-          <footer className="w-full py-8 md:py-12 px-4 bg-[#FFFEFD]">
+          <footer className="w-full py-8 md:py-12 px-4 theme-bg-section">
             <div className="max-w-md mx-auto">
               <div className="flex flex-col items-center space-y-3">
                 {/* 장식용 하트 아이콘 */}

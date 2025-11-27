@@ -2,6 +2,9 @@ import type { Viewport } from "next";
 import { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import "./globals.css";
+import ThemeStyleInjector from '@/components/ThemeStyleInjector'
+import { DEFAULT_THEME } from '@/lib/themeConfig'
+import { getThemeSettings } from '@/lib/server/themeStore'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,11 +25,19 @@ export const metadata: Metadata = {
   }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  let theme = DEFAULT_THEME
+
+  try {
+    theme = await getThemeSettings()
+  } catch (error) {
+    console.error('Failed to load theme settings, using defaults.', error)
+  }
+
   return (
     <html lang="ko">
       <head>
@@ -60,6 +71,7 @@ export default function RootLayout({
             }
           `}
         </style>
+        <ThemeStyleInjector theme={theme} />
         <meta property="og:updated_time" content={new Date().toISOString()} />
         <meta name="robots" content="index,follow" />
         <meta name="googlebot" content="index,follow" />

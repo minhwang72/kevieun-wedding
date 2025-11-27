@@ -60,7 +60,7 @@ export default function CountdownSection() {
   ]
 
   return (
-    <section className="w-full min-h-screen flex flex-col justify-center text-center mb-0 px-4 md:px-8 py-12 md:py-16 bg-[#FFFEFB]">
+    <section className="w-full min-h-screen flex flex-col justify-center text-center mb-0 px-4 md:px-8 py-12 md:py-16 theme-bg-main">
       <div
         ref={titleAnimation.ref}
         className={`transition-all duration-700 ${titleAnimation.animationClass}`}
@@ -73,7 +73,7 @@ export default function CountdownSection() {
         <div className="mt-6 flex flex-col items-center gap-2 text-[0.75rem] md:text-sm text-gray-500 font-heading tracking-[0.35em] uppercase">
           <div className="flex items-center gap-3">
             <span>도찬</span>
-            <svg className="w-4 h-4 md:w-5 md:h-5 text-[#F8DDE4]" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="w-4 h-4 md:w-5 md:h-5 theme-text-accent" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
             <span>은진</span>

@@ -72,6 +72,14 @@
   --color-muted: #6f6f6f;
   --font-heading: 'S-CoreDream-3Light', 'Pretendard', 'Inter', sans-serif;
   --font-body: 'Pretendard', 'Inter', 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --theme-bg-main: #FFFEFB;
+  --theme-bg-secondary: #E5E5E7;
+  --theme-bg-section: #FFFEFD;
+  --theme-accent-primary: #F8DDE4;
+  --theme-accent-secondary: #783BFF;
+  --theme-button-bg: #111827;
+  --theme-button-bg-hover: #000000;
+  --theme-button-text: #FFFFFF;
 }
 
 @theme inline {
@@ -93,6 +101,39 @@ body {
   background-color: var(--background);
   font-family: var(--font-body);
   letter-spacing: -0.01em;
+}
+
+.theme-bg-main {
+  background-color: var(--theme-bg-main);
+}
+
+.theme-bg-section {
+  background-color: var(--theme-bg-section);
+}
+
+.theme-text-accent {
+  color: var(--theme-accent-primary);
+}
+
+.theme-button {
+  background-color: var(--theme-button-bg);
+  color: var(--theme-button-text);
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.theme-button:hover {
+  background-color: var(--theme-button-bg-hover);
+}
+
+.theme-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (min-width: 768px) {
+  .md\:theme-bg-secondary {
+    background-color: var(--theme-bg-secondary);
+  }
 }
 
 .font-heading {

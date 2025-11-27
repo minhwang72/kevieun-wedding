@@ -14,7 +14,15 @@ import Footer from '@/components/Footer'
 import DevToolsBlocker from '@/components/DevToolsBlocker'
 import type { Gallery } from '@/types'
 
-export default function HomePage() {
+interface HomePageProps {
+  hideShareButtons?: boolean
+  enableKakao?: boolean
+}
+
+export default function HomePage({
+  hideShareButtons = false,
+  enableKakao = true
+}: HomePageProps = {}) {
   const [shareMenuOpen, setShareMenuOpen] = useState(false)
   const [mainImageUrl, setMainImageUrl] = useState<string>('')
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
@@ -22,6 +30,8 @@ export default function HomePage() {
 
   // 카카오 SDK 초기화
   useEffect(() => {
+    if (!enableKakao) return
+
     const initKakao = () => {
       try {
         if (typeof window !== 'undefined' && window.Kakao && !window.Kakao.isInitialized()) {
@@ -45,7 +55,7 @@ export default function HomePage() {
       window.addEventListener('load', initKakao)
       return () => window.removeEventListener('load', initKakao)
     }
-  }, [])
+  }, [enableKakao])
 
   // 메인 이미지 가져오기
   useEffect(() => {
@@ -85,6 +95,8 @@ export default function HomePage() {
 
   // 스크롤 및 배경 클릭 이벤트 리스너
   useEffect(() => {
+    if (hideShareButtons) return
+
     if (shareMenuOpen) {
       // 스크롤 이벤트 리스너
       const handleScroll = () => {
@@ -110,9 +122,11 @@ export default function HomePage() {
         document.removeEventListener('click', handleClickOutside)
       }
     }
-  }, [shareMenuOpen, closeShareMenu])
+  }, [shareMenuOpen, closeShareMenu, hideShareButtons])
 
   useEffect(() => {
+    if (hideShareButtons) return
+
     const handleShareVisibility = () => {
       const threshold = window.innerHeight * 0.6
       setShareVisible(window.scrollY > threshold)
@@ -120,7 +134,7 @@ export default function HomePage() {
     handleShareVisibility()
     window.addEventListener('scroll', handleShareVisibility, { passive: true })
     return () => window.removeEventListener('scroll', handleShareVisibility)
-  }, [])
+  }, [hideShareButtons])
 
   // 카카오톡 공유하기
   const shareKakao = () => {
@@ -194,7 +208,7 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-[#FFFEFB] md:bg-[#E5E5E7] py-0 md:py-8">
+    <main className="min-h-screen flex flex-col items-center justify-center theme-bg-main md:theme-bg-secondary py-0 md:py-8">
       <DevToolsBlocker />
       <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-2xl md:shadow-lg overflow-hidden">
         <CoverSection />
@@ -214,75 +228,71 @@ export default function HomePage() {
         <Footer />
       </div>
 
-      {/* Share Button */}
-      <div
-        className={`fixed bottom-6 right-6 md:bottom-8 md:right-8 flex items-center gap-3 transition-opacity duration-300 ${shareVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        data-share-buttons
-      >
-        {/* 카카오톡 공유 버튼 */}
-        <button
-          className={`bg-yellow-500 text-black p-3 md:p-4 rounded-full shadow-lg transition-all duration-300 ${
-            shareMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
-          }`}
-          onClick={shareKakao}
+      {!hideShareButtons && (
+        <div
+          className={`fixed bottom-6 right-6 md:bottom-8 md:right-8 flex items-center gap-3 transition-opacity duration-300 ${shareVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+          data-share-buttons
         >
-          <svg className="h-5 w-5 md:h-6 md:w-6" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 3C6.48 3 2 6.58 2 11.25C2 14.17 4.09 16.68 7.25 18.03C6.94 19.1 6.44 20.75 6.44 20.75C6.44 20.75 6.84 20.97 7.25 20.75C8.31 20.19 9.81 19.31 10.75 18.75C11.15 18.81 11.56 18.84 12 18.84C17.52 18.84 22 15.26 22 10.59C22 5.92 17.52 2.34 12 2.34" />
-          </svg>
-        </button>
-
-        {/* 링크 복사 버튼 */}
-        <button
-          className={`bg-gray-700 text-white p-3 md:p-4 rounded-full shadow-lg transition-all duration-300 ${
-            shareMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
-          }`}
-          onClick={copyLink}
-        >
-          <svg className="h-5 w-5 md:h-6 md:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-          </svg>
-        </button>
-
-        {/* 메인 공유 버튼 */}
-        <button
-          className="bg-gray-950 text-white p-3 md:p-4 rounded-full shadow-lg transition-colors"
-          onClick={defaultShare}
-        >
-          {shareMenuOpen ? (
-            // X 아이콘 (메뉴가 열려있을 때)
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 md:h-6 md:w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
+          <button
+            className={`bg-yellow-500 text-black p-3 md:p-4 rounded-full shadow-lg transition-all duration-300 ${
+              shareMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+            }`}
+            onClick={shareKakao}
+          >
+            <svg className="h-5 w-5 md:h-6 md:w-6" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 3C6.48 3 2 6.58 2 11.25C2 14.17 4.09 16.68 7.25 18.03C6.94 19.1 6.44 20.75 6.44 20.75C6.44 20.75 6.84 20.97 7.25 20.75C8.31 20.19 9.81 19.31 10.75 18.75C11.15 18.81 11.56 18.84 12 18.84C17.52 18.84 22 15.26 22 10.59C22 5.92 17.52 2.34 12 2.34" />
             </svg>
-          ) : (
-            // 공유 아이콘 (메뉴가 닫혀있을 때)
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 md:h-6 md:w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-              />
+          </button>
+
+          <button
+            className={`bg-gray-700 text-white p-3 md:p-4 rounded-full shadow-lg transition-all duration-300 ${
+              shareMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+            }`}
+            onClick={copyLink}
+          >
+            <svg className="h-5 w-5 md:h-6 md:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
-          )}
-        </button>
-      </div>
+          </button>
+
+          <button
+            className="bg-gray-950 text-white p-3 md:p-4 rounded-full shadow-lg transition-colors"
+            onClick={defaultShare}
+          >
+            {shareMenuOpen ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 md:h-6 md:w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 md:h-6 md:w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                />
+              </svg>
+            )}
+          </button>
+        </div>
+      )}
 
       {/* 토스트 메시지 */}
       {toast && (

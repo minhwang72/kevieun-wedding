@@ -57,7 +57,7 @@ export default function LocationSection() {
 
   return (
     <>
-      <section className="w-full min-h-screen flex flex-col justify-center py-16 md:py-20 px-0 font-sans bg-[#FFFEFD]">
+      <section className="w-full min-h-screen flex flex-col justify-center py-16 md:py-20 px-0 font-sans theme-bg-section">
         <div className="max-w-xl mx-auto text-center w-full px-0">
           <div 
             ref={titleAnimation.ref}

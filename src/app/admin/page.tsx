@@ -1,15 +1,17 @@
 'use client'
 
-import { useState, useEffect, useCallback, Suspense } from 'react'
-import type { FormEvent } from 'react'
+import { useState, useEffect, useCallback, useMemo, Suspense } from 'react'
+import type { FormEvent, CSSProperties } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import type { Gallery, Guestbook, ContactPerson, BlessingContent } from '@/types'
+import type { Gallery, Guestbook, ContactPerson, BlessingContent, ThemeSettings } from '@/types'
 
 import MainImageUploader from '@/components/MainImageUploader'
 import GlobalLoading from '@/components/GlobalLoading'
 import SelectableGallery from '@/components/SelectableGallery'
 import Cropper from 'react-easy-crop'
 import { Area } from 'react-easy-crop'
+import HomePage from '@/components/HomePage'
+import { DEFAULT_THEME, THEME_COLOR_KEYS, ThemeColorKey, isValidHexColor, themeToCssVariableMap } from '@/lib/themeConfig'
 
 // 토스트 타입 정의
 interface Toast {
@@ -1554,6 +1556,187 @@ const BlessingManagerSection = ({
   )
 }
 
+interface ThemeManagerSectionProps {
+  theme: ThemeSettings
+  loading: boolean
+  onRefresh: () => Promise<void> | void
+  showToast: (message: string, type: 'success' | 'error') => void
+  setGlobalLoading: (loading: boolean, message?: string) => void
+}
+
+const THEME_FIELD_LABELS: Record<ThemeColorKey, { label: string; description: string }> = {
+  primaryBg: { label: '모바일 배경색', description: '모바일 뷰 기본 배경' },
+  secondaryBg: { label: '데스크탑 배경색', description: '데스크탑에서 바깥 배경' },
+  sectionBg: { label: '섹션 배경색', description: '콘텐츠 섹션 배경' },
+  accentPrimary: { label: '포인트 컬러', description: '아이콘/강조 텍스트 색상' },
+  accentSecondary: { label: '보조 포인트', description: 'SVG, 강조 요소에 사용' },
+  buttonBg: { label: '버튼 기본 배경', description: '주요 버튼 배경색' },
+  buttonBgHover: { label: '버튼 호버 배경', description: '주요 버튼 호버 색상' },
+  buttonText: { label: '버튼 텍스트', description: '주요 버튼 텍스트 색상' }
+}
+
+const ThemeManagerSection = ({
+  theme,
+  loading,
+  onRefresh,
+  showToast,
+  setGlobalLoading
+}: ThemeManagerSectionProps) => {
+  const [localTheme, setLocalTheme] = useState<ThemeSettings>(theme)
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    setLocalTheme({ ...theme })
+  }, [theme])
+
+  const handleColorChange = (key: ThemeColorKey, value: string) => {
+    if (value === '') {
+      setLocalTheme(prev => ({ ...prev, [key]: '' }))
+      return
+    }
+
+    let nextValue = value.toUpperCase()
+    if (!nextValue.startsWith('#')) {
+      nextValue = `#${nextValue.replace(/#/g, '')}`
+    }
+    nextValue = `#${nextValue.replace(/[^0-9A-F]/g, '')}`.slice(0, 7)
+    setLocalTheme(prev => ({ ...prev, [key]: nextValue }))
+  }
+
+  const handleSave = async () => {
+    const invalidKey = THEME_COLOR_KEYS.find((key) => !isValidHexColor(localTheme[key]))
+    if (invalidKey) {
+      const label = THEME_FIELD_LABELS[invalidKey]?.label || invalidKey
+      showToast(`${label} 값을 #RRGGBB 형식으로 입력해주세요.`, 'error')
+      return
+    }
+
+    const payload = THEME_COLOR_KEYS.reduce<Record<string, string>>((acc, key) => {
+      acc[key] = localTheme[key]
+      return acc
+    }, {})
+
+    setSaving(true)
+    setGlobalLoading(true, '테마 저장 중...')
+
+    try {
+      const res = await fetch('/api/admin/theme', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      const data = await res.json()
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || '테마 저장에 실패했습니다.')
+      }
+      showToast('테마를 저장했습니다.', 'success')
+      await onRefresh()
+    } catch (error) {
+      console.error('Theme save error:', error)
+      showToast('테마 저장에 실패했습니다.', 'error')
+    } finally {
+      setSaving(false)
+      setGlobalLoading(false)
+    }
+  }
+
+  const previewStyle = useMemo(() => themeToCssVariableMap(localTheme) as CSSProperties, [localTheme])
+
+  if (loading && !saving) {
+    return (
+      <div className="bg-white shadow rounded-lg p-4 sm:p-6">
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-300 mx-auto"></div>
+          <p className="text-sm text-gray-500 mt-3">테마 정보를 불러오는 중입니다...</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="bg-white shadow rounded-lg p-4 sm:p-6 space-y-8">
+      <div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">테마 관리</h2>
+        <p className="text-sm text-gray-500 mt-1">
+          청첩장 전체의 배경, 버튼, 강조색을 실시간으로 조정하고 저장할 수 있습니다.
+        </p>
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-2">
+        <div className="space-y-4">
+          {THEME_COLOR_KEYS.map((key) => (
+            <div key={key} className="border border-gray-200 rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-gray-900">{THEME_FIELD_LABELS[key].label}</p>
+                  <p className="text-xs text-gray-500">{THEME_FIELD_LABELS[key].description}</p>
+                </div>
+                <input
+                  type="color"
+                  value={isValidHexColor(localTheme[key]) ? localTheme[key] : '#FFFFFF'}
+                  onChange={(e) => handleColorChange(key, e.target.value)}
+                  className="w-12 h-10 border border-gray-200 rounded-md bg-white"
+                  aria-label={`${THEME_FIELD_LABELS[key].label} color picker`}
+                />
+              </div>
+              <input
+                type="text"
+                value={localTheme[key]}
+                onChange={(e) => handleColorChange(key, e.target.value)}
+                className="mt-3 w-full border border-gray-300 rounded-md px-3 py-2 font-mono text-sm focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+                maxLength={7}
+                placeholder="#FFFFFF"
+              />
+            </div>
+          ))}
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <button
+              type="button"
+              onClick={() => setLocalTheme(theme)}
+              className="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50 min-h-[40px]"
+            >
+              변경 취소
+            </button>
+            <button
+              type="button"
+              onClick={() => setLocalTheme({ ...DEFAULT_THEME, id: theme.id, updatedAt: theme.updatedAt })}
+              className="px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50 min-h-[40px]"
+            >
+              기본값 불러오기
+            </button>
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={saving}
+              className="px-5 py-2 theme-button rounded-md text-sm font-medium min-h-[40px] disabled:opacity-60"
+            >
+              {saving ? '저장 중...' : '테마 저장하기'}
+            </button>
+          </div>
+        </div>
+
+        <div className="rounded-lg border border-gray-200 overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-gray-50">
+            <div>
+              <h3 className="font-semibold text-gray-900">실시간 미리보기</h3>
+              <p className="text-xs text-gray-500">아래 영역에서 실제 청첩장을 스크롤하며 확인하세요.</p>
+            </div>
+          </div>
+          <div
+            className="max-h-[80vh] overflow-y-auto bg-gray-100"
+            style={previewStyle}
+          >
+            <div className="min-h-full">
+              <HomePage hideShareButtons enableKakao={false} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function AdminPage() {
   return (
     <Suspense fallback={
@@ -1572,13 +1755,15 @@ function AdminPageContent() {
   const [guestbook, setGuestbook] = useState<Guestbook[]>([])
   const [contacts, setContacts] = useState<ContactPerson[]>([])
   const [blessingContent, setBlessingContent] = useState<BlessingContent | null>(null)
+  const [themeSettings, setThemeSettings] = useState<ThemeSettings>(DEFAULT_THEME)
   const [toasts, setToasts] = useState<Toast[]>([])
   const [loading, setLoading] = useState({
     auth: true,
     gallery: false,
     guestbook: false,
     contacts: false,
-    blessing: false
+    blessing: false,
+    theme: false
   })
   // 전역 로딩 상태 추가
   const [globalLoading, setGlobalLoading] = useState({
@@ -1589,15 +1774,15 @@ function AdminPageContent() {
   const searchParams = useSearchParams()
   
   // URL에서 활성 탭 읽기 (기본값: 'main')
-  const getActiveTabFromUrl = useCallback((): 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' => {
+  const getActiveTabFromUrl = useCallback((): 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme' => {
     const tab = searchParams.get('tab')
-    if (tab && ['main', 'contacts', 'gallery', 'guestbook', 'blessing'].includes(tab)) {
-      return tab as 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing'
+    if (tab && ['main', 'contacts', 'gallery', 'guestbook', 'blessing', 'theme'].includes(tab)) {
+      return tab as 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme'
     }
     return 'main'
   }, [searchParams])
   
-  const [activeTab, setActiveTab] = useState<'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing'>(getActiveTabFromUrl())
+  const [activeTab, setActiveTab] = useState<'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme'>(getActiveTabFromUrl())
   
   // 전역 로딩 설정 함수
   const setGlobalLoadingState = useCallback((isLoading: boolean, message: string = 'LOADING') => {
@@ -1605,7 +1790,7 @@ function AdminPageContent() {
   }, [])
   
   // 탭 변경 함수 (URL 업데이트 포함)
-  const changeTab = (newTab: 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing') => {
+  const changeTab = (newTab: 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme') => {
     setActiveTab(newTab)
     // URL 업데이트 (히스토리에 추가)
     router.push(`/admin?tab=${newTab}`)
@@ -1769,6 +1954,21 @@ function AdminPageContent() {
     }
   }, [])
 
+  const fetchThemeSettings = useCallback(async () => {
+    try {
+      setLoading(prev => ({ ...prev, theme: true }))
+      const res = await fetch(`/api/admin/theme?t=${Date.now()}`)
+      const data = await res.json()
+      if (data.success && data.data) {
+        setThemeSettings(data.data)
+      }
+    } catch (error) {
+      console.error('Error fetching theme settings:', error)
+    } finally {
+      setLoading(prev => ({ ...prev, theme: false }))
+    }
+  }, [])
+
   // 토스트 관리 함수들
   const showToast = useCallback((message: string, type: 'success' | 'error') => {
     const id = Date.now()
@@ -1786,7 +1986,8 @@ function AdminPageContent() {
 
   useEffect(() => {
     fetchData()
-  }, [fetchData])
+    fetchThemeSettings()
+  }, [fetchData, fetchThemeSettings])
 
   if (loading.auth) {
     return <Loading />
@@ -1830,10 +2031,11 @@ function AdminPageContent() {
                 { key: 'gallery', label: '갤러리 관리' },
                 { key: 'guestbook', label: '방명록 관리' },
                 { key: 'blessing', label: '문구 관리' },
+                { key: 'theme', label: '테마 관리' },
               ].map((tab) => (
                 <button
                   key={tab.key}
-                  onClick={() => changeTab(tab.key as 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing')}
+                  onClick={() => changeTab(tab.key as 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme')}
                   className={`py-3 sm:py-4 px-3 sm:px-1 border-b-2 font-medium text-sm sm:text-base whitespace-nowrap min-h-[44px] ${
                     activeTab === tab.key
                       ? 'border-purple-500 text-purple-600'
@@ -1876,6 +2078,16 @@ function AdminPageContent() {
               showToast={showToast}
               setGlobalLoading={setGlobalLoadingState}
               loading={loading.blessing}
+            />
+          )}
+
+          {activeTab === 'theme' && (
+            <ThemeManagerSection
+              theme={themeSettings}
+              loading={loading.theme}
+              onRefresh={fetchThemeSettings}
+              showToast={showToast}
+              setGlobalLoading={setGlobalLoadingState}
             />
           )}
         </div>

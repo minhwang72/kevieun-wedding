@@ -112,7 +112,7 @@ export default function ContactSection() {
 
   if (loading) {
     return (
-      <section className="w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-10 font-sans bg-[#FFFDFC]">
+      <section className="w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-10 font-sans theme-bg-section">
         <div className="max-w-xl mx-auto text-center w-full">
           {/* 제목 스켈레톤 */}
           <div className="h-10 md:h-12 bg-gray-200 rounded animate-pulse mb-12 md:mb-16 w-32 mx-auto"></div>
@@ -137,7 +137,7 @@ export default function ContactSection() {
 
   return (
     <>
-      <section className="w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-10 font-sans bg-[#FFFDFC]">
+      <section className="w-full flex flex-col justify-center py-12 md:py-16 px-6 md:px-10 font-sans theme-bg-section">
         <div className="max-w-xl mx-auto text-center w-full">
           <div 
             ref={titleAnimation.ref}

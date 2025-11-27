@@ -95,7 +95,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function InvitationPage() {
   return (
-    <div className="min-h-screen bg-[#FFFEFB] md:bg-[#E5E5E7]">
+    <div className="min-h-screen theme-bg-main md:theme-bg-secondary">
       <HomePage />
     </div>
   )

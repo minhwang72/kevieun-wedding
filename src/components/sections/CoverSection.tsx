@@ -78,7 +78,7 @@ export default function CoverSection() {
             style={overlayTextShadow}
           >
             <span>도찬</span>
-            <span className="text-[#F8DDE4] text-base md:text-lg">✺</span>
+            <span className="theme-text-accent text-base md:text-lg">✺</span>
             <span>은진</span>
           </div>
 

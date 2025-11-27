@@ -35,6 +35,19 @@ export interface BlessingContent {
   updated_at?: Date | string;
 }
 
+export interface ThemeSettings {
+  id: number;
+  primaryBg: string;
+  secondaryBg: string;
+  sectionBg: string;
+  accentPrimary: string;
+  accentSecondary: string;
+  buttonBg: string;
+  buttonBgHover: string;
+  buttonText: string;
+  updatedAt?: Date | string;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
