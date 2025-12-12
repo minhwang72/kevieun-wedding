@@ -52,9 +52,13 @@ export async function POST(request: NextRequest) {
     })
 
     // httpOnly 쿠키 설정
+    // secure는 HTTPS 사용 시에만 true로 설정 (환경변수로 제어 가능)
+    const isSecure = process.env.COOKIE_SECURE === 'true' || 
+                     (process.env.NODE_ENV === 'production' && process.env.USE_HTTPS === 'true')
+    
     response.cookies.set('admin_session', sessionId, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: isSecure,
       sameSite: 'lax',
       expires: expiresAt,
       path: '/'
