@@ -200,7 +200,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
                   <img
                     src={item.url}
                     alt="Gallery"
-                    className="w-full h-full object-contain bg-gray-50"
+                    className="w-full h-full object-contain bg-gray-50 rounded-lg"
                     onError={() => handleImageError(item.id)}
                   />
                 )}

@@ -211,15 +211,11 @@ export default function HomePage({
       <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-2xl md:shadow-lg overflow-hidden">
         <CoverSection />
         {/* <CountdownSection /> */}
-        <BlessingSection />
-        
+        <BlessingSection />        
         <WeddingDateSection />
-        {/* <ContactSection /> */}
-        
+        {/* <ContactSection /> */}        
         <LazyGallerySection />
-        
-        <HeartMoneySection />
-        
+        <HeartMoneySection />      
         <LazyGuestbookSection />
         <LocationSection />
 

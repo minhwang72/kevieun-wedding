@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
       }
     })
     
-    console.log(`[DEBUG] Gallery API response status: ${response.status}`)
+    console.log(`[DEBUG]  Gallery API response status: ${response.status}`)
     
     if (response.ok) {
       const data = await response.json()
