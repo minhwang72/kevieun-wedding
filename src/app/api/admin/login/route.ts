@@ -2,6 +2,19 @@ import { NextRequest, NextResponse } from 'next/server'
 import pool from '@/lib/db'
 import { verifyPassword } from '@/lib/encryption'
 
+// CORS preflight 요청 처리
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Credentials': 'true',
+    },
+  })
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json()
@@ -50,6 +63,12 @@ export async function POST(request: NextRequest) {
         username: admin.username
       }
     })
+
+    // CORS 헤더 추가
+    response.headers.set('Access-Control-Allow-Origin', '*')
+    response.headers.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type')
+    response.headers.set('Access-Control-Allow-Credentials', 'true')
 
     // httpOnly 쿠키 설정
     // secure는 HTTPS 사용 시에만 true로 설정 (환경변수로 제어 가능)
