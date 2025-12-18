@@ -22,6 +22,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
   const [failedImages, setFailedImages] = useState<Set<number>>(new Set())
   const [showAll, setShowAll] = useState(false)
+  const [imageHeights, setImageHeights] = useState<Record<number, number>>({})
 
   // 스크롤 애니메이션 훅들
   const titleAnimation = useScrollAnimation({ threshold: 0.4, animationDelay: 200 })
@@ -60,6 +61,18 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
   const handleImageError = (imageId: number) => {
     setFailedImages(prev => new Set(prev).add(imageId))
   }
+
+  // 이미지 로드 후 높이 계산
+  const handleImageLoad = useCallback((imageId: number, event: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = event.currentTarget
+    const aspectRatio = img.naturalHeight / img.naturalWidth
+    // 그리드 컬럼 너비 기준으로 높이 계산 (gap 포함)
+    const columnWidth = typeof window !== 'undefined' 
+      ? (window.innerWidth < 768 ? (window.innerWidth - 32 - 8) / 2 : 512 / 2)
+      : 200
+    const calculatedHeight = columnWidth * aspectRatio
+    setImageHeights(prev => ({ ...prev, [imageId]: calculatedHeight }))
+  }, [])
 
   const openModal = useCallback((index: number) => {
     setCurrentImageIndex(index)
@@ -160,7 +173,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           >
             <SectionHeading
               kicker="Gallery"
-              title="갤러리"
+              title="웨딩 갤러리"
               size="sm"
             />
           </div>
@@ -168,44 +181,49 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           {/* 상단 가로선 */}
           <div className="w-full h-px bg-gray-200 mb-6 md:mb-8"></div>
 
-          {/* 갤러리 그리드 */}
+          {/* 갤러리 그리드 - Masonry 레이아웃 */}
           <div 
             ref={gridAnimation.ref}
-            className={`grid grid-cols-2 gap-2 md:gap-3 mb-6 md:mb-8 transition-all duration-800 ${gridAnimation.animationClass}`}
+            className={`columns-2 gap-2 md:gap-3 mb-6 md:mb-8 transition-all duration-800 ${gridAnimation.animationClass}`}
           >
-            {imagesToShow.map((item, index) => (
-              <div
-                key={index}
-                className="relative aspect-square cursor-pointer transition-opacity rounded-lg bg-gray-50 flex items-center justify-center"
-                onClick={() => openModal(index)}
-              >
-                {('isPlaceholder' in item && item.isPlaceholder) || failedImages.has(item.id) ? (
-                  <div className="relative aspect-square bg-gray-100 flex items-center justify-center rounded-lg">
-                    <svg
-                      className="w-8 md:w-12 h-8 md:h-12 text-gray-300"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                ) : (
-                  <img
-                    src={item.url}
-                    alt="Gallery"
-                    className="max-w-full max-h-full object-contain rounded-lg"
-                    onError={() => handleImageError(item.id)}
-                  />
-                )}
-              </div>
-            ))}
+            {imagesToShow.map((item, index) => {
+              const imageHeight = imageHeights[item.id]
+              return (
+                <div
+                  key={index}
+                  className="relative cursor-pointer transition-opacity rounded-lg bg-gray-50 flex items-center justify-center mb-2 md:mb-3 break-inside-avoid"
+                  onClick={() => openModal(index)}
+                  style={imageHeight ? { height: `${imageHeight}px` } : undefined}
+                >
+                  {('isPlaceholder' in item && item.isPlaceholder) || failedImages.has(item.id) ? (
+                    <div className="relative w-full aspect-square bg-gray-100 flex items-center justify-center rounded-lg">
+                      <svg
+                        className="w-8 md:w-12 h-8 md:h-12 text-gray-300"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                  ) : (
+                    <img
+                      src={item.url}
+                      alt="Gallery"
+                      className="w-full h-auto object-cover rounded-lg"
+                      onError={() => handleImageError(item.id)}
+                      onLoad={(e) => handleImageLoad(item.id, e)}
+                    />
+                  )}
+                </div>
+              )
+            })}
           </div>
 
           {/* 더보기/접기 버튼 */}

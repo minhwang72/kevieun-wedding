@@ -80,26 +80,31 @@ export default function BlessingSection() {
     }
   }, [])
 
-  // 부모 정보 포맷팅
+  // 부모 정보 포맷팅 (기본값 포함)
   const getParentInfo = (side: 'groom' | 'bride') => {
     const sideContacts = contacts.filter(contact => contact.side === side)
     const father = sideContacts.find(c => c.relationship === 'father')
     const mother = sideContacts.find(c => c.relationship === 'mother')
     const person = sideContacts.find(c => c.relationship === 'person')
     
-    if (!person) return null
+    const relationship = side === 'groom' ? '아들' : '딸'
     
+    // 기본값 설정
+    const defaultName = side === 'groom' ? '임희근' : '이은혜'
+    const defaultParents = side === 'groom' ? '신랑아버님 · 신랑어머님' : '신부아버님 · 신부어머님'
+    
+    // DB에서 정보가 있으면 사용, 없으면 기본값 사용
     const parentNames = []
     if (father) parentNames.push(father.name)
     if (mother) parentNames.push(mother.name)
     
-    if (parentNames.length === 0) return null
+    const finalParents = parentNames.length > 0 ? parentNames.join(' · ') : defaultParents
+    const finalName = person?.name || defaultName
     
-    const relationship = side === 'groom' ? '아들' : '딸'
     return {
-      parents: parentNames.join(' · '),
+      parents: finalParents,
       relationship,
-      name: person.name
+      name: finalName
     }
   }
 
@@ -128,31 +133,25 @@ export default function BlessingSection() {
 
           {/* 구분선 */}
           <div className="flex justify-center my-6 md:my-8">
-            <div className="w-12 h-px bg-gray-300"></div>
+            <div className="w-px h-12 md:h-16 bg-gray-300"></div>
           </div>
 
-          {/* 부모 정보 */}
-          {(groomInfo || brideInfo) && (
-            <div 
-              ref={parentsAnimation.ref}
-              className={`space-y-4 md:space-y-5 transition-all duration-800 ${parentsAnimation.animationClass}`}
-            >
-              {groomInfo && (
-                <div className="text-center">
-                  <p className="section-description text-base md:text-lg">
-                    {groomInfo.parents}의 {groomInfo.relationship} {groomInfo.name}
-                  </p>
-                </div>
-              )}
-              {brideInfo && (
-                <div className="text-center">
-                  <p className="section-description text-base md:text-lg">
-                    {brideInfo.parents}의 {brideInfo.relationship} {brideInfo.name}
-                  </p>
-                </div>
-              )}
+          {/* 부모 정보 - 항상 표시 (기본값 포함) */}
+          <div 
+            ref={parentsAnimation.ref}
+            className={`space-y-4 md:space-y-5 transition-all duration-800 ${parentsAnimation.animationClass}`}
+          >
+            <div className="text-center">
+              <p className="section-description text-base md:text-lg">
+                {groomInfo.parents}의 {groomInfo.relationship} {groomInfo.name}
+              </p>
             </div>
-          )}
+            <div className="text-center">
+              <p className="section-description text-base md:text-lg">
+                {brideInfo.parents}의 {brideInfo.relationship} {brideInfo.name}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
