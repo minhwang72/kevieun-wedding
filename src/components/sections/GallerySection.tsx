@@ -62,14 +62,20 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
     setFailedImages(prev => new Set(prev).add(imageId))
   }
 
-  // 이미지 로드 후 높이 계산
+  // 이미지 로드 후 높이 계산 (비율 유지, 여백 없음)
   const handleImageLoad = useCallback((imageId: number, event: React.SyntheticEvent<HTMLImageElement>) => {
     const img = event.currentTarget
     const aspectRatio = img.naturalHeight / img.naturalWidth
-    // 그리드 컬럼 너비 기준으로 높이 계산 (gap 포함)
-    const columnWidth = typeof window !== 'undefined' 
-      ? (window.innerWidth < 768 ? (window.innerWidth - 32 - 8) / 2 : 512 / 2)
-      : 200
+    // 그리드 컬럼 너비 기준으로 높이 계산 (gap 포함, 좌우 여백 제외)
+    const getColumnWidth = () => {
+      if (typeof window === 'undefined') return 200
+      const screenWidth = window.innerWidth
+      const padding = screenWidth < 768 ? 16 : 32 // px-2 md:px-4
+      const gap = screenWidth < 768 ? 2 : 4 // gap-0.5 md:gap-1
+      const availableWidth = screenWidth - (padding * 2)
+      return (availableWidth - gap) / 2
+    }
+    const columnWidth = getColumnWidth()
     const calculatedHeight = columnWidth * aspectRatio
     setImageHeights(prev => ({ ...prev, [imageId]: calculatedHeight }))
   }, [])
@@ -191,12 +197,12 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
               return (
                 <div
                   key={index}
-                  className="relative cursor-pointer transition-opacity bg-gray-50 flex items-center justify-center mb-0.5 md:mb-1 break-inside-avoid"
+                  className="relative cursor-pointer transition-opacity bg-white mb-0.5 md:mb-1 break-inside-avoid overflow-hidden"
                   onClick={() => openModal(index)}
                   style={imageHeight ? { height: `${imageHeight}px` } : undefined}
                 >
                   {('isPlaceholder' in item && item.isPlaceholder) || failedImages.has(item.id) ? (
-                    <div className="relative w-full aspect-square bg-gray-100 flex items-center justify-center">
+                    <div className="relative w-full aspect-square bg-white flex items-center justify-center">
                       <svg
                         className="w-8 md:w-12 h-8 md:h-12 text-gray-300"
                         fill="none"
@@ -216,7 +222,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
                     <img
                       src={item.url}
                       alt="Gallery"
-                      className="w-full h-auto object-cover"
+                      className="w-full h-full object-contain"
                       onError={() => handleImageError(item.id)}
                       onLoad={(e) => handleImageLoad(item.id, e)}
                     />
