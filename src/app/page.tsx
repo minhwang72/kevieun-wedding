@@ -7,20 +7,20 @@ export const revalidate = 0
 // 동적 메타데이터 생성
 export async function generateMetadata(): Promise<Metadata> {
   // 기본 이미지를 실제 존재하는 메인 이미지로 설정
-  let imageUrl = 'https://ejdc.eungming.com/uploads/images/main_cover.jpg'
+  let imageUrl = 'https://kevieun.eungming.com/uploads/images/main_cover.jpg'
   
   try {
     // 서버 사이드에서는 내부 API 호출 사용 (SSL 인증서 문제 회피)
     const baseUrl = process.env.INTERNAL_API_URL || 
       (process.env.NODE_ENV === 'production' 
-        ? 'http://127.0.0.1:1140'  // Docker 내부에서는 HTTP 사용 (IPv4)
+        ? 'http://127.0.0.1:3160'  // Docker 내부에서는 HTTP 사용 (IPv4)
         : 'http://127.0.0.1:3000')  // 개발 환경 (IPv4)
       
     console.log(`[DEBUG] Fetching gallery data from: ${baseUrl}/api/gallery`)
     const response = await fetch(`${baseUrl}/api/gallery`, {
       next: { revalidate: 60 * 60 }, // 1시간마다 최신 메타 이미지 갱신
       headers: {
-        'User-Agent': 'ejdcBot/1.0 (Wedding Invitation Metadata Generator)',
+        'User-Agent': 'kevieunBot/1.0 (Wedding Invitation Metadata Generator)',
       }
     })
     
@@ -38,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
           // URL이 상대 경로인 경우 절대 경로로 변환 (타임스탬프 제거)
           imageUrl = mainImage.url.startsWith('http') 
             ? mainImage.url
-            : `https://ejdc.eungming.com${mainImage.url}`
+            : `https://kevieun.eungming.com${mainImage.url}`
           console.log(`[DEBUG] Final image URL:`, imageUrl)
         }
       }
@@ -52,17 +52,17 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   return {
-    metadataBase: new URL('https://ejdc.eungming.com'),
+    metadataBase: new URL('https://kevieun.eungming.com'),
     alternates: {
-      canonical: 'https://ejdc.eungming.com',
+      canonical: 'https://kevieun.eungming.com',
     },
     title: "현도찬 ♥ 김은진 결혼합니다",
-    description: "2026년 4월 11일 오후 12시, 정동제일교회에서 결혼식을 올립니다. We invite you to our wedding. 여러분의 축복으로 더 아름다운 날이 되길 바랍니다.",
+    description: "2026년 6월 13일 오후 12시, 정동제일교회에서 결혼식을 올립니다. We invite you to our wedding. 여러분의 축복으로 더 아름다운 날이 되길 바랍니다.",
     keywords: ["결혼식", "청첩장", "wedding", "invitation", "현도찬", "김은진", "정동제일교회"],
     openGraph: {
       title: "현도찬 ♥ 김은진 결혼합니다",
-      description: "2026년 4월 11일 오후 12시\n정동제일교회에서 결혼식을 올립니다.\nWe invite you to our wedding.\n여러분의 축복으로 더 아름다운 날이 되길 바랍니다.",
-      url: "https://ejdc.eungming.com",
+      description: "2026년 6월 13일 오후 12시\n정동제일교회에서 결혼식을 올립니다.\nWe invite you to our wedding.\n여러분의 축복으로 더 아름다운 날이 되길 바랍니다.",
+      url: "https://kevieun.eungming.com",
       siteName: "현도찬 ♥ 김은진 결혼식 청첩장",
       images: [
         {
@@ -78,7 +78,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "현도찬 ♥ 김은진 결혼합니다",
-      description: "2026년 4월 11일 오후 12시, 정동제일교회에서 결혼식을 올립니다. We invite you to our wedding.",
+      description: "2026년 6월 13일 오후 12시, 정동제일교회에서 결혼식을 올립니다. We invite you to our wedding.",
       images: [imageUrl],
     },
     icons: {
@@ -93,7 +93,7 @@ export async function generateMetadata(): Promise<Metadata> {
       'og:image:secure_url': imageUrl,
       'og:updated_time': new Date().toISOString(), // 메타데이터 갱신 시간
       // 카카오톡 전용 메타데이터
-      'al:web:url': 'https://ejdc.eungming.com',
+      'al:web:url': 'https://kevieun.eungming.com',
       'al:web:should_fallback': 'true',
     }
   }

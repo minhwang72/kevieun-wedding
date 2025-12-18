@@ -8,7 +8,7 @@ const host = process.env.DB_HOST || (isLocal ? 'localhost' : '192.168.0.19')
 const port = process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
 const user = process.env.DB_USER || (isLocal ? 'root' : 'min')
 const password = process.env.DB_PASSWORD || (isLocal ? '' : 'f8tgw3lshms!')
-const database = process.env.DB_NAME || 'ejdc_wedding'
+const database = process.env.DB_NAME || 'kevieun_wedding'
 
 const pool = mysql.createPool({
   host,

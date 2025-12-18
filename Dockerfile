@@ -49,7 +49,7 @@ ENV NEXT_PUBLIC_KAKAO_JS_KEY=$NEXT_PUBLIC_KAKAO_JS_KEY
 
 # SSL and internal API configuration
 ENV NODE_TLS_REJECT_UNAUTHORIZED=0
-ENV INTERNAL_API_URL=http://127.0.0.1:1140
+ENV INTERNAL_API_URL=http://127.0.0.1:3160
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -70,13 +70,13 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 1140
+EXPOSE 3160
 
-ENV PORT 1140
+ENV PORT 3160
 ENV HOSTNAME "0.0.0.0"
 
 # Healthcheck using node (no curl needed)
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD node -e "require('http').get('http://127.0.0.1:1140/', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"
+  CMD node -e "require('http').get('http://127.0.0.1:3160/', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"
 
 CMD ["node", "server.js"] 

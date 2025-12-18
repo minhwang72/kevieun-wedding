@@ -789,7 +789,7 @@
 
 "@unrs/resolver-binding-linux-riscv64-gnu@1.7.11":
   version "1.7.11"
-  resolved "https://registry.yarnpkg.com/@unrs/resolver-binding-linux-riscv64-gnu/-/resolver-binding-linux-riscv64-gnu-1.7.11.tgz#272114018eda67de6889cbf038a96b1fe31346fd"
+  resolved "https://registry.yarnpkg.com/@unrs/resolver-binding-linux-riscv64-gnu/-/resolver-binding-linux-riscv64-gnu-1.7.11.tgz#272316018eda67de6889cbf038a96b1fe31346fd"
   integrity sha512-NqhWmiGJGdzbZbeucPZIG9Iav4lyYLCarEnxAceguMx9qlpeEF7ENqYKOwB8Zqk7/CeuYMEcLYMaW2li6HyDzQ==
 
 "@unrs/resolver-binding-linux-riscv64-musl@1.7.11":

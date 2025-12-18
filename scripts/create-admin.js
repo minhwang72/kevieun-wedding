@@ -35,7 +35,7 @@ async function createAdmin() {
       port: 3306,
       user: 'min',
       password: 'f8tgw3lshms!',
-      database: 'ejdc_wedding',
+      database: 'kevieun_wedding',
       connectTimeout: 10000
     });
 
