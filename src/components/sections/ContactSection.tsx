@@ -161,12 +161,12 @@ export default function ContactSection() {
               ].map(({ label, data }, idx) => (
                 <div key={label + idx} className="text-center space-y-4">
                   {data.line1 && (
-                    <div className="text-xs md:text-sm font-heading text-gray-500 tracking-[0.35em] uppercase">
+                    <div className="text-sm md:text-base font-heading text-gray-500 tracking-[0.35em] uppercase">
                       {data.line1}
                     </div>
                   )}
-                  <div className="text-base md:text-lg font-heading text-gray-900 tracking-[0.2em]">
-                    <span className="text-sm md:text-base font-heading text-gray-500 mr-2 tracking-[0.35em] uppercase">
+                  <div className="text-lg md:text-xl font-heading text-gray-900 tracking-[0.2em]">
+                    <span className="text-base md:text-lg font-heading text-gray-500 mr-2 tracking-[0.35em] uppercase">
                       {label}
                     </span>
                     {data.line2}
@@ -181,7 +181,7 @@ export default function ContactSection() {
             >
               <button
                 onClick={handleModalOpen}
-                className="w-full py-3 theme-button rounded-lg font-heading tracking-[0.35em] text-xs md:text-sm uppercase"
+                className="w-full py-3 theme-button rounded-lg font-heading tracking-[0.35em] text-sm md:text-base uppercase"
               >
                 연락하기
               </button>
@@ -208,10 +208,10 @@ export default function ContactSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
-              <h3 className="text-xl font-semibold text-black mb-2">
+              <h3 className="text-2xl font-semibold text-black mb-2">
                 축하연락하기
               </h3>
-              <p className="text-sm font-medium text-black">
+              <p className="text-base font-medium text-black">
                 연락으로 마음을 전해요
               </p>
             </div>
@@ -220,7 +220,7 @@ export default function ContactSection() {
             <div className="flex mb-6 gap-2">
               <button
                 onClick={() => setActiveTab('groom')}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-semibold transition-colors ${
+                className={`flex-1 py-2 px-4 rounded-md text-base font-semibold transition-colors ${
                   activeTab === 'groom'
                     ? 'theme-button shadow-sm'
                     : 'bg-gray-200 text-gray-800'
@@ -230,7 +230,7 @@ export default function ContactSection() {
               </button>
               <button
                 onClick={() => setActiveTab('bride')}
-                className={`flex-1 py-2 px-4 rounded-md text-sm font-semibold transition-colors ${
+                className={`flex-1 py-2 px-4 rounded-md text-base font-semibold transition-colors ${
                   activeTab === 'bride'
                     ? 'theme-button shadow-sm'
                     : 'bg-gray-200 text-gray-800'
@@ -250,11 +250,11 @@ export default function ContactSection() {
                   <div key={contact.id} className="border-b border-gray-100 pb-4 last:border-b-0 last:pb-0 mb-4 last:mb-0">
                     <div className="mb-3">
                       {getRelationshipLabel(contact.relationship) && (
-                        <div className="text-xs mb-1 font-semibold text-black">
+                        <div className="text-sm mb-1 font-semibold text-black">
                           {getRelationshipLabel(contact.relationship)}
                         </div>
                       )}
-                      <div className="text-base font-semibold text-black">
+                      <div className="text-lg font-semibold text-black">
                         {contact.name}
                       </div>
                     </div>
@@ -263,7 +263,7 @@ export default function ContactSection() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleCall(contact.phone)}
-                          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg font-semibold shadow-sm theme-button text-sm"
+                          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg font-semibold shadow-sm theme-button text-base"
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.129-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -272,7 +272,7 @@ export default function ContactSection() {
                         </button>
                         <button
                           onClick={() => handleSMS(contact.phone)}
-                          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-gray-900 font-semibold shadow-sm bg-gray-100 text-sm"
+                          className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-gray-900 font-semibold shadow-sm bg-gray-100 text-base"
                          
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

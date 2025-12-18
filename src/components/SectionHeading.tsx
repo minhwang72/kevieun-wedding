@@ -11,9 +11,9 @@ type SectionHeadingProps = {
 }
 
 const sizeClass: Record<NonNullable<SectionHeadingProps['size']>, string> = {
-  sm: 'text-[1.6rem] md:text-[2.1rem]',
-  md: 'text-[2rem] md:text-[2.6rem]',
-  lg: 'text-[2.3rem] md:text-[3rem]'
+  sm: 'text-[1.8rem] md:text-[2.4rem]',
+  md: 'text-[2.2rem] md:text-[2.9rem]',
+  lg: 'text-[2.6rem] md:text-[3.3rem]'
 }
 
 export default function SectionHeading({

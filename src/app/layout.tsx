@@ -67,6 +67,10 @@ export default async function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin=""
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Allura&display=swap"
+          rel="stylesheet"
+        />
         <style>
           {`
             @font-face {

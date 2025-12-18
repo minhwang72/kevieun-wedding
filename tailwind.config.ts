@@ -17,9 +17,21 @@ const config: Config = {
         text: '#5A4B41',
       },
       fontFamily: {
-        sans: ['PyeojinGothic', 'Edu SA Hand', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-        score: ['PyeojinGothic', 'Edu SA Hand', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        sans: ['MaruBuri', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'serif'],
+        score: ['MaruBuri', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'serif'],
         english: ['Edu SA Hand', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        script: ['Great Vibes', 'cursive'],
+        heading: ['MaruBuri', 'Pretendard', 'serif'],
+        body: ['MaruBuri', 'Pretendard', 'serif'],
+      },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+      },
+      animation: {
+        'fade-in': 'fade-in 0.8s ease-in-out',
       },
     },
   },

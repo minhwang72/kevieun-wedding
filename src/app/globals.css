@@ -58,18 +58,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+SA+Hand:wght@400;500;600;700&display=swap');
 
 :root {
-  --background: #fffeFB;
-  --foreground: #1d1d1f;
-  --color-muted: #6f6f6f;
-  --font-heading: 'S-CoreDream-3Light', 'Pretendard', 'Inter', sans-serif;
-  --font-body: 'Pretendard', 'Inter', 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --theme-bg-main: #FFFEFB;
-  --theme-bg-secondary: #E5E5E7;
-  --theme-bg-section: #FFFEFD;
-  --theme-accent-primary: #F8DDE4;
-  --theme-accent-secondary: #783BFF;
-  --theme-button-bg: #111827;
-  --theme-button-bg-hover: #000000;
+  --background: #FFFEF9;
+  --foreground: #2C2C2C;
+  --color-muted: #6B6B6B;
+  --font-heading: 'MaruBuri', 'Pretendard', 'Inter', serif;
+  --font-body: 'MaruBuri', 'Pretendard', 'Inter', 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, system-ui, serif;
+  --theme-bg-main: #FFFEF9;
+  --theme-bg-secondary: #F5F5F0;
+  --theme-bg-section: #FFFEFB;
+  --theme-accent-primary: #E8D5C4;
+  --theme-accent-secondary: #8B6F47;
+  --theme-button-bg: #2C2C2C;
+  --theme-button-bg-hover: #1A1A1A;
   --theme-button-text: #FFFFFF;
 }
 
@@ -91,7 +91,7 @@ body {
   color: var(--foreground);
   background-color: var(--background);
   font-family: var(--font-body);
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
 }
 
 .theme-bg-main {
@@ -129,7 +129,8 @@ body {
 
 .font-heading {
   font-family: var(--font-heading);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  font-weight: 500;
 }
 
 .font-english {
@@ -143,10 +144,10 @@ body {
 
 .section-kicker {
   font-family: var(--font-heading);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #a4a4a4;
+  color: #8B7355;
   display: inline-flex;
   gap: 0.35rem;
   align-items: center;
@@ -157,11 +158,12 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--foreground);
+  font-weight: 600;
 }
 
 .section-description {
-  font-size: 0.95rem;
-  line-height: 1.8;
+  font-size: 1.05rem;
+  line-height: 1.9;
   color: var(--color-muted);
 }
 

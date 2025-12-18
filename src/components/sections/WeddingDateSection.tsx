@@ -41,7 +41,7 @@ export default function WeddingDateSection() {
   }
 
   const getDayClass = (dayInfo: { day: number; isWeddingDay: boolean } | null) => {
-    if (!dayInfo) return 'h-10 md:h-12 w-full text-center flex items-center justify-center text-sm md:text-base text-gray-300'
+    if (!dayInfo) return 'h-10 md:h-12 w-full text-center flex items-center justify-center text-base md:text-lg text-gray-300'
     
     // 실제 날짜를 기반으로 요일 계산
     const actualDate = new Date(year, month - 1, dayInfo.day)
@@ -49,10 +49,10 @@ export default function WeddingDateSection() {
     const weekendClass = dayOfWeek === 0 || dayOfWeek === 6 ? 'text-gray-600' : 'text-gray-700'
     
     if (dayInfo.isWeddingDay) {
-      return `h-10 md:h-12 w-full text-center flex items-center justify-center text-sm md:text-base relative ${weekendClass}`
+      return `h-10 md:h-12 w-full text-center flex items-center justify-center text-base md:text-lg relative ${weekendClass}`
     }
     
-    return `h-10 md:h-12 w-full text-center flex items-center justify-center text-sm md:text-base transition-colors rounded ${weekendClass}`
+    return `h-10 md:h-12 w-full text-center flex items-center justify-center text-base md:text-lg transition-colors rounded ${weekendClass}`
   }
 
   return (
@@ -80,7 +80,7 @@ export default function WeddingDateSection() {
             {weekDays.map((day) => (
               <div
                 key={day}
-                className="text-[11px] md:text-xs font-heading text-gray-500 tracking-[0.35em] py-2 md:py-3"
+                className="text-xs md:text-sm font-heading text-gray-600 tracking-[0.35em] py-2 md:py-3"
               >
                 {day}
               </div>
@@ -121,11 +121,11 @@ export default function WeddingDateSection() {
           ref={dateInfoAnimation.ref}
           className={`space-y-3 md:space-y-4 transition-all duration-800 ${dateInfoAnimation.animationClass}`}
         >
-          <div className="text-base md:text-lg font-heading text-gray-700 tracking-[0.4em] uppercase">
+          <div className="text-lg md:text-xl font-heading text-gray-700 tracking-[0.4em] uppercase">
             2026년 6월 13일 토요일&nbsp;&nbsp;|&nbsp;&nbsp;오후 12시
           </div>
           
-          <div className="text-base md:text-lg font-heading text-gray-700 tracking-[0.4em] uppercase">
+          <div className="text-lg md:text-xl font-heading text-gray-700 tracking-[0.4em] uppercase">
             Saturday, June 13, 2026&nbsp;&nbsp;|&nbsp;&nbsp;PM 12:00
           </div>
         </div>

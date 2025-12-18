@@ -210,11 +210,11 @@ export default function HomePage({
   return (
     <main className="min-h-screen flex flex-col items-center justify-center theme-bg-main md:theme-bg-secondary py-0 md:py-8">
       <DevToolsBlocker />
-      <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-2xl md:shadow-lg overflow-hidden">
+      <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-lg md:shadow-xl overflow-hidden">
         <CoverSection />
-        <CountdownSection />
         <BlessingSection />        
         <WeddingDateSection />
+        <CountdownSection />
         <ContactSection />        
         <LazyGallerySection />
         <HeartMoneySection />      

@@ -66,7 +66,7 @@ export default function BlessingSection() {
             className={`space-y-3 md:space-y-4 transition-all duration-800 ${firstParagraphAnimation.animationClass}`}
           >
             {lines.map((line, index) => (
-              <p key={`${line}-${index}`} className="section-description text-sm md:text-base">
+              <p key={`${line}-${index}`} className="section-description text-base md:text-lg">
                 {line || '\u00A0'}
               </p>
             ))}
