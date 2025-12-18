@@ -165,11 +165,11 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
 
   return (
     <>
-      <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans bg-white">
-        <div className="max-w-xl mx-auto text-center w-full px-4 md:px-6">
+      <section className="w-full min-h-screen flex flex-col justify-center py-0 px-0 font-sans bg-white">
+        <div className="w-full text-center">
           <div 
             ref={titleAnimation.ref}
-            className={`transition-all duration-800 mb-10 md:mb-14 ${titleAnimation.animationClass}`}
+            className={`transition-all duration-800 mb-4 md:mb-6 px-4 md:px-6 ${titleAnimation.animationClass}`}
           >
             <SectionHeading
               kicker="Gallery"
@@ -179,24 +179,24 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           </div>
 
           {/* 상단 가로선 */}
-          <div className="w-full h-px bg-gray-200 mb-6 md:mb-8"></div>
+          <div className="w-full h-px bg-gray-200 mb-2 md:mb-3"></div>
 
           {/* 갤러리 그리드 - Masonry 레이아웃 */}
           <div 
             ref={gridAnimation.ref}
-            className={`columns-2 gap-2 md:gap-3 mb-6 md:mb-8 transition-all duration-800 ${gridAnimation.animationClass}`}
+            className={`columns-2 gap-0.5 md:gap-1 mb-0 transition-all duration-800 ${gridAnimation.animationClass}`}
           >
             {imagesToShow.map((item, index) => {
               const imageHeight = imageHeights[item.id]
               return (
                 <div
                   key={index}
-                  className="relative cursor-pointer transition-opacity rounded-lg bg-gray-50 flex items-center justify-center mb-2 md:mb-3 break-inside-avoid"
+                  className="relative cursor-pointer transition-opacity bg-gray-50 flex items-center justify-center mb-0.5 md:mb-1 break-inside-avoid"
                   onClick={() => openModal(index)}
                   style={imageHeight ? { height: `${imageHeight}px` } : undefined}
                 >
                   {('isPlaceholder' in item && item.isPlaceholder) || failedImages.has(item.id) ? (
-                    <div className="relative w-full aspect-square bg-gray-100 flex items-center justify-center rounded-lg">
+                    <div className="relative w-full aspect-square bg-gray-100 flex items-center justify-center">
                       <svg
                         className="w-8 md:w-12 h-8 md:h-12 text-gray-300"
                         fill="none"
@@ -216,7 +216,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
                     <img
                       src={item.url}
                       alt="Gallery"
-                      className="w-full h-auto object-cover rounded-lg"
+                      className="w-full h-auto object-cover"
                       onError={() => handleImageError(item.id)}
                       onLoad={(e) => handleImageLoad(item.id, e)}
                     />
@@ -230,7 +230,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           {hasMoreImages && (
             <div 
               ref={moreButtonAnimation.ref}
-              className={`flex justify-center mb-6 md:mb-8 transition-all duration-800 ${moreButtonAnimation.animationClass}`}
+              className={`flex justify-center mb-2 md:mb-3 mt-2 md:mt-3 transition-all duration-800 ${moreButtonAnimation.animationClass}`}
             >
               <button
                 onClick={() => setShowAll(!showAll)}
@@ -258,7 +258,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           )}
 
           {/* 하단 가로선 */}
-          <div className="w-full h-px bg-gray-200"></div>
+          <div className="w-full h-px bg-gray-200 mt-2 md:mt-3"></div>
         </div>
       </section>
 
