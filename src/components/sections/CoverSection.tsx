@@ -68,7 +68,7 @@ export default function CoverSection() {
           className={`relative z-10 flex flex-col flex-1 px-6 md:px-12 py-10 text-white transition-opacity duration-700 ${photoAnimation.animationClass}`}
         >
           <div className="text-left space-y-3 text-white/90 mb-auto" style={overlayTextShadow}>
-            <p className="text-[0.8rem] md:text-sm font-heading tracking-[0.4em] uppercase">April 11, 2026 · 12:00 PM</p>
+            <p className="text-[0.8rem] md:text-sm font-heading tracking-[0.4em] uppercase">June 13, 2026 · 12:00 PM</p>
             <p className="text-base md:text-lg font-heading">정동제일교회 본당</p>
             <p className="text-xs md:text-sm tracking-[0.3em] uppercase">CHUNGDONG First Methodist Church</p>
           </div>
@@ -77,14 +77,14 @@ export default function CoverSection() {
             className={`flex justify-between items-center text-[0.65rem] md:text-xs tracking-[0.35em] uppercase text-white/75 font-heading ${heartAnimation.animationClass}`}
             style={overlayTextShadow}
           >
-            <span>도찬</span>
+            <span>희근</span>
             <span className="theme-text-accent text-base md:text-lg">✺</span>
-            <span>은진</span>
+            <span>은혜</span>
           </div>
 
           <div className="text-center mt-auto pb-8" style={overlayTextShadow}>
             <p className="text-lg md:text-2xl text-white font-heading tracking-[0.25em]">
-              도찬 & 은진
+              희근 & 은혜
             </p>
             <p className="text-xs md:text-sm text-white/75 font-heading tracking-[0.3em] uppercase mt-1">
               Dochan &amp; Eunjin

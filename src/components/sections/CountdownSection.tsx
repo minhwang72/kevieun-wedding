@@ -15,7 +15,7 @@ export default function CountdownSection() {
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
-    const weddingDate = new Date('2026-04-11T13:00:00+09:00')
+    const weddingDate = new Date('2026-06-13T12:00:00+09:00')
 
     const calculateTimeLeft = () => {
       const now = new Date()
@@ -72,11 +72,11 @@ export default function CountdownSection() {
         />
         <div className="mt-6 flex flex-col items-center gap-2 text-[0.75rem] md:text-sm text-gray-500 font-heading tracking-[0.35em] uppercase">
           <div className="flex items-center gap-3">
-            <span>도찬</span>
+            <span>희근</span>
             <svg className="w-4 h-4 md:w-5 md:h-5 theme-text-accent" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
-            <span>은진</span>
+            <span>은혜</span>
           </div>
           <p className="text-[0.65rem] md:text-xs tracking-[0.4em] text-gray-400">
             {isPast ? 'SINCE VOWS' : 'UNTIL VOWS'}

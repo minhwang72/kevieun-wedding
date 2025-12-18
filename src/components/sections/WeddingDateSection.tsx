@@ -9,7 +9,7 @@ export default function WeddingDateSection() {
   const calendarAnimation = useScrollAnimation({ threshold: 0.3, animationDelay: 400 })
   const dateInfoAnimation = useScrollAnimation({ threshold: 0.2, animationDelay: 600 })
 
-  // 2026년 4월 달력 생성
+  // 2026년 6월 달력 생성
   const getDaysInMonth = (year: number, month: number) => {
     return new Date(year, month, 0).getDate()
   }
@@ -19,7 +19,7 @@ export default function WeddingDateSection() {
   }
 
   const year = 2026
-  const month = 4
+  const month = 6
   const daysInMonth = getDaysInMonth(year, month)
   const firstDayOfMonth = getFirstDayOfMonth(year, month)
   const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
@@ -36,7 +36,7 @@ export default function WeddingDateSection() {
   for (let day = 1; day <= daysInMonth; day++) {
     calendarDays.push({
       day,
-      isWeddingDay: day === 11 // 06월 13일이 결혼식 날
+      isWeddingDay: day === 13 // 06월 13일이 결혼식 날
     })
   }
 
@@ -61,7 +61,7 @@ export default function WeddingDateSection() {
         <div ref={titleAnimation.ref} className={`transition-all duration-800 ${titleAnimation.animationClass}`}>
           <SectionHeading
             kicker="Schedule"
-            title="4월"
+            title="6월"
             description=" "
             size="md"
           />
@@ -126,7 +126,7 @@ export default function WeddingDateSection() {
           </div>
           
           <div className="text-base md:text-lg font-heading text-gray-700 tracking-[0.4em] uppercase">
-            Saturday, April 11, 2026&nbsp;&nbsp;|&nbsp;&nbsp;PM 12:00
+            Saturday, June 13, 2026&nbsp;&nbsp;|&nbsp;&nbsp;PM 12:00
           </div>
         </div>
       </div>
