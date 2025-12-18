@@ -165,7 +165,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
 
   return (
     <>
-      <section className="w-full min-h-screen flex flex-col justify-center py-0 px-0 font-sans bg-white">
+      <section className="w-full min-h-screen flex flex-col justify-center py-0 px-2 md:px-4 font-sans bg-white">
         <div className="w-full text-center">
           <div 
             ref={titleAnimation.ref}
