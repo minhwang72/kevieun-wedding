@@ -59,9 +59,24 @@ jobs:
         rm -f package-lock.json
         yarn cache clean --all
         rm -rf ~/.cache/yarn node_modules
-        # Remove riscv64 entries from yarn.lock if they exist (they cause integrity issues)
+        # Remove problematic architecture entries from yarn.lock (keep only linux-x64-gnu)
+        # These cause integrity check failures and we only need x64 for ubuntu-latest
         if [ -f yarn.lock ]; then
-          sed -i '/@unrs\/resolver-binding-linux-riscv64/d' yarn.lock || true
+          # Remove entire package blocks for problematic architectures
+          # Each block starts with package name and ends with blank line
+          sed -i '/^"@unrs\/resolver-binding-linux-riscv64/,/^$/d' yarn.lock || true
+          sed -i '/^"@unrs\/resolver-binding-linux-ppc64/,/^$/d' yarn.lock || true
+          sed -i '/^"@unrs\/resolver-binding-linux-s390x/,/^$/d' yarn.lock || true
+          sed -i '/^"@unrs\/resolver-binding-linux-arm-gnueabihf/,/^$/d' yarn.lock || true
+          sed -i '/^"@unrs\/resolver-binding-linux-arm-musleabihf/,/^$/d' yarn.lock || true
+          sed -i '/^"@unrs\/resolver-binding-linux-arm64/,/^$/d' yarn.lock || true
+          # Also remove from dependencies list
+          sed -i '/"@unrs\/resolver-binding-linux-riscv64"/d' yarn.lock || true
+          sed -i '/"@unrs\/resolver-binding-linux-ppc64"/d' yarn.lock || true
+          sed -i '/"@unrs\/resolver-binding-linux-s390x"/d' yarn.lock || true
+          sed -i '/"@unrs\/resolver-binding-linux-arm-gnueabihf"/d' yarn.lock || true
+          sed -i '/"@unrs\/resolver-binding-linux-arm-musleabihf"/d' yarn.lock || true
+          sed -i '/"@unrs\/resolver-binding-linux-arm64"/d' yarn.lock || true
         fi
         # Force x64 architecture by setting environment variables
         export npm_config_target_arch=x64
