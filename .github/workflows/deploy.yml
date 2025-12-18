@@ -45,12 +45,29 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" | head -n 3
       shell: bash
 
+    - name: Check architecture
+      run: |
+        echo "▶ System architecture:"
+        uname -m
+        echo "▶ Node.js architecture:"
+        node -p "process.arch"
+        echo "▶ Platform:"
+        node -p "process.platform"
+
     - name: Clean and Install dependencies
       run: |
         rm -f package-lock.json
         yarn cache clean --all
         rm -rf ~/.cache/yarn node_modules
-        yarn install --network-timeout 600000
+        # Remove riscv64 entries from yarn.lock if they exist (they cause integrity issues)
+        if [ -f yarn.lock ]; then
+          sed -i '/@unrs\/resolver-binding-linux-riscv64/d' yarn.lock || true
+        fi
+        # Force x64 architecture by setting environment variables
+        export npm_config_target_arch=x64
+        export npm_config_target_platform=linux
+        # Install with network timeout and ignore optional dependencies
+        yarn install --network-timeout 600000 --ignore-optional
 
     - name: Check TypeScript is installed
       run: yarn list typescript
