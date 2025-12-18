@@ -10,6 +10,7 @@ export const DEFAULT_THEME: ThemeSettings = {
   buttonBg: '#111827',
   buttonBgHover: '#000000',
   buttonText: '#FFFFFF',
+  dateCountdownSectionBg: '#F5F5F5',
   updatedAt: undefined
 }
 
@@ -21,7 +22,8 @@ export const THEME_COLOR_KEYS = [
   'accentSecondary',
   'buttonBg',
   'buttonBgHover',
-  'buttonText'
+  'buttonText',
+  'dateCountdownSectionBg'
 ] as const
 
 export type ThemeColorKey = typeof THEME_COLOR_KEYS[number]
@@ -36,7 +38,8 @@ export const THEME_CSS_VARIABLES: Record<ThemeColorKey, string> = {
   accentSecondary: '--theme-accent-secondary',
   buttonBg: '--theme-button-bg',
   buttonBgHover: '--theme-button-bg-hover',
-  buttonText: '--theme-button-text'
+  buttonText: '--theme-button-text',
+  dateCountdownSectionBg: '--theme-date-countdown-bg'
 }
 
 export const THEME_COLUMN_MAP: Record<ThemeColorKey, string> = {
@@ -47,7 +50,8 @@ export const THEME_COLUMN_MAP: Record<ThemeColorKey, string> = {
   accentSecondary: 'accent_secondary',
   buttonBg: 'button_bg',
   buttonBgHover: 'button_bg_hover',
-  buttonText: 'button_text'
+  buttonText: 'button_text',
+  dateCountdownSectionBg: 'date_countdown_section_bg'
 }
 
 export function isValidHexColor(value: string): boolean {
@@ -69,7 +73,10 @@ export function withDefaultTheme(partial?: Partial<Record<ThemeColorKey, string>
 export function themeToCssVariableMap(theme: ThemeSettings): Record<string, string> {
   const vars: Record<string, string> = {}
   THEME_COLOR_KEYS.forEach((key) => {
-    vars[THEME_CSS_VARIABLES[key]] = theme[key]
+    const value = theme[key] || DEFAULT_THEME[key] || ''
+    if (value) {
+      vars[THEME_CSS_VARIABLES[key]] = value
+    }
   })
   return vars
 }

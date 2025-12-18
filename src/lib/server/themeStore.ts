@@ -13,8 +13,14 @@ const CREATE_TABLE_SQL = `
     button_bg VARCHAR(7) NOT NULL DEFAULT '#111827',
     button_bg_hover VARCHAR(7) NOT NULL DEFAULT '#000000',
     button_text VARCHAR(7) NOT NULL DEFAULT '#FFFFFF',
+    date_countdown_section_bg VARCHAR(7) DEFAULT '#F5F5F5',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`
+
+const ALTER_TABLE_SQL = `
+  ALTER TABLE theme_settings 
+  ADD COLUMN IF NOT EXISTS date_countdown_section_bg VARCHAR(7) DEFAULT '#F5F5F5';
 `
 
 type ThemeRow = {
@@ -27,6 +33,7 @@ type ThemeRow = {
   button_bg: string
   button_bg_hover: string
   button_text: string
+  date_countdown_section_bg?: string | null
   updated_at?: Date | string
 }
 
@@ -41,12 +48,20 @@ function mapRowToTheme(row: ThemeRow): ThemeSettings {
     buttonBg: row.button_bg || DEFAULT_THEME.buttonBg,
     buttonBgHover: row.button_bg_hover || DEFAULT_THEME.buttonBgHover,
     buttonText: row.button_text || DEFAULT_THEME.buttonText,
+    dateCountdownSectionBg: row.date_countdown_section_bg || DEFAULT_THEME.dateCountdownSectionBg,
     updatedAt: row.updated_at
   }
 }
 
 async function ensureThemeTable() {
   await pool.query(CREATE_TABLE_SQL)
+  // 기존 테이블에 컬럼 추가 (이미 있으면 무시됨)
+  try {
+    await pool.query(ALTER_TABLE_SQL)
+  } catch (error) {
+    // 컬럼이 이미 존재하거나 다른 오류인 경우 무시
+    console.log('Theme table column check:', error)
+  }
 }
 
 export async function getThemeSettings(): Promise<ThemeSettings> {
@@ -63,8 +78,9 @@ export async function getThemeSettings(): Promise<ThemeSettings> {
     INSERT INTO theme_settings (
       primary_bg, secondary_bg, section_bg,
       accent_primary, accent_secondary,
-      button_bg, button_bg_hover, button_text
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      button_bg, button_bg_hover, button_text,
+      date_countdown_section_bg
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `
 
   const defaultValues = [
@@ -75,7 +91,8 @@ export async function getThemeSettings(): Promise<ThemeSettings> {
     DEFAULT_THEME.accentSecondary,
     DEFAULT_THEME.buttonBg,
     DEFAULT_THEME.buttonBgHover,
-    DEFAULT_THEME.buttonText
+    DEFAULT_THEME.buttonText,
+    DEFAULT_THEME.dateCountdownSectionBg
   ]
 
   await pool.query(insertSql, defaultValues)

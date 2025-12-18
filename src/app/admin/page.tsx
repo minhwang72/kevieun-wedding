@@ -1572,7 +1572,8 @@ const THEME_FIELD_LABELS: Record<ThemeColorKey, { label: string; description: st
   accentSecondary: { label: '보조 포인트', description: 'SVG, 강조 요소에 사용' },
   buttonBg: { label: '버튼 기본 배경', description: '주요 버튼 배경색' },
   buttonBgHover: { label: '버튼 호버 배경', description: '주요 버튼 호버 색상' },
-  buttonText: { label: '버튼 텍스트', description: '주요 버튼 텍스트 색상' }
+  buttonText: { label: '버튼 텍스트', description: '주요 버튼 텍스트 색상' },
+  dateCountdownSectionBg: { label: '날짜/카운트다운 섹션 배경', description: '날짜 및 카운트다운 섹션 배경색' }
 }
 
 const ThemeManagerSection = ({
@@ -1604,7 +1605,10 @@ const ThemeManagerSection = ({
   }
 
   const handleSave = async () => {
-    const invalidKey = THEME_COLOR_KEYS.find((key) => !isValidHexColor(localTheme[key]))
+    const invalidKey = THEME_COLOR_KEYS.find((key) => {
+      const value = localTheme[key] || DEFAULT_THEME[key] || ''
+      return !isValidHexColor(value)
+    })
     if (invalidKey) {
       const label = THEME_FIELD_LABELS[invalidKey]?.label || invalidKey
       showToast(`${label} 값을 #RRGGBB 형식으로 입력해주세요.`, 'error')
@@ -1612,7 +1616,7 @@ const ThemeManagerSection = ({
     }
 
     const payload = THEME_COLOR_KEYS.reduce<Record<string, string>>((acc, key) => {
-      acc[key] = localTheme[key]
+      acc[key] = localTheme[key] || DEFAULT_THEME[key] || ''
       return acc
     }, {})
 
@@ -1673,7 +1677,7 @@ const ThemeManagerSection = ({
                 </div>
                 <input
                   type="color"
-                  value={isValidHexColor(localTheme[key]) ? localTheme[key] : '#FFFFFF'}
+                  value={localTheme[key] && isValidHexColor(localTheme[key]) ? localTheme[key] : '#FFFFFF'}
                   onChange={(e) => handleColorChange(key, e.target.value)}
                   className="w-12 h-10 border border-gray-200 rounded-md bg-white"
                   aria-label={`${THEME_FIELD_LABELS[key].label} color picker`}

@@ -122,11 +122,11 @@ export default function WeddingDateSection() {
           className={`space-y-3 md:space-y-4 transition-all duration-800 ${dateInfoAnimation.animationClass}`}
         >
           <div className="text-lg md:text-xl font-heading text-gray-700 tracking-[0.4em] uppercase">
-            2026년 6월 13일 토요일&nbsp;&nbsp;|&nbsp;&nbsp;오후 12시
+            2026년 6월 13일 토요일&nbsp;&nbsp;|&nbsp;&nbsp;오후 1시
           </div>
           
           <div className="text-lg md:text-xl font-heading text-gray-700 tracking-[0.4em] uppercase">
-            Saturday, June 13, 2026&nbsp;&nbsp;|&nbsp;&nbsp;PM 12:00
+            Saturday, June 13, 2026&nbsp;&nbsp;|&nbsp;&nbsp;PM 1:00
           </div>
         </div>
       </div>

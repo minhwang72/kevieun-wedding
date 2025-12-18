@@ -118,8 +118,11 @@ export default function CoverSection() {
 
           {/* 기존 날짜/장소는 필요하면 위 사진처럼 숨기거나, 아주 작게 하단에 */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center" style={{ ...overlayTextShadow, color: beigeColor }}>
-            <p className="text-xs md:text-sm tracking-[0.35em] font-heading uppercase opacity-80">
-              June 13, 2026 · 12:00 PM · 정동제일교회
+            <p className="text-xs md:text-sm tracking-[0.35em] font-heading uppercase opacity-80 whitespace-nowrap">
+              June 13, 2026 · 1:00 PM
+            </p>
+            <p className="text-xs md:text-sm tracking-[0.35em] font-heading uppercase opacity-80 mt-1">
+              정동제일교회
             </p>
           </div>
         </div>

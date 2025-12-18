@@ -2,10 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import CoverSection from '@/components/sections/CoverSection'
-import CountdownSection from '@/components/sections/CountdownSection'
-import WeddingDateSection from '@/components/sections/WeddingDateSection'
+import WeddingDateCountdownSection from '@/components/sections/WeddingDateCountdownSection'
 import BlessingSection from '@/components/sections/BlessingSection'
-import ContactSection from '@/components/sections/ContactSection'
 import LocationSection from '@/components/sections/DetailsSection'
 import HeartMoneySection from '@/components/sections/HeartMoneySection'
 import LazyGallerySection from '@/components/sections/LazyGallerySection'
@@ -149,7 +147,7 @@ export default function HomePage({
           objectType: 'feed',
           content: {
             title: '임희근 ♥ 이은혜 결혼합니다',
-            description: '2026년 6월 13일 오후 12시\n정동제일교회에서 결혼식을 올립니다.\nWe invite you to our wedding.\n여러분의 축복으로 더 아름다운 날이 되길 바랍니다.',
+            description: '2026년 6월 13일 오후 1시\n정동제일교회에서 결혼식을 올립니다.\nWe invite you to our wedding.\n여러분의 축복으로 더 아름다운 날이 되길 바랍니다.',
             imageUrl: shareImageUrl,
             link: {
               mobileWebUrl: 'https://kevieun.eungming.com',
@@ -213,13 +211,11 @@ export default function HomePage({
       <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-lg md:shadow-xl overflow-hidden">
         <CoverSection />
         <BlessingSection />        
-        <WeddingDateSection />
-        <CountdownSection />
-        <ContactSection />        
+        <WeddingDateCountdownSection />
         <LazyGallerySection />
+        <LocationSection />
         <HeartMoneySection />      
         <LazyGuestbookSection />
-        <LocationSection />
 
         
         <Footer />

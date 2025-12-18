@@ -71,6 +71,7 @@
   --theme-button-bg: #2C2C2C;
   --theme-button-bg-hover: #1A1A1A;
   --theme-button-text: #FFFFFF;
+  --theme-date-countdown-bg: #F5F5F5;
 }
 
 @theme inline {

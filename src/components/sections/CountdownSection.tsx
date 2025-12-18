@@ -15,7 +15,7 @@ export default function CountdownSection() {
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
-    const weddingDate = new Date('2026-06-13T12:00:00+09:00')
+    const weddingDate = new Date('2026-06-13T13:00:00+09:00')
 
     const calculateTimeLeft = () => {
       const now = new Date()

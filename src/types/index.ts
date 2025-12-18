@@ -45,6 +45,7 @@ export interface ThemeSettings {
   buttonBg: string;
   buttonBgHover: string;
   buttonText: string;
+  dateCountdownSectionBg?: string;
   updatedAt?: Date | string;
 }
 
