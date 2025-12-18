@@ -66,8 +66,13 @@ jobs:
         # Force x64 architecture by setting environment variables
         export npm_config_target_arch=x64
         export npm_config_target_platform=linux
-        # Install with network timeout and ignore optional dependencies
-        yarn install --network-timeout 600000 --ignore-optional
+        # Install with network timeout (don't ignore optional - lightningcss needs optional deps)
+        yarn install --network-timeout 600000
+        # Verify lightningcss native binary is installed
+        if [ ! -f "node_modules/lightningcss-linux-x64-gnu/lightningcss.linux-x64-gnu.node" ]; then
+          echo "⚠️ lightningcss native binary not found, reinstalling..."
+          yarn install lightningcss-linux-x64-gnu --network-timeout 600000 || true
+        fi
 
     - name: Check TypeScript is installed
       run: yarn list typescript
