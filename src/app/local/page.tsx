@@ -293,11 +293,11 @@ export default function LocalPage() {
                   <div className="text-center">
                     <div className="flex justify-center items-center gap-4 mb-2">
                       <span className="text-2xl md:text-3xl font-extralight tracking-wide text-gray-800">
-                        현도찬
+                        임희근
                       </span>
                       <span className="text-lg text-gray-500">·</span>
                       <span className="text-2xl md:text-3xl font-extralight tracking-wide text-gray-800">
-                        김은진
+                        이은혜
                       </span>
                     </div>
                     <p className="text-base text-gray-600 font-extralight tracking-wide">

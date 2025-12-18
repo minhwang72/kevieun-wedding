@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import CoverSection from '@/components/sections/CoverSection'
+import CountdownSection from '@/components/sections/CountdownSection'
 import WeddingDateSection from '@/components/sections/WeddingDateSection'
 import BlessingSection from '@/components/sections/BlessingSection'
+import ContactSection from '@/components/sections/ContactSection'
 import LocationSection from '@/components/sections/DetailsSection'
 import HeartMoneySection from '@/components/sections/HeartMoneySection'
 import LazyGallerySection from '@/components/sections/LazyGallerySection'
@@ -146,7 +148,7 @@ export default function HomePage({
         window.Kakao.Share.sendDefault({
           objectType: 'feed',
           content: {
-            title: '현도찬 ♥ 김은진 결혼합니다',
+            title: '임희근 ♥ 이은혜 결혼합니다',
             description: '2026년 6월 13일 오후 12시\n정동제일교회에서 결혼식을 올립니다.\nWe invite you to our wedding.\n여러분의 축복으로 더 아름다운 날이 되길 바랍니다.',
             imageUrl: shareImageUrl,
             link: {
@@ -210,10 +212,10 @@ export default function HomePage({
       <DevToolsBlocker />
       <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-2xl md:shadow-lg overflow-hidden">
         <CoverSection />
-        {/* <CountdownSection /> */}
+        <CountdownSection />
         <BlessingSection />        
         <WeddingDateSection />
-        {/* <ContactSection /> */}        
+        <ContactSection />        
         <LazyGallerySection />
         <HeartMoneySection />      
         <LazyGuestbookSection />
