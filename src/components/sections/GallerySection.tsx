@@ -66,14 +66,13 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
   const handleImageLoad = useCallback((imageId: number, event: React.SyntheticEvent<HTMLImageElement>) => {
     const img = event.currentTarget
     const aspectRatio = img.naturalHeight / img.naturalWidth
-    // 그리드 컬럼 너비 기준으로 높이 계산 (gap 포함, 좌우 여백 제외)
+    // 그리드 컬럼 너비 기준으로 높이 계산 (gap 없음, 좌우 여백 제외)
     const getColumnWidth = () => {
       if (typeof window === 'undefined') return 200
       const screenWidth = window.innerWidth
       const padding = screenWidth < 768 ? 16 : 32 // px-2 md:px-4
-      const gap = screenWidth < 768 ? 4 : 8 // gap-1 md:gap-2
       const availableWidth = screenWidth - (padding * 2)
-      return (availableWidth - gap) / 2
+      return availableWidth / 2 // gap 없음
     }
     const columnWidth = getColumnWidth()
     const calculatedHeight = columnWidth * aspectRatio
@@ -192,14 +191,14 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           {/* 갤러리 그리드 - Masonry 레이아웃 */}
           <div 
             ref={gridAnimation.ref}
-            className={`columns-2 gap-1 md:gap-2 mb-0 transition-all duration-800 ${gridAnimation.animationClass}`}
+            className={`columns-2 gap-0 mb-0 transition-all duration-800 ${gridAnimation.animationClass}`}
           >
             {imagesToShow.map((item, index) => {
               const imageHeight = imageHeights[item.id]
               return (
                 <div
                   key={index}
-                  className="relative cursor-pointer transition-opacity bg-white mb-1 md:mb-2 break-inside-avoid overflow-hidden"
+                  className="relative cursor-pointer transition-opacity bg-white mb-0 break-inside-avoid overflow-hidden"
                   onClick={() => openModal(index)}
                   style={imageHeight ? { height: `${imageHeight}px` } : undefined}
                 >
