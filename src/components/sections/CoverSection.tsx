@@ -84,10 +84,10 @@ export default function CoverSection() {
         >
           {/* 상단 좌/우 */}
           <div className="absolute top-8 left-8 text-xl md:text-3xl font-heading opacity-0 animate-fade-in" style={{ ...overlayTextShadow, color: beigeColor, animationDelay: '0ms', animationFillMode: 'forwards' }}>
-            이은혜
+          임희근
           </div>
           <div className="absolute top-8 right-8 text-xl md:text-3xl font-heading opacity-0 animate-fade-in" style={{ ...overlayTextShadow, color: beigeColor, animationDelay: '0ms', animationFillMode: 'forwards' }}>
-            임희근
+            이은혜
           </div>
 
           {/* 가운데 "Fall in Love" 필기체 */}
