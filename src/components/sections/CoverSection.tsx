@@ -111,8 +111,8 @@ export default function CoverSection() {
               className="w-full h-[150px] md:h-[210px]"
               color={beigeColor}
               strokeWidth={2}
-              durationMs={2500}
-              delayMs={2800}
+              durationMs={2000}
+              delayMs={1500}
             />
           </div>
 
