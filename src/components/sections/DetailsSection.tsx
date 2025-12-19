@@ -65,7 +65,7 @@ export default function LocationSection() {
           >
             <SectionHeading
               kicker="Venue"
-              title="오시는길"
+              title="식장위치"
               description="서울 중구 정동길 46 · 2층 본당"
               size="md"
             />

@@ -71,7 +71,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
       if (typeof window === 'undefined') return 200
       const screenWidth = window.innerWidth
       const padding = screenWidth < 768 ? 16 : 32 // px-2 md:px-4
-      const gap = screenWidth < 768 ? 2 : 4 // gap-0.5 md:gap-1
+      const gap = screenWidth < 768 ? 4 : 8 // gap-1 md:gap-2
       const availableWidth = screenWidth - (padding * 2)
       return (availableWidth - gap) / 2
     }
@@ -177,11 +177,13 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
             ref={titleAnimation.ref}
             className={`transition-all duration-800 mb-4 md:mb-6 px-4 md:px-6 ${titleAnimation.animationClass}`}
           >
-            <SectionHeading
-              kicker="Gallery"
-              title="웨딩 갤러리"
-              size="sm"
-            />
+            <div className="[&_.section-title]:text-black md:[&_.section-title]:text-inherit">
+              <SectionHeading
+                kicker="Gallery"
+                title="웨딩 갤러리"
+                size="sm"
+              />
+            </div>
           </div>
 
           {/* 상단 가로선 */}
@@ -190,14 +192,14 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           {/* 갤러리 그리드 - Masonry 레이아웃 */}
           <div 
             ref={gridAnimation.ref}
-            className={`columns-2 gap-0.5 md:gap-1 mb-0 transition-all duration-800 ${gridAnimation.animationClass}`}
+            className={`columns-2 gap-1 md:gap-2 mb-0 transition-all duration-800 ${gridAnimation.animationClass}`}
           >
             {imagesToShow.map((item, index) => {
               const imageHeight = imageHeights[item.id]
               return (
                 <div
                   key={index}
-                  className="relative cursor-pointer transition-opacity bg-white mb-0.5 md:mb-1 break-inside-avoid overflow-hidden"
+                  className="relative cursor-pointer transition-opacity bg-white mb-1 md:mb-2 break-inside-avoid overflow-hidden"
                   onClick={() => openModal(index)}
                   style={imageHeight ? { height: `${imageHeight}px` } : undefined}
                 >
