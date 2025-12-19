@@ -22,7 +22,6 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
   const [failedImages, setFailedImages] = useState<Set<number>>(new Set())
   const [showAll, setShowAll] = useState(false)
-  const [imageHeights, setImageHeights] = useState<Record<number, number>>({})
 
   // 스크롤 애니메이션 훅들
   const titleAnimation = useScrollAnimation({ threshold: 0.4, animationDelay: 200 })
@@ -61,23 +60,6 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
   const handleImageError = (imageId: number) => {
     setFailedImages(prev => new Set(prev).add(imageId))
   }
-
-  // 이미지 로드 후 높이 계산 (비율 유지, 여백 없음)
-  const handleImageLoad = useCallback((imageId: number, event: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = event.currentTarget
-    const aspectRatio = img.naturalHeight / img.naturalWidth
-    // 그리드 컬럼 너비 기준으로 높이 계산 (gap 없음, 좌우 여백 제외)
-    const getColumnWidth = () => {
-      if (typeof window === 'undefined') return 200
-      const screenWidth = window.innerWidth
-      const padding = screenWidth < 768 ? 16 : 32 // px-2 md:px-4
-      const availableWidth = screenWidth - (padding * 2)
-      return availableWidth / 2 // gap 없음
-    }
-    const columnWidth = getColumnWidth()
-    const calculatedHeight = columnWidth * aspectRatio
-    setImageHeights(prev => ({ ...prev, [imageId]: calculatedHeight }))
-  }, [])
 
   const openModal = useCallback((index: number) => {
     setCurrentImageIndex(index)
@@ -191,19 +173,17 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           {/* 갤러리 그리드 - Masonry 레이아웃 */}
           <div 
             ref={gridAnimation.ref}
-            className={`columns-2 gap-0 mb-0 transition-all duration-800 ${gridAnimation.animationClass}`}
+            className={`columns-2 gap-2 md:gap-3 transition-all duration-800 ${gridAnimation.animationClass}`}
           >
             {imagesToShow.map((item, index) => {
-              const imageHeight = imageHeights[item.id]
               return (
                 <div
-                  key={index}
-                  className="relative cursor-pointer transition-opacity bg-white mb-0 break-inside-avoid overflow-hidden"
+                  key={item.id}
+                  className="relative cursor-pointer bg-white mb-2 md:mb-3 break-inside-avoid overflow-hidden rounded-lg"
                   onClick={() => openModal(index)}
-                  style={imageHeight ? { height: `${imageHeight}px` } : undefined}
                 >
                   {('isPlaceholder' in item && item.isPlaceholder) || failedImages.has(item.id) ? (
-                    <div className="relative w-full aspect-square bg-white flex items-center justify-center">
+                    <div className="relative w-full aspect-square bg-white flex items-center justify-center rounded-lg">
                       <svg
                         className="w-8 md:w-12 h-8 md:h-12 text-gray-300"
                         fill="none"
@@ -223,9 +203,8 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
                     <img
                       src={item.url}
                       alt="Gallery"
-                      className="w-full h-full object-contain"
+                      className="w-full h-auto block object-cover rounded-lg"
                       onError={() => handleImageError(item.id)}
-                      onLoad={(e) => handleImageLoad(item.id, e)}
                     />
                   )}
                 </div>
