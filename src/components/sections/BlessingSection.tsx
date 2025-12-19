@@ -143,12 +143,18 @@ export default function BlessingSection() {
           >
             <div className="text-center">
               <p className="section-description text-base md:text-lg">
-                {groomInfo.parents}의 {groomInfo.relationship} {groomInfo.name}
+                <span className="text-black">{groomInfo.parents}</span>
+                <span className="text-gray-500"> 의 </span>
+                <span className="text-gray-500">{groomInfo.relationship}</span>
+                <span className="text-black"> {groomInfo.name}</span>
               </p>
             </div>
             <div className="text-center">
               <p className="section-description text-base md:text-lg">
-                {brideInfo.parents}의 {brideInfo.relationship} {brideInfo.name}
+                <span className="text-black">{brideInfo.parents}</span>
+                <span className="text-gray-500"> 의 </span>
+                <span className="text-gray-500">{brideInfo.relationship}</span>
+                <span className="text-black"> {brideInfo.name}</span>
               </p>
             </div>
           </div>
