@@ -173,17 +173,17 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           {/* 갤러리 그리드 - Masonry 레이아웃 */}
           <div 
             ref={gridAnimation.ref}
-            className={`columns-2 gap-2 md:gap-3 transition-all duration-800 ${gridAnimation.animationClass}`}
+            className={`columns-2 gap-0.5 md:gap-1 transition-all duration-800 ${gridAnimation.animationClass}`}
           >
             {imagesToShow.map((item, index) => {
               return (
                 <div
                   key={item.id}
-                  className="relative cursor-pointer bg-white mb-2 md:mb-3 break-inside-avoid overflow-hidden rounded-lg"
+                  className="relative cursor-pointer bg-white mb-0.5 md:mb-1 break-inside-avoid overflow-hidden"
                   onClick={() => openModal(index)}
                 >
                   {('isPlaceholder' in item && item.isPlaceholder) || failedImages.has(item.id) ? (
-                    <div className="relative w-full aspect-square bg-white flex items-center justify-center rounded-lg">
+                    <div className="relative w-full aspect-square bg-white flex items-center justify-center">
                       <svg
                         className="w-8 md:w-12 h-8 md:h-12 text-gray-300"
                         fill="none"
@@ -203,7 +203,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
                     <img
                       src={item.url}
                       alt="Gallery"
-                      className="w-full h-auto block object-cover rounded-lg"
+                      className="w-full h-auto block object-cover"
                       onError={() => handleImageError(item.id)}
                     />
                   )}
