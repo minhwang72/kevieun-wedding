@@ -91,28 +91,28 @@ export default function CoverSection() {
           </div>
 
           {/* 가운데 "Fall in Love" 필기체 */}
-          <div className="absolute top-16 left-1/2 -translate-x-1/2 w-[75%] max-w-[450px] opacity-0 animate-fade-in" style={{ animationDelay: '1300ms', animationFillMode: 'forwards' }}>
+          <div className="absolute top-16 left-1/2 -translate-x-1/2 w-[80%] max-w-[480px]">
             <ScriptWritePath
               pathData={fallInLovePath}
               viewBox={fallInLoveViewBox}
-              className="w-full h-[100px] md:h-[140px]"
+              className="w-full h-[110px] md:h-[150px]"
               color={beigeColor}
               strokeWidth={1.5}
-              durationMs={0}
-              delayMs={0}
+              durationMs={2000}
+              delayMs={800}
             />
           </div>
 
           {/* 하단 "With You" 필기체 */}
-          <div className="absolute bottom-7 left-1/2 -translate-x-1/2 w-[85%] max-w-[550px] opacity-0 animate-fade-in" style={{ animationDelay: '1300ms', animationFillMode: 'forwards' }}>
+          <div className="absolute bottom-7 left-1/2 -translate-x-1/2 w-[90%] max-w-[580px]">
             <ScriptWritePath
               pathData={withYouPath}
               viewBox={withYouViewBox}
-              className="w-full h-[140px] md:h-[200px]"
+              className="w-full h-[150px] md:h-[210px]"
               color={beigeColor}
               strokeWidth={2}
-              durationMs={0}
-              delayMs={0}
+              durationMs={2500}
+              delayMs={2800}
             />
           </div>
 
