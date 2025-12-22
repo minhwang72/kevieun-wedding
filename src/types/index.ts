@@ -49,6 +49,18 @@ export interface ThemeSettings {
   updatedAt?: Date | string;
 }
 
+export interface Attendance {
+  id: number;
+  side: 'groom' | 'bride';
+  attendance: 'yes' | 'no' | 'pending';
+  meal: 'yes' | 'no' | 'pending';
+  name: string;
+  companions: number;
+  phone_last4: string;
+  created_at: Date | string;
+  updated_at?: Date | string;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;

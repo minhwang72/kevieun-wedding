@@ -403,6 +403,29 @@ export async function POST() {
     // 5. 방명록 비밀번호 해시화 제거 - 이미 완료됨
     migrations.push('guestbook password hashing removed - already completed')
 
+    // 19. attendance (참석의사) 테이블 생성
+    try {
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS attendance (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          side ENUM('groom', 'bride') NOT NULL,
+          attendance ENUM('yes', 'no', 'pending') NOT NULL DEFAULT 'pending',
+          meal ENUM('yes', 'no', 'pending') NOT NULL DEFAULT 'pending',
+          name VARCHAR(50) NOT NULL,
+          companions INT NOT NULL DEFAULT 0,
+          phone_last4 VARCHAR(4) NOT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          INDEX idx_side (side),
+          INDEX idx_name_phone (name, phone_last4)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+      `)
+      migrations.push('attendance table created or already exists')
+    } catch (error) {
+      console.error('Attendance table creation error:', error)
+      throw error
+    }
+
     console.log('✅ [DEBUG] Migration completed')
 
     return NextResponse.json<ApiResponse<string[]>>({
