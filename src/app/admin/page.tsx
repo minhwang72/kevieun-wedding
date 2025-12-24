@@ -1457,7 +1457,7 @@ const GuestbookSection = ({ guestbook, onUpdate, loading, setGlobalLoading }: { 
 }
 
 // 참석의사 관리 섹션 컴포넌트
-const AttendanceSection = ({ attendance, onUpdate, loading, setGlobalLoading }: { attendance: Attendance[], onUpdate: () => void, loading: boolean, setGlobalLoading: (loading: boolean, message?: string) => void }) => {
+const AttendanceSection = ({ attendance, onUpdate, loading }: { attendance: Attendance[], onUpdate: () => void, loading: boolean }) => {
   const [localAttendance, setLocalAttendance] = useState<Attendance[]>(attendance)
   const [filterSide, setFilterSide] = useState<'all' | 'groom' | 'bride'>('all')
 
@@ -2283,7 +2283,7 @@ function AdminPageContent() {
 
           {/* 참석의사 관리 탭 */}
           {activeTab === 'attendance' && (
-            <AttendanceSection attendance={attendance} onUpdate={updateAttendance} loading={loading.attendance} setGlobalLoading={setGlobalLoadingState} />
+            <AttendanceSection attendance={attendance} onUpdate={updateAttendance} loading={loading.attendance} />
           )}
 
           {activeTab === 'blessing' && (

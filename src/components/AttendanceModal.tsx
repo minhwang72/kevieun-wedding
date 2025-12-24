@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, FormEvent, useRef, useEffect } from 'react'
-import type { Attendance } from '@/types'
 
 interface AttendanceModalProps {
   isOpen: boolean
@@ -47,6 +46,7 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
     } else if (formData.companions === 0) {
       setFormData(prev => ({ ...prev, companions: 1 }))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasCompanions])
 
   const handleSubmit = async (e: FormEvent) => {

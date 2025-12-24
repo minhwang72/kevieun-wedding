@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     const side = searchParams.get('side') // 'groom' | 'bride' | null (전체)
 
     let query = 'SELECT * FROM attendance WHERE 1=1'
-    const params: any[] = []
+    const params: (string | number)[] = []
 
     if (side === 'groom' || side === 'bride') {
       query += ' AND side = ?'
@@ -18,9 +18,22 @@ export async function GET(request: NextRequest) {
 
     query += ' ORDER BY created_at DESC'
 
-    const [rows] = await pool.query<any[]>(query, params)
+    interface AttendanceRow {
+      id: number
+      side: 'groom' | 'bride'
+      attendance: 'yes' | 'no' | 'pending'
+      meal: 'yes' | 'no' | 'pending'
+      name: string
+      companions: number
+      phone_last4: string
+      created_at: Date | string
+      updated_at?: Date | string
+    }
 
-    const attendance: Attendance[] = rows.map((row) => ({
+    const [rows] = await pool.query(query, params)
+    const attendanceRows = rows as AttendanceRow[]
+
+    const attendance: Attendance[] = attendanceRows.map((row) => ({
       id: row.id,
       side: row.side,
       attendance: row.attendance,
@@ -65,11 +78,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (!attendance || !['yes', 'no', 'pending'].includes(attendance)) {
+    if (!attendance || !['yes', 'no'].includes(attendance)) {
       return NextResponse.json<ApiResponse<null>>(
         {
           success: false,
-          error: 'Invalid attendance. Must be "yes", "no", or "pending"',
+          error: 'Invalid attendance. Must be "yes" or "no"',
         },
         { status: 400 }
       )
@@ -116,12 +129,16 @@ export async function POST(request: NextRequest) {
     }
 
     // 중복 체크 (이름 + 휴대폰 뒷자리)
-    const [existing] = await pool.query<any[]>(
+    interface ExistingRow {
+      id: number
+    }
+    const [existing] = await pool.query(
       'SELECT id FROM attendance WHERE name = ? AND phone_last4 = ?',
       [name.trim(), phone_last4]
     )
+    const existingRows = existing as ExistingRow[]
 
-    if (Array.isArray(existing) && existing.length > 0) {
+    if (Array.isArray(existingRows) && existingRows.length > 0) {
       return NextResponse.json<ApiResponse<null>>(
         {
           success: false,
@@ -132,34 +149,49 @@ export async function POST(request: NextRequest) {
     }
 
     // 데이터 삽입
-    const [result] = await pool.query<any>(
+    interface InsertResult {
+      insertId: number
+    }
+    const [result] = await pool.query(
       `INSERT INTO attendance (side, attendance, meal, name, companions, phone_last4)
        VALUES (?, ?, ?, ?, ?, ?)`,
       [side, attendance, meal, name.trim(), companions || 0, phone_last4]
     )
-
-    const insertId = (result as any).insertId
+    const insertResult = result as InsertResult
+    const insertId = insertResult.insertId
 
     // 생성된 데이터 조회
-    const [rows] = await pool.query<any[]>(
+    interface AttendanceRow {
+      id: number
+      side: 'groom' | 'bride'
+      attendance: 'yes' | 'no' | 'pending'
+      meal: 'yes' | 'no' | 'pending'
+      name: string
+      companions: number
+      phone_last4: string
+      created_at: Date | string
+      updated_at?: Date | string
+    }
+    const [rows] = await pool.query(
       'SELECT * FROM attendance WHERE id = ?',
       [insertId]
     )
+    const attendanceRows = rows as AttendanceRow[]
 
-    if (Array.isArray(rows) && rows.length === 0) {
+    if (Array.isArray(attendanceRows) && attendanceRows.length === 0) {
       throw new Error('Failed to retrieve created attendance')
     }
 
     const created: Attendance = {
-      id: rows[0].id,
-      side: rows[0].side,
-      attendance: rows[0].attendance,
-      meal: rows[0].meal,
-      name: rows[0].name,
-      companions: rows[0].companions,
-      phone_last4: rows[0].phone_last4,
-      created_at: rows[0].created_at,
-      updated_at: rows[0].updated_at,
+      id: attendanceRows[0].id,
+      side: attendanceRows[0].side,
+      attendance: attendanceRows[0].attendance,
+      meal: attendanceRows[0].meal,
+      name: attendanceRows[0].name,
+      companions: attendanceRows[0].companions,
+      phone_last4: attendanceRows[0].phone_last4,
+      created_at: attendanceRows[0].created_at,
+      updated_at: attendanceRows[0].updated_at,
     }
 
     return NextResponse.json<ApiResponse<Attendance>>(
