@@ -6,6 +6,7 @@ import WeddingDateCountdownSection from '@/components/sections/WeddingDateCountd
 import BlessingSection from '@/components/sections/BlessingSection'
 import LocationSection from '@/components/sections/DetailsSection'
 import HeartMoneySection from '@/components/sections/HeartMoneySection'
+import AttendanceSection from '@/components/sections/AttendanceSection'
 import LazyGallerySection from '@/components/sections/LazyGallerySection'
 import LazyGuestbookSection from '@/components/sections/LazyGuestbookSection'
 import Footer from '@/components/Footer'
@@ -214,7 +215,8 @@ export default function HomePage({
         <WeddingDateCountdownSection />
         <LazyGallerySection />
         <LocationSection />
-        <HeartMoneySection />      
+        <HeartMoneySection />
+        <AttendanceSection />
         <LazyGuestbookSection />
 
         

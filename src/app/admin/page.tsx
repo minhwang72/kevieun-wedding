@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo, Suspense } from 'react'
 import type { FormEvent, CSSProperties } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import type { Gallery, Guestbook, ContactPerson, BlessingContent, ThemeSettings } from '@/types'
+import type { Gallery, Guestbook, ContactPerson, BlessingContent, ThemeSettings, Attendance } from '@/types'
 
 import MainImageUploader from '@/components/MainImageUploader'
 import GlobalLoading from '@/components/GlobalLoading'
@@ -1456,6 +1456,191 @@ const GuestbookSection = ({ guestbook, onUpdate, loading, setGlobalLoading }: { 
   )
 }
 
+// 참석의사 관리 섹션 컴포넌트
+const AttendanceSection = ({ attendance, onUpdate, loading, setGlobalLoading }: { attendance: Attendance[], onUpdate: () => void, loading: boolean, setGlobalLoading: (loading: boolean, message?: string) => void }) => {
+  const [localAttendance, setLocalAttendance] = useState<Attendance[]>(attendance)
+  const [filterSide, setFilterSide] = useState<'all' | 'groom' | 'bride'>('all')
+
+  // attendance prop이 변경되면 로컬 상태도 업데이트
+  useEffect(() => {
+    setLocalAttendance(attendance)
+  }, [attendance])
+
+  const formatDate = (dateString: string | Date) => {
+    const date = new Date(dateString)
+    return date.toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  }
+
+  const getAttendanceLabel = (value: 'yes' | 'no' | 'pending') => {
+    switch (value) {
+      case 'yes': return '참석'
+      case 'no': return '불참'
+      case 'pending': return '미정'
+    }
+  }
+
+  const getMealLabel = (value: 'yes' | 'no' | 'pending') => {
+    switch (value) {
+      case 'yes': return '식사'
+      case 'no': return '식사 안함'
+      case 'pending': return '미정'
+    }
+  }
+
+  const getSideLabel = (side: 'groom' | 'bride') => {
+    return side === 'groom' ? '신랑 하객' : '신부 하객'
+  }
+
+  const filteredAttendance = filterSide === 'all' 
+    ? localAttendance 
+    : localAttendance.filter(item => item.side === filterSide)
+
+  const groomCount = localAttendance.filter(item => item.side === 'groom').length
+  const brideCount = localAttendance.filter(item => item.side === 'bride').length
+  const totalCount = localAttendance.length
+
+  const yesCount = localAttendance.filter(item => item.attendance === 'yes').length
+  const noCount = localAttendance.filter(item => item.attendance === 'no').length
+  const pendingCount = localAttendance.filter(item => item.attendance === 'pending').length
+
+  return (
+    <div className="bg-white shadow rounded-lg p-4 sm:p-6">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">참석의사 관리</h2>
+        <button
+          onClick={onUpdate}
+          className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium text-sm"
+        >
+          새로고침
+        </button>
+      </div>
+
+      {/* 통계 */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        <div className="bg-gray-50 rounded-lg p-4 text-center">
+          <div className="text-2xl font-bold text-gray-900">{totalCount}</div>
+          <div className="text-sm text-gray-600 mt-1">전체</div>
+        </div>
+        <div className="bg-blue-50 rounded-lg p-4 text-center">
+          <div className="text-2xl font-bold text-blue-700">{yesCount}</div>
+          <div className="text-sm text-blue-600 mt-1">참석</div>
+        </div>
+        <div className="bg-red-50 rounded-lg p-4 text-center">
+          <div className="text-2xl font-bold text-red-700">{noCount}</div>
+          <div className="text-sm text-red-600 mt-1">불참</div>
+        </div>
+        <div className="bg-yellow-50 rounded-lg p-4 text-center">
+          <div className="text-2xl font-bold text-yellow-700">{pendingCount}</div>
+          <div className="text-sm text-yellow-600 mt-1">미정</div>
+        </div>
+      </div>
+
+      {/* 필터 */}
+      <div className="flex gap-2 mb-6">
+        <button
+          onClick={() => setFilterSide('all')}
+          className={`px-4 py-2 rounded-lg font-medium text-sm ${
+            filterSide === 'all'
+              ? 'bg-purple-600 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          전체 ({totalCount})
+        </button>
+        <button
+          onClick={() => setFilterSide('groom')}
+          className={`px-4 py-2 rounded-lg font-medium text-sm ${
+            filterSide === 'groom'
+              ? 'bg-purple-600 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          신랑 하객 ({groomCount})
+        </button>
+        <button
+          onClick={() => setFilterSide('bride')}
+          className={`px-4 py-2 rounded-lg font-medium text-sm ${
+            filterSide === 'bride'
+              ? 'bg-purple-600 text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          신부 하객 ({brideCount})
+        </button>
+      </div>
+
+      {loading ? (
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-300 mx-auto"></div>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {filteredAttendance.map((item) => (
+            <div 
+              key={item.id} 
+              className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+            >
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-3 space-y-2 sm:space-y-0">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700 font-medium">
+                      {getSideLabel(item.side)}
+                    </span>
+                    <h3 className="font-medium text-lg text-gray-900">
+                      {item.name}
+                    </h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2 text-sm text-gray-600">
+                    <span>휴대폰 뒷자리: {item.phone_last4}</span>
+                    {item.companions > 0 && (
+                      <span>• 동행인원: {item.companions}명</span>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    <span className={`text-xs px-2 py-1 rounded font-medium ${
+                      item.attendance === 'yes' 
+                        ? 'bg-blue-100 text-blue-700'
+                        : item.attendance === 'no'
+                        ? 'bg-red-100 text-red-700'
+                        : 'bg-yellow-100 text-yellow-700'
+                    }`}>
+                      참석: {getAttendanceLabel(item.attendance)}
+                    </span>
+                    <span className={`text-xs px-2 py-1 rounded font-medium ${
+                      item.meal === 'yes' 
+                        ? 'bg-green-100 text-green-700'
+                        : item.meal === 'no'
+                        ? 'bg-gray-100 text-gray-700'
+                        : 'bg-yellow-100 text-yellow-700'
+                    }`}>
+                      식사: {getMealLabel(item.meal)}
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    등록일: {formatDate(item.created_at)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      
+      {filteredAttendance.length === 0 && !loading && (
+        <div className="text-center text-gray-500 py-8">
+          {filterSide === 'all' ? '등록된 참석의사가 없습니다.' : `${filterSide === 'groom' ? '신랑' : '신부'} 하객이 없습니다.`}
+        </div>
+      )}
+    </div>
+  )
+}
+
 interface BlessingManagerProps {
   content: BlessingContent | null
   onRefresh: () => Promise<void> | void
@@ -1760,6 +1945,7 @@ function AdminPageContent() {
   const [contacts, setContacts] = useState<ContactPerson[]>([])
   const [blessingContent, setBlessingContent] = useState<BlessingContent | null>(null)
   const [themeSettings, setThemeSettings] = useState<ThemeSettings>(DEFAULT_THEME)
+  const [attendance, setAttendance] = useState<Attendance[]>([])
   const [toasts, setToasts] = useState<Toast[]>([])
   const [loading, setLoading] = useState({
     auth: true,
@@ -1767,7 +1953,8 @@ function AdminPageContent() {
     guestbook: false,
     contacts: false,
     blessing: false,
-    theme: false
+    theme: false,
+    attendance: false
   })
   // 전역 로딩 상태 추가
   const [globalLoading, setGlobalLoading] = useState({
@@ -1778,15 +1965,15 @@ function AdminPageContent() {
   const searchParams = useSearchParams()
   
   // URL에서 활성 탭 읽기 (기본값: 'main')
-  const getActiveTabFromUrl = useCallback((): 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme' => {
+  const getActiveTabFromUrl = useCallback((): 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme' | 'attendance' => {
     const tab = searchParams.get('tab')
-    if (tab && ['main', 'contacts', 'gallery', 'guestbook', 'blessing', 'theme'].includes(tab)) {
-      return tab as 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme'
+    if (tab && ['main', 'contacts', 'gallery', 'guestbook', 'blessing', 'theme', 'attendance'].includes(tab)) {
+      return tab as 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme' | 'attendance'
     }
     return 'main'
   }, [searchParams])
   
-  const [activeTab, setActiveTab] = useState<'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme'>(getActiveTabFromUrl())
+  const [activeTab, setActiveTab] = useState<'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme' | 'attendance'>(getActiveTabFromUrl())
   
   // 전역 로딩 설정 함수
   const setGlobalLoadingState = useCallback((isLoading: boolean, message: string = 'LOADING') => {
@@ -1794,7 +1981,7 @@ function AdminPageContent() {
   }, [])
   
   // 탭 변경 함수 (URL 업데이트 포함)
-  const changeTab = (newTab: 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme') => {
+  const changeTab = (newTab: 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme' | 'attendance') => {
     setActiveTab(newTab)
     // URL 업데이트 (히스토리에 추가)
     router.push(`/admin?tab=${newTab}`)
@@ -1864,30 +2051,33 @@ function AdminPageContent() {
     if (!isAuthenticated) return
 
     try {
-      setLoading(prev => ({ ...prev, gallery: true, guestbook: true, contacts: true, blessing: true }))
+      setLoading(prev => ({ ...prev, gallery: true, guestbook: true, contacts: true, blessing: true, attendance: true }))
 
-      const [galleryRes, guestbookRes, contactsRes, blessingRes] = await Promise.all([
+      const [galleryRes, guestbookRes, contactsRes, blessingRes, attendanceRes] = await Promise.all([
         fetch('/api/gallery'),
         fetch('/api/admin/guestbook'),
         fetch('/api/contacts'),
         fetch('/api/admin/blessing'),
+        fetch('/api/attendance'),
       ])
 
-      const [galleryData, guestbookData, contactsData, blessingData] = await Promise.all([
+      const [galleryData, guestbookData, contactsData, blessingData, attendanceData] = await Promise.all([
         galleryRes.json(),
         guestbookRes.json(),
         contactsRes.json(),
         blessingRes.json(),
+        attendanceRes.json(),
       ])
 
       if (galleryData.success) setGallery(galleryData.data)
       if (guestbookData.success) setGuestbook(guestbookData.data)
       if (contactsData.success) setContacts(contactsData.data)
       if (blessingData.success) setBlessingContent(blessingData.data)
+      if (attendanceData.success) setAttendance(attendanceData.data)
     } catch (error) {
       console.error('Error fetching data:', error)
     } finally {
-      setLoading(prev => ({ ...prev, gallery: false, guestbook: false, contacts: false, blessing: false }))
+      setLoading(prev => ({ ...prev, gallery: false, guestbook: false, contacts: false, blessing: false, attendance: false }))
     }
   }, [isAuthenticated])
 
@@ -1973,6 +2163,21 @@ function AdminPageContent() {
     }
   }, [])
 
+  const updateAttendance = useCallback(async () => {
+    try {
+      setLoading(prev => ({ ...prev, attendance: true }))
+      const res = await fetch(`/api/attendance?t=${Date.now()}`)
+      const data = await res.json()
+      if (data.success) {
+        setAttendance(data.data)
+      }
+    } catch (error) {
+      console.error('Error updating attendance:', error)
+    } finally {
+      setLoading(prev => ({ ...prev, attendance: false }))
+    }
+  }, [])
+
   // 토스트 관리 함수들
   const showToast = useCallback((message: string, type: 'success' | 'error') => {
     const id = Date.now()
@@ -2034,12 +2239,13 @@ function AdminPageContent() {
                 { key: 'contacts', label: '연락처 관리' },
                 { key: 'gallery', label: '갤러리 관리' },
                 { key: 'guestbook', label: '방명록 관리' },
+                { key: 'attendance', label: '참석의사 관리' },
                 { key: 'blessing', label: '문구 관리' },
                 { key: 'theme', label: '테마 관리' },
               ].map((tab) => (
                 <button
                   key={tab.key}
-                  onClick={() => changeTab(tab.key as 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme')}
+                  onClick={() => changeTab(tab.key as 'main' | 'contacts' | 'gallery' | 'guestbook' | 'blessing' | 'theme' | 'attendance')}
                   className={`py-3 sm:py-4 px-3 sm:px-1 border-b-2 font-medium text-sm sm:text-base whitespace-nowrap min-h-[44px] ${
                     activeTab === tab.key
                       ? 'border-purple-500 text-purple-600'
@@ -2073,6 +2279,11 @@ function AdminPageContent() {
           {/* 방명록 관리 탭 */}
           {activeTab === 'guestbook' && (
             <GuestbookSection guestbook={guestbook} onUpdate={updateGuestbook} loading={loading.guestbook} setGlobalLoading={setGlobalLoadingState} />
+          )}
+
+          {/* 참석의사 관리 탭 */}
+          {activeTab === 'attendance' && (
+            <AttendanceSection attendance={attendance} onUpdate={updateAttendance} loading={loading.attendance} setGlobalLoading={setGlobalLoadingState} />
           )}
 
           {activeTab === 'blessing' && (
