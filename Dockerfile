@@ -76,7 +76,12 @@ ENV PORT 3160
 ENV HOSTNAME "0.0.0.0"
 
 # Healthcheck using node (no curl needed)
-HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-  CMD node -e "require('http').get('http://127.0.0.1:3160/', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"
+# 장기 운영을 위해 더 자주 체크하고, 타임아웃도 적절히 설정
+# interval: 20초마다 체크 (더 자주 모니터링)
+# timeout: 8초 (헬스체크 응답 대기 시간)
+# start-period: 60초 (초기 시작 대기 시간)
+# retries: 3회 (3회 연속 실패 시 unhealthy로 표시)
+HEALTHCHECK --interval=20s --timeout=8s --start-period=60s --retries=3 \
+  CMD node -e "require('http').get('http://127.0.0.1:3160/api/health', {timeout: 6000}, (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1)).on('timeout', () => process.exit(1))"
 
 CMD ["node", "server.js"] 
