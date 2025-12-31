@@ -51,10 +51,20 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error)
     const errorStack = error instanceof Error ? error.stack : undefined
-    const errorCode = (error as any)?.code
-    const errorErrno = (error as any)?.errno
-    const errorSqlState = (error as any)?.sqlState
-    const errorSqlMessage = (error as any)?.sqlMessage
+    
+    // MySQL 에러 타입 정의
+    interface MySQLError {
+      code?: string
+      errno?: number
+      sqlState?: string
+      sqlMessage?: string
+    }
+    
+    const mysqlError = error as MySQLError
+    const errorCode = mysqlError?.code
+    const errorErrno = mysqlError?.errno
+    const errorSqlState = mysqlError?.sqlState
+    const errorSqlMessage = mysqlError?.sqlMessage
     
     console.error('Create admin error:', {
       message: errorMessage,
