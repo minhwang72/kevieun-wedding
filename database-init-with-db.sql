@@ -1,25 +1,18 @@
 -- ============================================
--- MariaDB 초기화 SQL 스크립트
+-- MariaDB 초기화 SQL 스크립트 (데이터베이스 생성 포함)
 -- kevieun-wedding 프로젝트용
+-- root 권한으로 실행해야 합니다
 -- ============================================
 -- 
 -- 사용 방법:
--- 1. root 사용자로 데이터베이스 생성:
---    mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS kevieun_wedding CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
--- 
--- 2. appuser로 테이블 생성:
---    mysql -u appuser -p kevieun_wedding < database-init.sql
--- 
--- 또는 root 사용자로 전체 실행:
---    mysql -u root -p < database-init.sql
+-- mysql -u root -p < database-init-with-db.sql
 -- ============================================
 
--- 데이터베이스 생성 (root 권한 필요 - 주석 처리)
--- CREATE DATABASE IF NOT EXISTS kevieun_wedding 
---   CHARACTER SET utf8mb4 
---   COLLATE utf8mb4_unicode_ci;
+-- 데이터베이스 생성
+CREATE DATABASE IF NOT EXISTS kevieun_wedding 
+  CHARACTER SET utf8mb4 
+  COLLATE utf8mb4_unicode_ci;
 
--- 데이터베이스 선택 (이미 생성되어 있다고 가정)
 USE kevieun_wedding;
 
 -- ============================================
