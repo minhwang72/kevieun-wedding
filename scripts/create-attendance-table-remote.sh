@@ -11,7 +11,7 @@ mysql -h monsilserver.iptime.org -u min -p'f8tgw3lshms!' kevieun_wedding << 'SQL
 CREATE TABLE IF NOT EXISTS attendance (
   id INT AUTO_INCREMENT PRIMARY KEY,
   side ENUM('groom', 'bride') NOT NULL,
-  attendance ENUM('yes', 'no', 'pending') NOT NULL DEFAULT 'pending',
+  attendance ENUM('yes', 'no') NOT NULL DEFAULT 'yes',
   meal ENUM('yes', 'no', 'pending') NOT NULL DEFAULT 'pending',
   name VARCHAR(50) NOT NULL,
   companions INT NOT NULL DEFAULT 0,

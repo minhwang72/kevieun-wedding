@@ -85,11 +85,11 @@ CREATE TABLE IF NOT EXISTS admin (
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- admin 계정 생성 (username: admin, password: ehcksdmswls123)
+-- admin 계정 생성 (username: kevieun, password: dldmsgPdlagmlrms3160)
 -- 비밀번호 해시는 pbkdf2로 생성됨 (salt:hash 형식)
 INSERT INTO admin (username, password) VALUES (
-  'admin',
-  '79c1b9f75440b68aa0f4d2953222d172:6292c08d25d9595c5b657a66f18836dc2f29e5b5773923d4c77be2918be4cf6c1b4c34c71bce283a5a7aaffc311f5a839574cce2f3de57e1c727aa00b25d07d4'
+  'kevieun',
+  '48af3bebcb72e23b07c4174bb860051f:09a4d50e9a10007271e6a7dabfc74992b9bb6071adcc0d716cbaaa04a70eb901e1bdc1e21a6a7af230e0b0674a34974b9290518346e292c2162373884cf0ec35'
 ) ON DUPLICATE KEY UPDATE password = VALUES(password);
 
 -- ============================================
@@ -125,13 +125,15 @@ INSERT INTO theme_settings (
 CREATE TABLE IF NOT EXISTS attendance (
   id INT AUTO_INCREMENT PRIMARY KEY,
   side ENUM('groom', 'bride') NOT NULL COMMENT 'groom: 신랑측, bride: 신부측',
-  attendance ENUM('yes', 'no', 'pending') NOT NULL DEFAULT 'pending' COMMENT '참석 여부',
+  attendance ENUM('yes', 'no') NOT NULL DEFAULT 'yes' COMMENT '참석 여부',
   meal ENUM('yes', 'no', 'pending') NOT NULL DEFAULT 'pending' COMMENT '식사 여부',
   name VARCHAR(50) NOT NULL COMMENT '이름',
   companions INT NOT NULL DEFAULT 0 COMMENT '동반 인원 수',
   phone_last4 VARCHAR(4) NOT NULL COMMENT '휴대폰 뒷자리 4자리',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_side (side),
+  INDEX idx_name_phone (name, phone_last4)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================

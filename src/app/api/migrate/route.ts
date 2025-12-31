@@ -380,15 +380,14 @@ export async function POST() {
       await pool.query('DELETE FROM admin')
       migrations.push('existing admin records deleted')
       
-      // 새로운 admin 두 명 추가 (암호화된 비밀번호)
-      const minPassword = hashPassword('f8tgw3lshms!')
-      const solPassword = hashPassword('qlrqod1027@')
+      // 새로운 admin 계정 추가 (암호화된 비밀번호)
+      const kevieunPassword = hashPassword('dldmsgPdlagmlrms3160')
       
       await pool.query(
-        'INSERT INTO admin (username, password) VALUES (?, ?), (?, ?)',
-        ['min', minPassword, 'sol', solPassword]
+        'INSERT INTO admin (username, password) VALUES (?, ?)',
+        ['kevieun', kevieunPassword]
       )
-      migrations.push('new admin accounts (min, sol) created with hashed passwords')
+      migrations.push('new admin account (kevieun) created with hashed password')
     } catch (error) {
       console.error('Admin setup error:', error)
       migrations.push('admin setup failed (non-critical)')
@@ -409,7 +408,7 @@ export async function POST() {
         CREATE TABLE IF NOT EXISTS attendance (
           id INT AUTO_INCREMENT PRIMARY KEY,
           side ENUM('groom', 'bride') NOT NULL,
-          attendance ENUM('yes', 'no', 'pending') NOT NULL DEFAULT 'pending',
+          attendance ENUM('yes', 'no') NOT NULL DEFAULT 'yes',
           meal ENUM('yes', 'no', 'pending') NOT NULL DEFAULT 'pending',
           name VARCHAR(50) NOT NULL,
           companions INT NOT NULL DEFAULT 0,

@@ -4,11 +4,23 @@ import mysql from 'mysql2/promise'
 const isLocal = process.env.NODE_ENV === 'development' || process.env.LOCAL_DB === 'true'
 
 // 환경변수 우선 사용 (없을 경우 기존 기본값)
+// ejdc-wedding 프로젝트와 동일한 설정 사용
 const host = process.env.DB_HOST || (isLocal ? 'localhost' : '192.168.0.55')
 const port = process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
 const user = process.env.DB_USER || (isLocal ? 'root' : 'appuser')
 const password = process.env.DB_PASSWORD || (isLocal ? '' : 'Hf8tgw3lshms!')
 const database = process.env.DB_NAME || 'kevieun_wedding'
+
+// 디버깅: 연결 정보 로그 (비밀번호는 마스킹)
+if (process.env.NODE_ENV === 'production') {
+  console.log('[DB] Connection config:', {
+    host,
+    port,
+    user,
+    database,
+    password: password ? '***' : '(empty)'
+  })
+}
 
 const pool = mysql.createPool({
   host,
