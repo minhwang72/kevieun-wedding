@@ -13,21 +13,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // admin 테이블이 없으면 생성
-    try {
-      await pool.query(`
-        CREATE TABLE IF NOT EXISTS admin (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          username VARCHAR(50) NOT NULL UNIQUE COMMENT '관리자 아이디',
-          password VARCHAR(255) NOT NULL COMMENT '해시된 비밀번호',
-          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-      `)
-    } catch (tableError) {
-      console.error('Admin table creation error:', tableError)
-      // 테이블 생성 실패해도 계속 진행 (이미 존재할 수 있음)
-    }
-
     // 기존 사용자 확인
     const [existingRows] = await pool.query(
       'SELECT id FROM admin WHERE username = ?',
@@ -64,13 +49,35 @@ export async function POST(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('Create admin error:', error)
     const errorMessage = error instanceof Error ? error.message : String(error)
+    const errorStack = error instanceof Error ? error.stack : undefined
+    const errorCode = (error as any)?.code
+    const errorErrno = (error as any)?.errno
+    const errorSqlState = (error as any)?.sqlState
+    const errorSqlMessage = (error as any)?.sqlMessage
+    
+    console.error('Create admin error:', {
+      message: errorMessage,
+      code: errorCode,
+      errno: errorErrno,
+      sqlState: errorSqlState,
+      sqlMessage: errorSqlMessage,
+      stack: errorStack,
+      fullError: error
+    })
+    
     return NextResponse.json(
       { 
         success: false, 
         message: '관리자 계정 생성 중 오류가 발생했습니다.',
-        error: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+        error: errorMessage,
+        details: {
+          code: errorCode,
+          errno: errorErrno,
+          sqlState: errorSqlState,
+          sqlMessage: errorSqlMessage
+        },
+        stack: process.env.NODE_ENV === 'development' ? errorStack : undefined
       },
       { status: 500 }
     )
