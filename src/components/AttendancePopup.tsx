@@ -45,10 +45,10 @@ export default function AttendancePopup({ onOpenAttendanceModal }: AttendancePop
     }
 
     const handleAction = () => {
-        // 참석 여부 전달 누르면 오늘 하루 안 보기와 동일하게 처리
-        handleDoNotShowToday()
         // 메인 모달 열기
         onOpenAttendanceModal()
+        // 팝업 닫기
+        handleClose()
     }
 
     if (!shouldRender) return null

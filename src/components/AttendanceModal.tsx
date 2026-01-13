@@ -92,6 +92,12 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
 
       // 성공
       setSuccess(true)
+
+      // 성공 시 오늘 하루 보지 않기 설정 적용
+      const tomorrow = new Date()
+      tomorrow.setHours(tomorrow.getHours() + 24)
+      localStorage.setItem('attendance_popup_hidden_until', tomorrow.getTime().toString())
+
       setTimeout(() => {
         onClose()
       }, 2000)
@@ -130,7 +136,7 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
   if (!isOpen) return null
 
   return (
-    <div 
+    <div
       className="fixed inset-0 flex items-start md:items-center justify-center z-[9999] p-4 animate-modal-fade-in overflow-y-auto"
       style={{
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -175,11 +181,10 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
                   onChange={(e) => setFormData(prev => ({ ...prev, side: e.target.value as 'groom' | 'bride' }))}
                   className="sr-only"
                 />
-                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${
-                  formData.side === 'groom'
+                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${formData.side === 'groom'
                     ? 'border-gray-800 bg-gray-50 font-medium'
                     : 'border-gray-300 hover:border-gray-400'
-                }`}>
+                  }`}>
                   신랑 하객
                 </div>
               </label>
@@ -192,11 +197,10 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
                   onChange={(e) => setFormData(prev => ({ ...prev, side: e.target.value as 'groom' | 'bride' }))}
                   className="sr-only"
                 />
-                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${
-                  formData.side === 'bride'
+                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${formData.side === 'bride'
                     ? 'border-gray-800 bg-gray-50 font-medium'
                     : 'border-gray-300 hover:border-gray-400'
-                }`}>
+                  }`}>
                   신부 하객
                 </div>
               </label>
@@ -252,11 +256,10 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
                   onChange={(e) => setFormData(prev => ({ ...prev, attendance: e.target.value as 'yes' | 'no' }))}
                   className="sr-only"
                 />
-                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${
-                  formData.attendance === 'yes'
+                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${formData.attendance === 'yes'
                     ? 'border-gray-800 bg-gray-50 font-medium'
                     : 'border-gray-300 hover:border-gray-400'
-                }`}>
+                  }`}>
                   참석
                 </div>
               </label>
@@ -269,11 +272,10 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
                   onChange={(e) => setFormData(prev => ({ ...prev, attendance: e.target.value as 'yes' | 'no' }))}
                   className="sr-only"
                 />
-                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${
-                  formData.attendance === 'no'
+                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${formData.attendance === 'no'
                     ? 'border-gray-800 bg-gray-50 font-medium'
                     : 'border-gray-300 hover:border-gray-400'
-                }`}>
+                  }`}>
                   불참
                 </div>
               </label>
@@ -295,11 +297,10 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
                   onChange={(e) => setFormData(prev => ({ ...prev, meal: e.target.value as 'yes' | 'no' | 'pending' }))}
                   className="sr-only"
                 />
-                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${
-                  formData.meal === 'yes'
+                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${formData.meal === 'yes'
                     ? 'border-gray-800 bg-gray-50 font-medium'
                     : 'border-gray-300 hover:border-gray-400'
-                }`}>
+                  }`}>
                   식사
                 </div>
               </label>
@@ -312,11 +313,10 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
                   onChange={(e) => setFormData(prev => ({ ...prev, meal: e.target.value as 'yes' | 'no' | 'pending' }))}
                   className="sr-only"
                 />
-                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${
-                  formData.meal === 'no'
+                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${formData.meal === 'no'
                     ? 'border-gray-800 bg-gray-50 font-medium'
                     : 'border-gray-300 hover:border-gray-400'
-                }`}>
+                  }`}>
                   식사 안함
                 </div>
               </label>
@@ -329,11 +329,10 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
                   onChange={(e) => setFormData(prev => ({ ...prev, meal: e.target.value as 'yes' | 'no' | 'pending' }))}
                   className="sr-only"
                 />
-                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${
-                  formData.meal === 'pending'
+                <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${formData.meal === 'pending'
                     ? 'border-gray-800 bg-gray-50 font-medium'
                     : 'border-gray-300 hover:border-gray-400'
-                }`}>
+                  }`}>
                   미정
                 </div>
               </label>
@@ -356,11 +355,10 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
                     onChange={() => setHasCompanions(false)}
                     className="sr-only"
                   />
-                  <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${
-                    !hasCompanions
+                  <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${!hasCompanions
                       ? 'border-gray-800 bg-gray-50 font-medium'
                       : 'border-gray-300 hover:border-gray-400'
-                  }`}>
+                    }`}>
                     없음
                   </div>
                 </label>
@@ -372,11 +370,10 @@ export default function AttendanceModal({ isOpen, onClose }: AttendanceModalProp
                     onChange={() => setHasCompanions(true)}
                     className="sr-only"
                   />
-                  <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${
-                    hasCompanions
+                  <div className={`px-4 py-3 rounded-md border-2 text-center transition-all text-sm md:text-base ${hasCompanions
                       ? 'border-gray-800 bg-gray-50 font-medium'
                       : 'border-gray-300 hover:border-gray-400'
-                  }`}>
+                    }`}>
                     있음
                   </div>
                 </label>
