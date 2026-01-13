@@ -93,7 +93,7 @@ export default function CoverSection() {
           {/* Bottom Info & Quote */}
           <div className="absolute bottom-12 left-0 right-0 text-center pb-8 z-20" style={{ ...overlayTextShadow, color: beigeColor }}>
             <p className="text-xs md:text-sm tracking-[0.2em] font-heading uppercase mb-6 opacity-0 animate-fade-in" style={{ animationDelay: '1000ms', animationFillMode: 'forwards' }}>
-              - Sun, May 18th, 2025 -
+              - Sat, Jun 13th, 2026 -
             </p>
             <div className="opacity-0 animate-fade-in" style={{ animationDelay: '1500ms', animationFillMode: 'forwards' }}>
               <p className="text-base md:text-xl font-heading font-italic mb-1">
