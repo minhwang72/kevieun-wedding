@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
 import SectionHeading from '@/components/SectionHeading'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
-import AttendanceModal from '@/components/AttendanceModal'
 
-export default function AttendanceSection() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+interface AttendanceSectionProps {
+  onOpenModal: () => void
+}
+
+export default function AttendanceSection({ onOpenModal }: AttendanceSectionProps) {
   const titleAnimation = useScrollAnimation({ threshold: 0.4, animationDelay: 200 })
   const contentAnimation = useScrollAnimation({ threshold: 0.3, animationDelay: 400 })
 
@@ -35,7 +36,7 @@ export default function AttendanceSection() {
             </p>
 
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={onOpenModal}
               className="theme-button px-8 py-3 rounded-lg font-medium text-sm md:text-base transition-all hover:scale-105"
             >
               참석의사 체크하기
@@ -44,12 +45,7 @@ export default function AttendanceSection() {
         </div>
       </section>
 
-      {isModalOpen && (
-        <AttendanceModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
+
     </>
   )
 }

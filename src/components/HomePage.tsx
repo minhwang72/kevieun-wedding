@@ -11,6 +11,8 @@ import LazyGallerySection from '@/components/sections/LazyGallerySection'
 import LazyGuestbookSection from '@/components/sections/LazyGuestbookSection'
 import Footer from '@/components/Footer'
 import DevToolsBlocker from '@/components/DevToolsBlocker'
+import AttendanceModal from '@/components/AttendanceModal'
+import AttendancePopup from '@/components/AttendancePopup'
 import type { Gallery } from '@/types'
 
 interface HomePageProps {
@@ -23,6 +25,7 @@ export default function HomePage({
   enableKakao = true
 }: HomePageProps = {}) {
   const [shareMenuOpen, setShareMenuOpen] = useState(false)
+  const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false)
   const [mainImageUrl, setMainImageUrl] = useState<string>('')
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
   const [shareVisible, setShareVisible] = useState(false)
@@ -201,10 +204,18 @@ export default function HomePage({
     setShareMenuOpen(false)
   }
 
-  // 기본 공유 (확장 메뉴 토글)
   const defaultShare = () => {
     setShareMenuOpen(!shareMenuOpen)
   }
+
+  // 참석 모달 제어
+  const openAttendanceModal = useCallback(() => {
+    setIsAttendanceModalOpen(true)
+  }, [])
+
+  const closeAttendanceModal = useCallback(() => {
+    setIsAttendanceModalOpen(false)
+  }, [])
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center theme-bg-main md:theme-bg-secondary py-0 md:py-8">
@@ -216,7 +227,7 @@ export default function HomePage({
         <LazyGallerySection />
         <LocationSection />
         <HeartMoneySection />
-        <AttendanceSection />
+        <AttendanceSection onOpenModal={openAttendanceModal} />
         <LazyGuestbookSection />
 
 
@@ -298,6 +309,14 @@ export default function HomePage({
           </div>
         </div>
       )}
+      {/* 참석 여부 모달 */}
+      <AttendanceModal
+        isOpen={isAttendanceModalOpen}
+        onClose={closeAttendanceModal}
+      />
+
+      {/* 스크롤 시 등장하는 참석 여부 팝업 */}
+      <AttendancePopup onOpenAttendanceModal={openAttendanceModal} />
     </main>
   )
 } 
