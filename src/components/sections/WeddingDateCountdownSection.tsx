@@ -180,7 +180,7 @@ export default function WeddingDateCountdownSection() {
                 <div className="relative">
                   <div
                     className={`flex flex-col items-center justify-center gap-2 md:gap-3 transition-all duration-300 ${animate ? 'countdown-fade' : ''} rounded-lg px-3 md:px-4 py-4 md:py-5 w-16 md:w-20`}
-                    style={{ backgroundColor: 'rgba(0, 0, 0, 0.07)', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)' }}
+                    style={{ backgroundColor: 'var(--theme-date-countdown-bg)', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)' }}
                   >
                     <div className="text-[1.9rem] md:text-[2.8rem] font-heading text-gray-900 tracking-[0.3em] leading-[1.3]">
                       {value}

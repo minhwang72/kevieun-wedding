@@ -83,7 +83,7 @@ export default function AttendancePopup({ onOpenAttendanceModal }: AttendancePop
                             <div className="space-y-2 text-gray-600 text-sm leading-relaxed mb-8">
                                 <p>소중한 시간을 내어 결혼식에</p>
                                 <p>참석해주시는 모든 분들께 감사드립니다.</p>
-                                <p>예식이 지정좌석제로 진행되오니,</p>
+                                <p>원활한 예식 진행을 위해</p>
                                 <p>참석 여부를 회신해 주시면</p>
                                 <p>더욱 감사하겠습니다.</p>
                             </div>
