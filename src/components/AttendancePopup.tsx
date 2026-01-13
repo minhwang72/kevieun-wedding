@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 interface AttendancePopupProps {
     onOpenAttendanceModal: () => void
@@ -9,31 +9,37 @@ interface AttendancePopupProps {
 export default function AttendancePopup({ onOpenAttendanceModal }: AttendancePopupProps) {
     const [isVisible, setIsVisible] = useState(false)
     const [shouldRender, setShouldRender] = useState(false)
+    const isDismissedRef = useRef(false)
 
     useEffect(() => {
         // 로컬 스토리지 확인 (오늘 하루 보지 않기)
         const hiddenUntil = localStorage.getItem('attendance_popup_hidden_until')
         if (hiddenUntil && new Date().getTime() < parseInt(hiddenUntil)) {
+            isDismissedRef.current = true
             return
         }
 
         setShouldRender(true)
 
         const handleScroll = () => {
+            // 이미 닫았거나 오늘 하루 보지 않기를 선택한 경우 스크롤해도 표시하지 않음
+            if (isDismissedRef.current) return
+
             // 커버 섹션을 지나면 팝업 표시 (대략 800px)
             const scrollPosition = window.scrollY
             const triggerPosition = window.innerHeight * 0.8
 
-            if (scrollPosition > triggerPosition) {
+            if (scrollPosition > triggerPosition && !isVisible) {
                 setIsVisible(true)
             }
         }
 
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
+    }, [isVisible])
 
     const handleDoNotShowToday = () => {
+        isDismissedRef.current = true
         const tomorrow = new Date()
         tomorrow.setHours(tomorrow.getHours() + 24)
         localStorage.setItem('attendance_popup_hidden_until', tomorrow.getTime().toString())
@@ -41,6 +47,7 @@ export default function AttendancePopup({ onOpenAttendanceModal }: AttendancePop
     }
 
     const handleClose = () => {
+        isDismissedRef.current = true
         setIsVisible(false)
     }
 
