@@ -86,21 +86,21 @@ export default function BlessingSection() {
     const father = sideContacts.find(c => c.relationship === 'father')
     const mother = sideContacts.find(c => c.relationship === 'mother')
     const person = sideContacts.find(c => c.relationship === 'person')
-    
+
     const relationship = side === 'groom' ? '아들' : '딸'
-    
+
     // 기본값 설정
     const defaultName = side === 'groom' ? '임희근' : '이은혜'
     const defaultParents = side === 'groom' ? '신랑아버님 · 신랑어머님' : '신부아버님 · 신부어머님'
-    
+
     // DB에서 정보가 있으면 사용, 없으면 기본값 사용
     const parentNames = []
     if (father) parentNames.push(father.name)
     if (mother) parentNames.push(mother.name)
-    
+
     const finalParents = parentNames.length > 0 ? parentNames.join(' · ') : defaultParents
     const finalName = person?.name || defaultName
-    
+
     return {
       parents: finalParents,
       relationship,
@@ -120,7 +120,7 @@ export default function BlessingSection() {
           size="sm"
         />
         <div className="space-y-6 md:space-y-8 mt-8">
-          <div 
+          <div
             ref={firstParagraphAnimation.ref}
             className={`space-y-3 md:space-y-4 transition-all duration-800 ${firstParagraphAnimation.animationClass}`}
           >
@@ -137,7 +137,7 @@ export default function BlessingSection() {
           </div>
 
           {/* 부모 정보 - 항상 표시 (기본값 포함) */}
-          <div 
+          <div
             ref={parentsAnimation.ref}
             className={`space-y-4 md:space-y-5 transition-all duration-800 ${parentsAnimation.animationClass}`}
           >

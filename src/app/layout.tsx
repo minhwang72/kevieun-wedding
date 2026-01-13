@@ -1,14 +1,17 @@
 import type { Viewport } from "next";
 import { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Libre_Baskerville } from 'next/font/google'
 import "./globals.css";
 import ThemeStyleInjector from '@/components/ThemeStyleInjector'
 import { DEFAULT_THEME } from '@/lib/themeConfig'
 import { getThemeSettings } from '@/lib/server/themeStore'
 
-export const dynamic = 'force-dynamic'
-
-const inter = Inter({ subsets: ['latin'] })
+const libreBaskerville = Libre_Baskerville({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  display: 'swap',
+  variable: '--font-libre',
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -99,7 +102,7 @@ export default async function RootLayout({
           defer
         />
       </head>
-      <body className={inter.className}>
+      <body className={libreBaskerville.className}>
         {children}
       </body>
     </html>

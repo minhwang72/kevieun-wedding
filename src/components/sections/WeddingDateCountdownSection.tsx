@@ -69,12 +69,12 @@ export default function WeddingDateCountdownSection() {
 
   // 달력 배열 생성
   const calendarDays: Array<{ day: number; isWeddingDay: boolean } | null> = []
-  
+
   // 첫 번째 주의 빈 공간 채우기
   for (let i = 0; i < firstDayOfMonth; i++) {
     calendarDays.push(null)
   }
-  
+
   // 날짜 채우기
   for (let day = 1; day <= daysInMonth; day++) {
     calendarDays.push({
@@ -85,16 +85,16 @@ export default function WeddingDateCountdownSection() {
 
   const getDayClass = (dayInfo: { day: number; isWeddingDay: boolean } | null) => {
     if (!dayInfo) return 'h-10 md:h-12 w-full text-center flex items-center justify-center text-sm md:text-base text-gray-300'
-    
+
     // 실제 날짜를 기반으로 요일 계산
     const actualDate = new Date(year, month - 1, dayInfo.day)
     const dayOfWeek = actualDate.getDay()
     const weekendClass = dayOfWeek === 0 || dayOfWeek === 6 ? 'text-gray-600' : 'text-gray-700'
-    
+
     if (dayInfo.isWeddingDay) {
       return `h-10 md:h-12 w-full text-center flex items-center justify-center text-sm md:text-base relative ${weekendClass}`
     }
-    
+
     return `h-10 md:h-12 w-full text-center flex items-center justify-center text-sm md:text-base transition-colors rounded ${weekendClass}`
   }
 
@@ -106,9 +106,8 @@ export default function WeddingDateCountdownSection() {
   ]
 
   return (
-    <section 
-      className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-heading"
-      style={{ backgroundColor: 'var(--theme-date-countdown-bg, #F5F5F5)' }}
+    <section
+      className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-heading theme-bg-secondary"
     >
       <div className="max-w-xl mx-auto text-center w-full px-6 md:px-8">
         {/* 제목: June 13, 2026 / 토요일 오후 1시 */}
@@ -125,7 +124,7 @@ export default function WeddingDateCountdownSection() {
         <div className="w-full h-px bg-gray-200 mb-6 md:mb-8"></div>
 
         {/* 달력 전체 */}
-        <div 
+        <div
           ref={calendarAnimation.ref}
           className={`transition-all duration-800 ${calendarAnimation.animationClass}`}
         >
@@ -179,9 +178,9 @@ export default function WeddingDateCountdownSection() {
             {countdownItems.map(({ value, label }, index) => (
               <div key={label} className="flex items-center gap-2 md:gap-3 flex-shrink-0">
                 <div className="relative">
-                  <div 
+                  <div
                     className={`flex flex-col items-center justify-center gap-2 md:gap-3 transition-all duration-300 ${animate ? 'countdown-fade' : ''} rounded-lg px-3 md:px-4 py-4 md:py-5 w-16 md:w-20`}
-                    style={{ backgroundColor: 'var(--theme-date-countdown-box-bg, #E8E8E8)' }}
+                    style={{ backgroundColor: 'rgba(0, 0, 0, 0.04)', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)' }}
                   >
                     <div className="text-[1.9rem] md:text-[2.8rem] font-heading text-gray-900 tracking-[0.3em] leading-[1.3]">
                       {value}

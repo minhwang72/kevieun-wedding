@@ -12,9 +12,9 @@ export default function AttendanceSection() {
 
   return (
     <>
-      <section className="w-full py-16 md:py-20 px-0 font-sans bg-white">
+      <section className="w-full py-16 md:py-20 px-0 font-sans theme-bg-secondary">
         <div className="max-w-xl mx-auto text-center w-full px-8">
-          <div 
+          <div
             ref={titleAnimation.ref}
             className={`transition-all duration-800 ${titleAnimation.animationClass}`}
           >
@@ -24,8 +24,8 @@ export default function AttendanceSection() {
               size="sm"
             />
           </div>
-          
-          <div 
+
+          <div
             ref={contentAnimation.ref}
             className={`mt-8 transition-all duration-800 ${contentAnimation.animationClass}`}
           >
@@ -33,7 +33,7 @@ export default function AttendanceSection() {
               축하의 마음으로 참석해주시는 모든 분들을 귀하게 모실 수 있도록<br />
               참석의사를 꼭 전달 부탁드립니다.
             </p>
-            
+
             <button
               onClick={() => setIsModalOpen(true)}
               className="theme-button px-8 py-3 rounded-lg font-medium text-sm md:text-base transition-all hover:scale-105"

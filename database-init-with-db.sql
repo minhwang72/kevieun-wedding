@@ -163,3 +163,5 @@ CREATE INDEX IF NOT EXISTS idx_attendance_name_phone ON attendance(name, phone_l
 -- ============================================
 SELECT 'Database initialization completed successfully!' AS message;
 
+
+

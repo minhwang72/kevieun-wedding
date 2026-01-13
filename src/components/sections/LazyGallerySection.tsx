@@ -16,15 +16,15 @@ const CACHE_DURATION = 5 * 60 * 1000 // 5분
 const fetchWithCache = async (url: string, forceRefresh = false) => {
   const now = Date.now()
   const cached = apiCache.get(url)
-  
+
   if (!forceRefresh && cached && now - cached.timestamp < CACHE_DURATION) {
     return cached.data
   }
-  
+
   // 타임아웃 설정 (10초)
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), 10000)
-  
+
   try {
     // Cache busting을 위한 timestamp 추가
     const timestamp = Date.now()
@@ -37,11 +37,11 @@ const fetchWithCache = async (url: string, forceRefresh = false) => {
       }
     })
     clearTimeout(timeoutId)
-    
+
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`)
     }
-    
+
     const data = await response.json()
     apiCache.set(url, { data, timestamp: now })
     return data
@@ -60,21 +60,21 @@ const fetchWithCache = async (url: string, forceRefresh = false) => {
 
 // 갤러리 로딩 스켈레톤
 const GalleryLoading = () => (
-  <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans bg-white">
+  <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans theme-bg-section">
     <div className="max-w-xl mx-auto text-center w-full px-6 md:px-8">
       {/* 제목 스켈레톤 */}
       <div className="h-10 bg-gray-200 rounded animate-pulse mb-12 md:mb-16 w-40 mx-auto"></div>
-      
+
       {/* 상단 가로선 */}
       <div className="w-full h-px bg-gray-200 mb-6 md:mb-8"></div>
-      
+
       {/* 갤러리 그리드 스켈레톤 */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 md:gap-3 mb-6 md:mb-8">
         {[...Array(6)].map((_, i) => (
           <div key={i} className="aspect-square bg-gray-200 animate-pulse rounded"></div>
         ))}
       </div>
-      
+
       {/* 하단 가로선 */}
       <div className="w-full h-px bg-gray-200"></div>
     </div>
@@ -85,7 +85,7 @@ export default function LazyGallerySection() {
   const [gallery, setGallery] = useState<Gallery[]>([])
   const [loading, setLoading] = useState(false)
   const [hasLoaded, setHasLoaded] = useState(false)
-  
+
   const { ref, shouldLoad } = useIntersectionObserver({
     rootMargin: '200px',
     threshold: 0.1,
@@ -96,7 +96,7 @@ export default function LazyGallerySection() {
     try {
       setLoading(true)
       const galleryData = await fetchWithCache('/api/gallery', forceRefresh)
-      
+
       if (galleryData && typeof galleryData === 'object' && 'success' in galleryData && galleryData.success) {
         setGallery((galleryData as { data: Gallery[] }).data || [])
       }

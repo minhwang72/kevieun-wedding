@@ -167,7 +167,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    
+
     // 비밀번호 필드의 경우 한글 입력 방지 (영문자, 숫자, 특수문자만 허용)
     if (name === 'password') {
       const filteredValue = value.replace(/[ㄱ-ㅎㅏ-ㅣ가-힣]/g, '')
@@ -177,7 +177,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
       }))
       return
     }
-    
+
     const limitedValue = name === 'name'
       ? value.slice(0, 10)
       : name === 'content'
@@ -192,7 +192,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!formData.name.trim()) {
       showToast('이름을 입력해주세요.', 'error')
       return
@@ -229,12 +229,12 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
     }
 
     setIsSubmitting(true)
-    
+
     try {
       // 타임아웃 설정 (10초)
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 10000)
-      
+
       const response = await fetch('/api/guestbook', {
         method: 'POST',
         signal: controller.signal,
@@ -250,15 +250,15 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
       }
 
       const result = await response.json()
-      
+
       if (result.success) {
         showToast('메시지가 작성되었습니다.', 'success')
         handleCloseModal()
-        
+
         // 데이터 업데이트를 즉시 호출하고 조금 더 기다림
         console.log('🔍 [DEBUG] Calling guestbook update after successful post')
         await onGuestbookUpdate()
-        
+
         // 추가 업데이트를 위한 짧은 지연
         setTimeout(() => {
           console.log('🔍 [DEBUG] Additional guestbook update call')
@@ -287,7 +287,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
     }
 
     setIsDeleting(true)
-    
+
     try {
       const response = await fetch(`/api/guestbook?id=${deleteTargetId}&password=${encodeURIComponent(deletePassword)}`, {
         method: 'DELETE',
@@ -300,11 +300,11 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
         setDeleteModalOpen(false)
         setDeletePassword('')
         setDeleteTargetId(null)
-        
+
         // 방명록 데이터 즉시 갱신
         console.log('🔍 [DEBUG] Calling guestbook update after successful delete')
         await onGuestbookUpdate()
-        
+
         // 추가 업데이트를 위한 짧은 지연
         setTimeout(() => {
           console.log('🔍 [DEBUG] Additional guestbook update call after delete')
@@ -336,18 +336,18 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
 
   return (
     <>
-    <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans theme-bg-main">
-      <div className="max-w-xl mx-auto text-center w-full px-6 md:px-8">
-        <SectionHeading
-          kicker="Guestbook"
-          title="방명록"
-          size="sm"
-        />
-        <div className="h-px w-16 bg-gray-200 mx-auto my-8"></div>
- 
-          
+      <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans theme-bg-section">
+        <div className="max-w-xl mx-auto text-center w-full px-6 md:px-8">
+          <SectionHeading
+            kicker="Guestbook"
+            title="방명록"
+            size="sm"
+          />
+          <div className="h-px w-16 bg-gray-200 mx-auto my-8"></div>
+
+
           {/* 작성 버튼 */}
-          <div 
+          <div
             ref={writeButtonAnimation.ref}
             className={`flex justify-end mb-4 md:mb-6 transition-all duration-800 ${writeButtonAnimation.animationClass}`}
           >
@@ -374,7 +374,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
           </div>
 
           {/* 방명록 리스트 */}
-          <div 
+          <div
             ref={guestbookListAnimation.ref}
             className={`space-y-4 md:space-y-6 text-left transition-all duration-800 ${guestbookListAnimation.animationClass}`}
           >
@@ -416,7 +416,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
                     </div>
                   </div>
                 ))}
-                
+
                 {/* 더보기 버튼 */}
                 {guestbook.length > 3 && (
                   <div className="flex justify-center mt-6 md:mt-8">
@@ -457,7 +457,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
 
       {/* 작성 모달 */}
       {isModalOpen && (
-        <div 
+        <div
           className="fixed inset-0 flex items-start md:items-center justify-center z-[9999] p-4 animate-modal-fade-in overflow-y-auto"
           style={{
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -493,7 +493,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
                   maxLength={10}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent text-sm md:text-base placeholder-gray-400"
                   placeholder="이름을 입력해주세요 (최대 10글자)"
-                 
+
                 />
               </div>
 
@@ -508,7 +508,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
                   maxLength={200}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent resize-none text-sm md:text-base placeholder-gray-400"
                   placeholder="축하 메시지를 입력해주세요 (최대 200글자)"
-                 
+
                 />
                 <div className="text-xs text-gray-500 mt-1 text-right">
                   {formData.content.length}/200
@@ -526,7 +526,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
                   maxLength={12}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent text-sm md:text-base placeholder-gray-400"
                   placeholder="비밀번호를 입력해주세요 (4~12자리)"
-                 
+
                 />
               </div>
 
@@ -555,7 +555,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
 
       {/* 삭제 모달 */}
       {deleteModalOpen && (
-        <div 
+        <div
           className="fixed inset-0 flex items-start md:items-center justify-center z-[9999] p-4 animate-modal-fade-in overflow-y-auto"
           style={{
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -588,7 +588,7 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
                 onFocus={(event) => handleFieldFocus(event, deleteModalRef)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-transparent text-sm md:text-base placeholder-gray-400"
                 placeholder="비밀번호 입력"
-               
+
               />
             </div>
 
@@ -597,16 +597,16 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
                 onClick={handleDeleteCancel}
                 className="flex-1 py-2 px-4 text-sm md:text-base text-gray-700 bg-gray-200 rounded-md transition-colors"
               >
-                                  <span>취소</span>
+                <span>취소</span>
               </button>
               <button
                 onClick={handleDeleteConfirm}
                 disabled={isDeleting}
                 className="flex-1 py-2 px-4 text-sm md:text-base theme-button rounded-md transition-colors"
               >
-                                  <span>
-                    {isDeleting ? '삭제 중...' : '삭제'}
-                  </span>
+                <span>
+                  {isDeleting ? '삭제 중...' : '삭제'}
+                </span>
               </button>
             </div>
           </div>
@@ -616,10 +616,9 @@ export default function GuestbookSection({ guestbook, onGuestbookUpdate }: Guest
       {/* 토스트 메시지 */}
       {toast && (
         <div className="fixed bottom-4 left-0 right-0 flex justify-center z-[10000] px-4">
-          <div 
-            className={`px-4 py-2 rounded-lg font-medium animate-fade-in-out text-sm md:text-base ${
-              toast.type === 'success' ? 'bg-gray-700 text-white' : 'bg-red-600 text-white'
-            }`}
+          <div
+            className={`px-4 py-2 rounded-lg font-medium animate-fade-in-out text-sm md:text-base ${toast.type === 'success' ? 'bg-gray-700 text-white' : 'bg-red-600 text-white'
+              }`}
           >
             {toast.message}
           </div>

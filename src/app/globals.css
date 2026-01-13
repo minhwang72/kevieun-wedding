@@ -7,8 +7,8 @@
 @font-face {
   font-family: 'MaruBuri';
   src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2') format('woff2'),
-       url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff') format('woff'),
-       url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.ttf') format('truetype');
+    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff') format('woff'),
+    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -17,8 +17,8 @@
 @font-face {
   font-family: 'MaruBuri';
   src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff2') format('woff2'),
-       url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff') format('woff'),
-       url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.ttf') format('truetype');
+    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff') format('woff'),
+    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -27,8 +27,8 @@
 @font-face {
   font-family: 'MaruBuri';
   src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff2') format('woff2'),
-       url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff') format('woff'),
-       url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.ttf') format('truetype');
+    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff') format('woff'),
+    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -37,8 +37,8 @@
 @font-face {
   font-family: 'MaruBuri';
   src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.woff2') format('woff2'),
-       url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.woff') format('woff'),
-       url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.ttf') format('truetype');
+    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.woff') format('woff'),
+    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -47,8 +47,8 @@
 @font-face {
   font-family: 'MaruBuri';
   src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.woff2') format('woff2'),
-       url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.woff') format('woff'),
-       url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.ttf') format('truetype');
+    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.woff') format('woff'),
+    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.ttf') format('truetype');
   font-weight: 200;
   font-style: normal;
   font-display: swap;
@@ -61,8 +61,8 @@
   --background: #FFFEF9;
   --foreground: #2C2C2C;
   --color-muted: #6B6B6B;
-  --font-heading: 'MaruBuri', 'Pretendard', 'Inter', serif;
-  --font-body: 'MaruBuri', 'Pretendard', 'Inter', 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, system-ui, serif;
+  --font-heading: 'Libre Baskerville', serif;
+  --font-body: 'Libre Baskerville', serif;
   --theme-bg-main: #FFFEF9;
   --theme-bg-secondary: #F5F5F0;
   --theme-bg-section: #FFFEFB;
@@ -101,6 +101,10 @@ body {
 
 .theme-bg-section {
   background-color: var(--theme-bg-section);
+}
+
+.theme-bg-secondary {
+  background-color: var(--theme-bg-secondary);
 }
 
 .theme-text-accent {
@@ -168,15 +172,22 @@ body {
   color: var(--color-muted);
 }
 
+.font-italic {
+  font-style: italic;
+}
+
 @keyframes fade-in-out {
   0% {
     opacity: 0;
     transform: translateY(100%);
   }
-  10%, 90% {
+
+  10%,
+  90% {
     opacity: 1;
     transform: translateY(0);
   }
+
   100% {
     opacity: 0;
     transform: translateY(100%);
@@ -193,6 +204,7 @@ body {
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -215,6 +227,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -227,9 +240,12 @@ body {
 
 /* 스크롤 기반 하트 애니메이션 */
 @keyframes heart-beat-scroll {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
   }
@@ -245,6 +261,7 @@ body {
     opacity: 0;
     backdrop-filter: blur(0px);
   }
+
   to {
     opacity: 1;
     backdrop-filter: blur(4px);
@@ -256,6 +273,7 @@ body {
     opacity: 0;
     transform: translateY(20px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -273,9 +291,12 @@ body {
 /* 가로 스크롤바 숨김 */
 @layer utilities {
   .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }

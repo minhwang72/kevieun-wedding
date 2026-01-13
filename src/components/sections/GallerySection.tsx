@@ -43,13 +43,13 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
       if (a.order_index === null && b.order_index === null) return 0
       if (a.order_index === null) return 1
       if (b.order_index === null) return -1
-      
+
       // 숫자로 정렬
       return Number(a.order_index) - Number(b.order_index)
     }) : []
 
-  const displayImages: DisplayImage[] = galleryImages && galleryImages.length > 0 
-    ? galleryImages 
+  const displayImages: DisplayImage[] = galleryImages && galleryImages.length > 0
+    ? galleryImages
     : placeholderImages
 
   // 표시할 이미지 개수 결정 (8개 제한 또는 모든 이미지)
@@ -75,13 +75,13 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
   }, [])
 
   const goToPrevious = useCallback(() => {
-    setCurrentImageIndex((prev) => 
+    setCurrentImageIndex((prev) =>
       prev === 0 ? displayImages.length - 1 : prev - 1
     )
   }, [displayImages.length])
 
   const goToNext = useCallback(() => {
-    setCurrentImageIndex((prev) => 
+    setCurrentImageIndex((prev) =>
       prev === displayImages.length - 1 ? 0 : prev + 1
     )
   }, [displayImages.length])
@@ -98,7 +98,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
 
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return
-    
+
     const distance = touchStart - touchEnd
     const isLeftSwipe = distance > 50
     const isRightSwipe = distance < -50
@@ -152,9 +152,9 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
 
   return (
     <>
-      <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-2 md:px-4 font-sans bg-white">
+      <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-2 md:px-4 font-sans theme-bg-section">
         <div className="w-full text-center">
-          <div 
+          <div
             ref={titleAnimation.ref}
             className={`transition-all duration-800 mb-4 md:mb-6 px-4 md:px-6 ${titleAnimation.animationClass}`}
           >
@@ -171,7 +171,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           <div className="w-full h-px bg-gray-200 mb-2 md:mb-3"></div>
 
           {/* 갤러리 그리드 - Masonry 레이아웃 */}
-          <div 
+          <div
             ref={gridAnimation.ref}
             className={`columns-2 gap-0.5 md:gap-1 transition-all duration-800 ${gridAnimation.animationClass}`}
           >
@@ -214,7 +214,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
 
           {/* 더보기/접기 버튼 */}
           {hasMoreImages && (
-            <div 
+            <div
               ref={moreButtonAnimation.ref}
               className={`flex justify-center mb-2 md:mb-3 mt-2 md:mt-3 transition-all duration-800 ${moreButtonAnimation.animationClass}`}
             >
@@ -250,7 +250,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
 
       {/* 모달 */}
       {isModalOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-[9999] bg-black/80 animate-modal-fade-in"
           onClick={handleBackgroundClick}
           onTouchEnd={handleBackgroundTouch}
@@ -301,7 +301,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
 
           {/* 중앙 이미지 영역 - 크기 제한 */}
           <div className="absolute inset-0 flex items-center justify-center p-4 md:p-8 pointer-events-none">
-            <div 
+            <div
               className="relative max-w-[90vw] max-h-[80vh] md:max-w-[85vw] md:max-h-[75vh] pointer-events-auto animate-modal-slide-up"
               onClick={(e) => e.stopPropagation()}
               onTouchStart={onTouchStart}
@@ -373,11 +373,11 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
                 </svg>
                 <span className="text-sm pointer-events-none">이전</span>
               </button>
-              
+
               <div className="text-white text-sm font-sans px-4">
                 {currentImageIndex + 1} / {displayImages.length}
               </div>
-              
+
               <button
                 onClick={(e) => {
                   e.stopPropagation()

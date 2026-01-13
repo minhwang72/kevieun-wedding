@@ -21,7 +21,7 @@ export default function HeartMoneySection() {
       try {
         const response = await fetch('/api/contacts')
         const data = await response.json()
-        
+
         if (data.success) {
           setContacts(data.data || [])
         }
@@ -43,7 +43,7 @@ export default function HeartMoneySection() {
   const copyAccountNumber = async (accountNumber: string, name: string) => {
     // 숫자만 추출
     const numbersOnly = accountNumber.replace(/[^0-9]/g, '')
-    
+
     try {
       await navigator.clipboard.writeText(numbersOnly)
       showToast(`${name}님 계좌번호가 복사되었습니다`)
@@ -96,7 +96,7 @@ export default function HeartMoneySection() {
         <div className="max-w-xl mx-auto text-center w-full px-8">
           {/* 제목 스켈레톤 */}
           <div className="h-6 bg-gray-200 rounded animate-pulse mb-8 w-32 mx-auto"></div>
-          
+
           <div className="space-y-4">
             {[1, 2].map(i => (
               <div key={i} className="space-y-2">
@@ -112,9 +112,9 @@ export default function HeartMoneySection() {
 
   return (
     <>
-      <section className="w-full py-16 md:py-20 px-0 font-sans bg-white">
+      <section className="w-full py-16 md:py-20 px-0 font-sans theme-bg-section">
         <div className="max-w-xl mx-auto text-center w-full px-8">
-          <div 
+          <div
             ref={titleAnimation.ref}
             className={`transition-all duration-800 ${titleAnimation.animationClass}`}
           >
@@ -124,10 +124,10 @@ export default function HeartMoneySection() {
               size="sm"
             />
           </div>
-          
+
           <div className="space-y-4">
             {/* 신랑측 */}
-            <div 
+            <div
               ref={groomSectionAnimation.ref}
               className={`border border-gray-200 rounded-lg overflow-hidden bg-white transition-all duration-800 ${groomSectionAnimation.animationClass}`}
             >
@@ -140,19 +140,18 @@ export default function HeartMoneySection() {
                     {groomSide.length > 0 ? getSideLabel('groom') : '신랑측'}
                   </span>
                 </div>
-                <svg 
+                <svg
                   className={`w-5 h-5 text-gray-500 transition-transform ${expandedSides.has('groom') ? 'transform rotate-180' : ''}`}
-                  fill="none" 
-                  stroke="currentColor" 
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              
-              <div className={`transition-all duration-500 ease-in-out overflow-hidden ${
-                expandedSides.has('groom') ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
-              }`}>
+
+              <div className={`transition-all duration-500 ease-in-out overflow-hidden ${expandedSides.has('groom') ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+                }`}>
                 <div className="px-4 py-4 space-y-4 bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100">
                   {groomSide.map((contact) => (
                     <div key={contact.id} className="border-b border-gray-200 pb-3 last:border-b-0 last:pb-0">
@@ -173,7 +172,7 @@ export default function HeartMoneySection() {
                           </div>
                         </div>
                       </div>
-                      
+
                       {contact.bank_name && contact.account_number && (
                         <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 mt-2 border border-gray-200/80">
                           <div className="flex justify-between items-center">
@@ -218,7 +217,7 @@ export default function HeartMoneySection() {
             </div>
 
             {/* 신부측 */}
-            <div 
+            <div
               ref={brideSectionAnimation.ref}
               className={`border border-gray-200 rounded-lg overflow-hidden bg-white transition-all duration-800 ${brideSectionAnimation.animationClass}`}
             >
@@ -231,19 +230,18 @@ export default function HeartMoneySection() {
                     {brideSide.length > 0 ? getSideLabel('bride') : '신부측'}
                   </span>
                 </div>
-                <svg 
+                <svg
                   className={`w-5 h-5 text-gray-500 transition-transform ${expandedSides.has('bride') ? 'transform rotate-180' : ''}`}
-                  fill="none" 
-                  stroke="currentColor" 
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              
-              <div className={`transition-all duration-500 ease-in-out overflow-hidden ${
-                expandedSides.has('bride') ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
-              }`}>
+
+              <div className={`transition-all duration-500 ease-in-out overflow-hidden ${expandedSides.has('bride') ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+                }`}>
                 <div className="px-4 py-4 space-y-4 bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100">
                   {brideSide.map((contact) => (
                     <div key={contact.id} className="border-b border-gray-200 pb-3 last:border-b-0 last:pb-0">
@@ -264,7 +262,7 @@ export default function HeartMoneySection() {
                           </div>
                         </div>
                       </div>
-                      
+
                       {contact.bank_name && contact.account_number && (
                         <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 mt-2 border border-gray-200/80">
                           <div className="flex justify-between items-center">
@@ -314,10 +312,9 @@ export default function HeartMoneySection() {
       {/* 토스트 메시지 */}
       {toast.show && (
         <div className="fixed bottom-4 left-0 right-0 flex justify-center z-[10000] px-4">
-          <div 
-            className={`px-4 py-2 rounded-lg font-medium animate-fade-in-out text-sm md:text-base ${
-              toast.type === 'success' ? 'bg-gray-700 text-white' : 'bg-red-600 text-white'
-            }`}
+          <div
+            className={`px-4 py-2 rounded-lg font-medium animate-fade-in-out text-sm md:text-base ${toast.type === 'success' ? 'bg-gray-700 text-white' : 'bg-red-600 text-white'
+              }`}
           >
             {toast.message}
           </div>

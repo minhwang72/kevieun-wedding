@@ -71,3 +71,5 @@ mysql -u appuser -p kevieun_wedding -e "SELECT id, username FROM admin;"
 6. `theme_settings` - 테마 설정
 7. `attendance` - 참석의사 (kevieun 전용)
 
+
+
