@@ -62,7 +62,7 @@ const fetchWithCache = async (url: string, forceRefresh = false) => {
 
 // 방명록 로딩 스켈레톤
 const GuestbookLoading = () => (
-  <section className="w-full py-0 md:py-0 px-0 font-sans bg-gray-50">
+  <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans theme-bg-main">
     <div className="w-full">
       <div className="p-6 md:p-8">
         <div className="h-8 bg-gray-200 rounded animate-pulse mb-6 md:mb-8 w-32 mx-auto"></div>
