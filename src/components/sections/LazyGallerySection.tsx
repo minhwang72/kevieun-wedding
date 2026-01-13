@@ -60,7 +60,7 @@ const fetchWithCache = async (url: string, forceRefresh = false) => {
 
 // 갤러리 로딩 스켈레톤
 const GalleryLoading = () => (
-  <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans theme-bg-section">
+  <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans theme-bg-main">
     <div className="max-w-xl mx-auto text-center w-full px-6 md:px-8">
       {/* 제목 스켈레톤 */}
       <div className="h-10 bg-gray-200 rounded animate-pulse mb-12 md:mb-16 w-40 mx-auto"></div>

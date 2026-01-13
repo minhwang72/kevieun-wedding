@@ -107,7 +107,7 @@ export default function WeddingDateCountdownSection() {
 
   return (
     <section
-      className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-heading theme-bg-secondary"
+      className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-heading theme-bg-section"
     >
       <div className="max-w-xl mx-auto text-center w-full px-6 md:px-8">
         {/* 제목: June 13, 2026 / 토요일 오후 1시 */}

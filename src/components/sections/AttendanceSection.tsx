@@ -12,7 +12,7 @@ export default function AttendanceSection() {
 
   return (
     <>
-      <section className="w-full py-16 md:py-20 px-0 font-sans theme-bg-secondary">
+      <section className="w-full py-16 md:py-20 px-0 font-sans theme-bg-section">
         <div className="max-w-xl mx-auto text-center w-full px-8">
           <div
             ref={titleAnimation.ref}

@@ -68,7 +68,7 @@ export default function HomePage({
           const mainImage = data.data.find((img: Gallery) => img.image_type === 'main')
           if (mainImage?.url) {
             // 상대 경로라면 절대 경로로 변환하고 타임스탬프 추가
-            const imageUrl = mainImage.url.startsWith('http') 
+            const imageUrl = mainImage.url.startsWith('http')
               ? `${mainImage.url}?t=${timestamp}`
               : `https://kevieun.eungming.com${mainImage.url}?t=${timestamp}`
             setMainImageUrl(imageUrl)
@@ -141,9 +141,9 @@ export default function HomePage({
       if (window.Kakao && window.Kakao.isInitialized()) {
         // 최신 메인 이미지 URL 확보 (타임스탬프 포함)
         const shareImageUrl = mainImageUrl || 'https://kevieun.eungming.com/images/cover-image.jpg'
-        
+
         console.log('카카오 공유 이미지 URL:', shareImageUrl)
-        
+
         window.Kakao.Share.sendDefault({
           objectType: 'feed',
           content: {
@@ -165,7 +165,7 @@ export default function HomePage({
             },
           ],
         })
-        
+
         console.log('카카오 공유 요청 완료')
       } else {
         console.error('카카오 SDK가 초기화되지 않았습니다')
@@ -211,7 +211,7 @@ export default function HomePage({
       <DevToolsBlocker />
       <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-lg md:shadow-xl overflow-hidden">
         <CoverSection />
-        <BlessingSection />        
+        <BlessingSection />
         <WeddingDateCountdownSection />
         <LazyGallerySection />
         <LocationSection />
@@ -219,7 +219,7 @@ export default function HomePage({
         <AttendanceSection />
         <LazyGuestbookSection />
 
-        
+
         <Footer />
       </div>
 
@@ -229,9 +229,8 @@ export default function HomePage({
           data-share-buttons
         >
           <button
-            className={`bg-yellow-500 text-black p-3 md:p-4 rounded-full shadow-lg transition-all duration-300 ${
-              shareMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
-            }`}
+            className={`bg-yellow-500 text-black p-3 md:p-4 rounded-full shadow-lg transition-all duration-300 ${shareMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+              }`}
             onClick={shareKakao}
           >
             <svg className="h-5 w-5 md:h-6 md:w-6" viewBox="0 0 24 24" fill="currentColor">
@@ -240,9 +239,8 @@ export default function HomePage({
           </button>
 
           <button
-            className={`theme-button p-3 md:p-4 rounded-full shadow-lg transition-all duration-300 ${
-              shareMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
-            }`}
+            className={`theme-button p-3 md:p-4 rounded-full shadow-lg transition-all duration-300 ${shareMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+              }`}
             onClick={copyLink}
           >
             <svg className="h-5 w-5 md:h-6 md:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -292,10 +290,9 @@ export default function HomePage({
       {/* 토스트 메시지 */}
       {toast && (
         <div className="fixed bottom-4 left-0 right-0 flex justify-center z-[10000] px-4">
-          <div 
-            className={`px-4 py-2 rounded-lg font-medium animate-fade-in-out text-sm md:text-base ${
-              toast.type === 'success' ? 'bg-gray-700 text-white' : 'bg-red-600 text-white'
-            }`}
+          <div
+            className={`px-4 py-2 rounded-lg font-medium animate-fade-in-out text-sm md:text-base ${toast.type === 'success' ? 'bg-gray-700 text-white' : 'bg-red-600 text-white'
+              }`}
           >
             {toast.message}
           </div>

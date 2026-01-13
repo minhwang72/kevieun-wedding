@@ -112,7 +112,7 @@ export default function BlessingSection() {
   const brideInfo = getParentInfo('bride')
 
   return (
-    <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans theme-bg-section">
+    <section className="w-full min-h-screen flex flex-col justify-center py-12 md:py-16 px-0 font-sans theme-bg-main">
       <div className="max-w-xl mx-auto text-center w-full px-6 md:px-8">
         <SectionHeading
           kicker="Blessing"
