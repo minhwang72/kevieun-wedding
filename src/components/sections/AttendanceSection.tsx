@@ -30,7 +30,7 @@ export default function AttendanceSection({ onOpenModal }: AttendanceSectionProp
             ref={contentAnimation.ref}
             className={`mt-8 transition-all duration-800 ${contentAnimation.animationClass}`}
           >
-            <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-8">
+            <p className="text-xs md:text-sm text-gray-700 leading-relaxed mb-8">
               축하의 마음으로 참석해주시는 모든 분들을 귀하게 모실 수 있도록<br />
               참석의사를 꼭 전달 부탁드립니다.
             </p>
