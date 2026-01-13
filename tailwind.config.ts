@@ -17,12 +17,12 @@ const config: Config = {
         text: '#5A4B41',
       },
       fontFamily: {
-        sans: ['MaruBuri', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'serif'],
-        score: ['MaruBuri', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'serif'],
-        english: ['Edu SA Hand', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-        script: ['Great Vibes', 'cursive'],
-        heading: ['MaruBuri', 'Pretendard', 'serif'],
-        body: ['MaruBuri', 'Pretendard', 'serif'],
+        sans: ['JoseonGulim', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'serif'],
+        score: ['JoseonGulim', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'serif'],
+        english: ['JoseonGulim', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        script: ['JoseonGulim', 'cursive'],
+        heading: ['JoseonGulim', 'serif'],
+        body: ['JoseonGulim', 'serif'],
       },
       keyframes: {
         'fade-in': {

@@ -1,17 +1,9 @@
 import type { Viewport } from "next";
 import { Metadata } from 'next'
-import { Libre_Baskerville } from 'next/font/google'
 import "./globals.css";
 import ThemeStyleInjector from '@/components/ThemeStyleInjector'
 import { DEFAULT_THEME } from '@/lib/themeConfig'
 import { getThemeSettings } from '@/lib/server/themeStore'
-
-const libreBaskerville = Libre_Baskerville({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  display: 'swap',
-  variable: '--font-libre',
-});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -56,34 +48,9 @@ export default async function RootLayout({
           type="image/svg+xml"
         />
         <link
-          rel="stylesheet"
-          as="style"
-          crossOrigin=""
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
-        />
-        <link
           rel="preconnect"
           href="https://cdn.jsdelivr.net"
         />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin=""
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Allura&display=swap"
-          rel="stylesheet"
-        />
-        <style>
-          {`
-            @font-face {
-              font-family: 'S-CoreDream-3Light';
-              src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
-              font-weight: 300;
-              font-style: normal;
-            }
-          `}
-        </style>
         <ThemeStyleInjector theme={theme} />
         <meta property="og:updated_time" content={new Date().toISOString()} />
         <meta name="robots" content="index,follow" />
@@ -102,7 +69,7 @@ export default async function RootLayout({
           defer
         />
       </head>
-      <body className={libreBaskerville.className}>
+      <body>
         {children}
       </body>
     </html>

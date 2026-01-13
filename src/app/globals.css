@@ -3,66 +3,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 마루부리 웹폰트 */
 @font-face {
-  font-family: 'MaruBuri';
-  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2') format('woff2'),
-    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff') format('woff'),
-    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
+  font-family: 'JoseonGulim';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
+  font-weight: normal;
   font-display: swap;
 }
-
-@font-face {
-  font-family: 'MaruBuri';
-  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff2') format('woff2'),
-    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff') format('woff'),
-    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MaruBuri';
-  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff2') format('woff2'),
-    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff') format('woff'),
-    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MaruBuri';
-  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.woff2') format('woff2'),
-    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.woff') format('woff'),
-    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'MaruBuri';
-  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.woff2') format('woff2'),
-    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.woff') format('woff'),
-    url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.ttf') format('truetype');
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Edu SA Hand 영어 폰트 (Google Fonts) */
-@import url('https://fonts.googleapis.com/css2?family=Edu+SA+Hand:wght@400;500;600;700&display=swap');
 
 :root {
   --background: #FFFEF9;
   --foreground: #2C2C2C;
   --color-muted: #6B6B6B;
-  --font-heading: 'Libre Baskerville', serif;
-  --font-body: 'Libre Baskerville', serif;
+  --font-heading: 'JoseonGulim', sans-serif;
+  --font-body: 'JoseonGulim', sans-serif;
   --theme-bg-main: #FFFEF9;
   --theme-bg-secondary: #F5F5F0;
   --theme-bg-section: #FFFEFB;
@@ -77,7 +30,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: 'JoseonGulim', sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -135,16 +88,15 @@ body {
 .font-heading {
   font-family: var(--font-heading);
   letter-spacing: 0.05em;
-  font-weight: 500;
+  font-weight: normal;
 }
 
 .font-english {
-  font-family: 'Edu SA Hand', -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+  font-family: 'JoseonGulim', sans-serif !important;
 }
 
 .english-text {
-  font-family: 'Edu SA Hand', sans-serif !important;
-  font-feature-settings: "liga" 1, "kern" 1;
+  font-family: 'JoseonGulim', sans-serif !important;
 }
 
 .section-kicker {
