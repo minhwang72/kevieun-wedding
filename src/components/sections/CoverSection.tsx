@@ -15,7 +15,8 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
   const photoAnimation = useScrollAnimation({ threshold: 0.2, animationDelay: 400 })
 
   const hasImage = Boolean(propImageUrl)
-  const isLoading = propIsLoading || !imageLoaded
+
+  const isLoading = propIsLoading || (hasImage && !imageLoaded) // 이미지가 없으면 로딩 상태 아님
 
   // 이미지가 로드되면 SVG 애니메이션 시작
   useEffect(() => {
@@ -35,8 +36,9 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
     <section className="w-full min-h-screen">
       <div className="relative w-full min-h-screen flex flex-col">
         <div className="absolute inset-0">
-          {isLoading ? (
-            <div className="w-full h-full bg-gray-200 animate-pulse flex items-center justify-center">
+          {/* Loading Skeleton */}
+          {isLoading && (
+            <div className="absolute inset-0 z-20 w-full h-full bg-gray-200 animate-pulse flex items-center justify-center">
               <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -46,11 +48,13 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
                 />
               </svg>
             </div>
-          ) : hasImage ? (
-            <img 
-              src={propImageUrl} 
-              alt="Wedding Cover" 
-              className="w-full h-full object-cover"
+          )}
+
+          {hasImage ? (
+            <img
+              src={propImageUrl}
+              alt="Wedding Cover"
+              className={`w-full h-full object-cover transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
               onLoad={() => setImageLoaded(true)}
             />
           ) : (
