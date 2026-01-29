@@ -173,13 +173,13 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           {/* 갤러리 그리드 - Masonry 레이아웃 */}
           <div
             ref={gridAnimation.ref}
-            className={`columns-2 gap-0.5 md:gap-1 transition-all duration-800 ${gridAnimation.animationClass}`}
+            className={`grid grid-cols-2 gap-0.5 md:gap-1 transition-all duration-800 ${gridAnimation.animationClass}`}
           >
             {imagesToShow.map((item, index) => {
               return (
                 <div
                   key={item.id}
-                  className="relative cursor-pointer bg-white mb-0.5 md:mb-1 break-inside-avoid overflow-hidden"
+                  className="relative cursor-pointer bg-white aspect-square overflow-hidden"
                   onClick={() => openModal(index)}
                 >
                   {('isPlaceholder' in item && item.isPlaceholder) || failedImages.has(item.id) ? (
@@ -203,7 +203,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
                     <img
                       src={item.url}
                       alt="Gallery"
-                      className="w-full h-auto block object-cover"
+                      className="w-full h-full object-cover"
                       onError={() => handleImageError(item.id)}
                     />
                   )}
