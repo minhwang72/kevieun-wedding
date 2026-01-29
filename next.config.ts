@@ -2,11 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  
+
   // 성능 최적화
   compress: true,
   poweredByHeader: false,
-  
+
   // 이미지 최적화
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
   },
-  
+
   // 실험적 기능
   experimental: {
     scrollRestoration: true,
