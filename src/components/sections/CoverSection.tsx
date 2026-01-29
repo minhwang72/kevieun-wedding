@@ -72,8 +72,8 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
 
         {/* Brush Texture SVG - 이미지 로드 후 애니메이션 시작 */}
         {svgAnimationStarted && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-[90%] md:w-[90%]">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 translate-y-8">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-[100%]">
               <g>
                 {COVER_PATHS.map((pathD, index) => (
                   <path
