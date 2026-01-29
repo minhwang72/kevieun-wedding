@@ -28,11 +28,39 @@ interface HomePageProps {
   enableKakao?: boolean
 }
 
+// 이미지 프리로딩 유틸리티
+const preloadImage = (src: string): Promise<void> => {
+  return new Promise((resolve) => {
+    if (!src) {
+      resolve()
+      return
+    }
+    const img = new Image()
+    img.src = src
+    img.onload = () => resolve()
+    img.onerror = () => resolve() // 에러가 나도 진행
+  })
+}
+
+function LoadingOverlay() {
+  return (
+    <div className="fixed inset-0 z-[9999] bg-[#FFFEF9] flex flex-col items-center justify-center transition-opacity duration-500">
+      <div className="flex flex-col items-center gap-4 animate-pulse">
+        <svg className="w-12 h-12 text-[#8B6F47]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+        <p className="text-[#8B6F47] font-heading tracking-widest text-sm">INVITATION LOADING...</p>
+      </div>
+    </div>
+  )
+}
+
 export default function HomePage({
   hideShareButtons = false,
   enableKakao = true
 }: HomePageProps = {}) {
   const [shareMenuOpen, setShareMenuOpen] = useState(false)
+
   const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false)
   const [mainImageUrl, setMainImageUrl] = useState<string>('')
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
@@ -91,9 +119,11 @@ export default function HomePage({
         ])
 
         // 커버 이미지
+        let fetchedCoverUrl = ''
         if (coverRes?.ok) {
           const coverData = await coverRes.json()
           if (coverData.success && coverData.data?.url) {
+            fetchedCoverUrl = coverData.data.url
             setCoverImageUrl(coverData.data.url)
           }
         }
@@ -139,9 +169,23 @@ export default function HomePage({
             setContacts(contactsData.data || [])
           }
         }
+
+        // 이미지 프리로딩 (커버 이미지)
+        if (fetchedCoverUrl) {
+          await preloadImage(fetchedCoverUrl)
+        }
+
       } catch (error) {
         console.error('Error fetching all data:', error)
       } finally {
+        // 최소 로딩 시간 보장 (깜빡임 방지) 및 이미지 로딩 대기
+        // 실제로는 위에서 이미지 URL을 추출해서 await preloadImage(url) 해야 함.
+        // 여기서는 간단히 1초 딜레이 등을 줄 수도 있지만, 사용자는 "사진 안떠있으면 이상"하다고 했음.
+
+        // coverImageUrl 상태가 업데이트된 후 실행되도록 useEffect 분리가 이상적이지만,
+        // 여기서는 일단 API 완료 후 잠시 대기
+        // 더 확실한 방법: fetch 로직 내에서 변수로 URL 확보 후 프리로드
+
         setIsDataLoading(false)
       }
     }
@@ -278,6 +322,7 @@ export default function HomePage({
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center theme-bg-main md:theme-bg-secondary py-0 md:py-8">
+      {isDataLoading && <LoadingOverlay />}
       <DevToolsBlocker />
       <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-lg md:shadow-xl overflow-hidden">
         <CoverSection imageUrl={coverImageUrl} isLoading={isDataLoading} />

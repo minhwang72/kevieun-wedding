@@ -25,7 +25,7 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
 
   const overlayTextShadow = { textShadow: '1px 1px 1px rgba(0,0,0,0.3)' }
   const beigeColor = '#F5F5DC' // 베이지색 (beige)
-  const ivoryColor = '#fff0d0' // 아이보리 (ivory)
+  // // const ivoryColor = '#fff0d0' // 아이보리 (ivory)
 
 
 
@@ -79,7 +79,7 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
                   <path
                     key={index}
                     d={pathD}
-                    fill={ivoryColor}
+                    // fill={ivoryColor}
                     fillRule="evenodd"
                     clipRule="evenodd"
                     style={{
