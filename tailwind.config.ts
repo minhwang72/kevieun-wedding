@@ -17,12 +17,12 @@ const config: Config = {
         text: '#5A4B41',
       },
       fontFamily: {
-        sans: ['JoseonGulim', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'serif'],
-        score: ['JoseonGulim', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'serif'],
-        english: ['JoseonGulim', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-        script: ['JoseonGulim', 'cursive'],
-        heading: ['JoseonGulim', 'serif'],
-        body: ['JoseonGulim', 'serif'],
+        sans: ['"Nanum Myeongjo"', 'serif'],
+        score: ['"Nanum Myeongjo"', 'serif'],
+        english: ['"Nanum Myeongjo"', 'serif'],
+        script: ['"Nanum Myeongjo"', 'serif'],
+        heading: ['"Nanum Myeongjo"', 'serif'],
+        body: ['"Nanum Myeongjo"', 'serif'],
       },
       keyframes: {
         'fade-in': {

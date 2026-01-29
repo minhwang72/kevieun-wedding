@@ -46,7 +46,7 @@ export default function CoverSection() {
 
 
   const hasImage = Boolean(imageUrl)
-  const overlayTextShadow = { textShadow: '0 12px 28px rgba(0,0,0,0.45)' }
+  const overlayTextShadow = { textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5)' }
   const beigeColor = '#F5F5DC' // 연한 베이지색 (beige)
 
 
@@ -81,7 +81,7 @@ export default function CoverSection() {
               <p className="text-sm text-gray-500">커버 사진을 준비 중입니다.</p>
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/65" />
+
         </div>
 
         <div

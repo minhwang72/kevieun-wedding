@@ -3,19 +3,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'JoseonGulim';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
-  font-weight: normal;
-  font-display: swap;
-}
+
 
 :root {
   --background: #FFFEF9;
   --foreground: #2C2C2C;
   --color-muted: #6B6B6B;
-  --font-heading: 'JoseonGulim', sans-serif;
-  --font-body: 'JoseonGulim', sans-serif;
+  --font-heading: 'Nanum Myeongjo', serif;
+  --font-body: 'Nanum Myeongjo', serif;
   --theme-bg-main: #FFFEF9;
   --theme-bg-secondary: #F5F5F0;
   --theme-bg-section: #FFFEFB;
@@ -30,7 +25,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: 'JoseonGulim', sans-serif;
+  --font-sans: 'Nanum Myeongjo', serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -92,11 +87,11 @@ body {
 }
 
 .font-english {
-  font-family: 'JoseonGulim', sans-serif !important;
+  font-family: 'Nanum Myeongjo', serif !important;
 }
 
 .english-text {
-  font-family: 'JoseonGulim', sans-serif !important;
+  font-family: 'Nanum Myeongjo', serif !important;
 }
 
 .section-kicker {
