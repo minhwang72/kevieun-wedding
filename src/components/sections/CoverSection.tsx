@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 import { COVER_PATHS } from './CoverSectionPaths'
 
 interface CoverSectionProps {
@@ -12,10 +11,8 @@ interface CoverSectionProps {
 export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: propIsLoading = true }: CoverSectionProps) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [svgAnimationStarted, setSvgAnimationStarted] = useState(false)
-  const photoAnimation = useScrollAnimation({ threshold: 0.2, animationDelay: 400 })
 
   const hasImage = Boolean(propImageUrl)
-
   const isLoading = propIsLoading || (hasImage && !imageLoaded) // 이미지가 없으면 로딩 상태 아님
 
   // 이미지가 로드되면 SVG 애니메이션 시작
@@ -96,8 +93,7 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
         )}
 
         <div
-          ref={photoAnimation.ref}
-          className={`relative z-10 flex flex-col flex-1 px-6 md:px-12 py-10 text-white transition-opacity duration-700 ${photoAnimation.animationClass}`}
+          className={`relative z-10 flex flex-col flex-1 px-6 md:px-12 py-10 text-white transition-opacity duration-700 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         >
 
 
