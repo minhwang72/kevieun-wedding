@@ -86,16 +86,16 @@ export default function CoverSection() {
         </div>
 
         {/* Brush Texture SVG */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196">
+        {/* 1. 위치 수정: translate-y 값을 조절하여 아래로 내림 */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 translate-y-24">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-[80%] md:w-[60%]"> {/* 3. 크기도 조절 가능 */}
             <g>
               {COVER_PATHS.map((pathD, index) => (
                 <path
                   key={index}
                   d={pathD}
                   fill={ivoryColor}
-                  stroke={ivoryColor}
-                  strokeWidth={0.5}
+                  /* 2. 두께 수정: stroke를 제거하여 본래의 얇은 벡터 상태로 복원 */
                   style={{
                     opacity: 0,
                     animation: `fadeIn 0.5s ease-out forwards`,
@@ -114,7 +114,7 @@ export default function CoverSection() {
 
 
           {/* Bottom Info & Quote */}
-          <div className="absolute bottom-12 left-0 right-0 text-center pb-8 z-20 px-8" style={{ ...overlayTextShadow, color: beigeColor }}>
+          <div className="absolute bottom-20 md:bottom-24 left-0 right-0 text-center pb-8 z-20 px-8" style={{ ...overlayTextShadow, color: beigeColor }}>
             <p className="text-sm md:text-lg tracking-[0.2em] font-heading uppercase mb-1">
               - Sat, Jun 13th, 2026 -
             </p>
