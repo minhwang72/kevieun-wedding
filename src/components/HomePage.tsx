@@ -37,7 +37,7 @@ export default function HomePage({
   const [mainImageUrl, setMainImageUrl] = useState<string>('')
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
   const [shareVisible, setShareVisible] = useState(false)
-  
+
   // 모든 API 데이터를 한 번에 로드
   const [coverImageUrl, setCoverImageUrl] = useState<string>('')
   const [galleryData, setGalleryData] = useState<Gallery[]>([])
@@ -80,7 +80,7 @@ export default function HomePage({
     const fetchAllData = async () => {
       try {
         const timestamp = Date.now()
-        
+
         // 모든 API를 병렬로 호출
         const [coverRes, galleryRes, guestbookRes, blessingRes, contactsRes] = await Promise.all([
           fetch(`/api/cover-image?t=${timestamp}`).catch(() => null),
@@ -210,7 +210,7 @@ export default function HomePage({
           objectType: 'feed',
           content: {
             title: '임희근 ♥ 이은혜 결혼합니다',
-            description: '2026년 6월 13일 오후 1시\n정동제일교회에서 결혼식을 올립니다.\nWe invite you to our wedding.\n여러분의 축복으로 더 아름다운 날이 되길 바랍니다.',
+            description: '2026년 6월 13일 오후1시 정동제일교회',
             imageUrl: shareImageUrl,
             link: {
               mobileWebUrl: 'https://kevieun.eungming.com',

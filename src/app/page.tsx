@@ -8,14 +8,14 @@ export const revalidate = 0
 export async function generateMetadata(): Promise<Metadata> {
   // 기본 이미지를 실제 존재하는 메인 이미지로 설정
   let imageUrl = 'https://kevieun.eungming.com/uploads/images/main_cover.jpg'
-  
+
   try {
     // 서버 사이드에서는 내부 API 호출 사용 (SSL 인증서 문제 회피)
-    const baseUrl = process.env.INTERNAL_API_URL || 
-      (process.env.NODE_ENV === 'production' 
+    const baseUrl = process.env.INTERNAL_API_URL ||
+      (process.env.NODE_ENV === 'production'
         ? 'http://127.0.0.1:3160'  // Docker 내부에서는 HTTP 사용 (IPv4)
         : 'http://127.0.0.1:3000')  // 개발 환경 (IPv4)
-      
+
     console.log(`[DEBUG] Fetching gallery data from: ${baseUrl}/api/gallery`)
     const response = await fetch(`${baseUrl}/api/gallery`, {
       next: { revalidate: 60 * 60 }, // 1시간마다 최신 메타 이미지 갱신
@@ -23,20 +23,20 @@ export async function generateMetadata(): Promise<Metadata> {
         'User-Agent': 'kevieunBot/1.0 (Wedding Invitation Metadata Generator)',
       }
     })
-    
+
     console.log(`[DEBUG] Gallery API response status: ${response.status}`)
-    
+
     if (response.ok) {
       const data = await response.json()
       console.log(`[DEBUG] Gallery API response data:`, data)
-      
+
       if (data.success) {
         const mainImage = data.data.find((img: Gallery) => img.image_type === 'main')
         console.log(`[DEBUG] Found main image:`, mainImage)
-        
+
         if (mainImage?.url) {
           // URL이 상대 경로인 경우 절대 경로로 변환 (타임스탬프 제거)
-          imageUrl = mainImage.url.startsWith('http') 
+          imageUrl = mainImage.url.startsWith('http')
             ? mainImage.url
             : `https://kevieun.eungming.com${mainImage.url}`
           console.log(`[DEBUG] Final image URL:`, imageUrl)
@@ -57,11 +57,11 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: 'https://kevieun.eungming.com',
     },
     title: "임희근 ♥ 이은혜 결혼합니다",
-    description: "2026년 6월 13일 오후 1시, 정동제일교회에서 결혼식을 올립니다. We invite you to our wedding. 여러분의 축복으로 더 아름다운 날이 되길 바랍니다.",
+    description: "2026년 6월 13일 오후1시 정동제일교회",
     keywords: ["결혼식", "청첩장", "wedding", "invitation", "임희근", "이은혜", "정동제일교회"],
     openGraph: {
       title: "임희근 ♥ 이은혜 결혼합니다",
-      description: "2026년 6월 13일 오후 1시\n정동제일교회에서 결혼식을 올립니다.\nWe invite you to our wedding.\n여러분의 축복으로 더 아름다운 날이 되길 바랍니다.",
+      description: "2026년 6월 13일 오후1시 정동제일교회",
       url: "https://kevieun.eungming.com",
       siteName: "임희근 ♥ 이은혜 결혼식 청첩장",
       images: [
@@ -78,7 +78,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "임희근 ♥ 이은혜 결혼합니다",
-      description: "2026년 6월 13일 오후 1시, 정동제일교회에서 결혼식을 올립니다. We invite you to our wedding.",
+      description: "2026년 6월 13일 오후1시 정동제일교회",
       images: [imageUrl],
     },
     icons: {

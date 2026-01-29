@@ -26,12 +26,12 @@ export default function WeddingDateSection() {
 
   // 달력 배열 생성
   const calendarDays: Array<{ day: number; isWeddingDay: boolean } | null> = []
-  
+
   // 첫 번째 주의 빈 공간 채우기
   for (let i = 0; i < firstDayOfMonth; i++) {
     calendarDays.push(null)
   }
-  
+
   // 날짜 채우기
   for (let day = 1; day <= daysInMonth; day++) {
     calendarDays.push({
@@ -42,16 +42,16 @@ export default function WeddingDateSection() {
 
   const getDayClass = (dayInfo: { day: number; isWeddingDay: boolean } | null) => {
     if (!dayInfo) return 'h-10 md:h-12 w-full text-center flex items-center justify-center text-base md:text-lg text-gray-300'
-    
+
     // 실제 날짜를 기반으로 요일 계산
     const actualDate = new Date(year, month - 1, dayInfo.day)
     const dayOfWeek = actualDate.getDay()
     const weekendClass = dayOfWeek === 0 || dayOfWeek === 6 ? 'text-gray-600' : 'text-gray-700'
-    
+
     if (dayInfo.isWeddingDay) {
       return `h-10 md:h-12 w-full text-center flex items-center justify-center text-base md:text-lg relative ${weekendClass}`
     }
-    
+
     return `h-10 md:h-12 w-full text-center flex items-center justify-center text-base md:text-lg transition-colors rounded ${weekendClass}`
   }
 
@@ -71,7 +71,7 @@ export default function WeddingDateSection() {
         <div className="w-full h-px bg-gray-200 mb-6 md:mb-8"></div>
 
         {/* 달력 전체 */}
-        <div 
+        <div
           ref={calendarAnimation.ref}
           className={`transition-all duration-800 ${calendarAnimation.animationClass}`}
         >
@@ -117,14 +117,14 @@ export default function WeddingDateSection() {
         <div className="w-full h-px bg-gray-200 mt-6 md:mt-8 mb-8 md:mb-10"></div>
 
         {/* 날짜 및 시간 정보 */}
-        <div 
+        <div
           ref={dateInfoAnimation.ref}
           className={`space-y-3 md:space-y-4 transition-all duration-800 ${dateInfoAnimation.animationClass}`}
         >
           <div className="text-lg md:text-xl font-heading text-gray-700 tracking-[0.4em] uppercase">
             2026년 6월 13일 토요일&nbsp;&nbsp;|&nbsp;&nbsp;오후 1시
           </div>
-          
+
           <div className="text-lg md:text-xl font-heading text-gray-700 tracking-[0.4em] uppercase">
             Saturday, June 13, 2026&nbsp;&nbsp;|&nbsp;&nbsp;PM 1:00
           </div>
