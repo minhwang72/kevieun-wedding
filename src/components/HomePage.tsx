@@ -5,7 +5,6 @@ import CoverSection from '@/components/sections/CoverSection'
 import WeddingDateCountdownSection from '@/components/sections/WeddingDateCountdownSection'
 import BlessingSection from '@/components/sections/BlessingSection'
 import LocationSection from '@/components/sections/DetailsSection'
-import TransportSection from '@/components/sections/TransportSection'
 import HeartMoneySection from '@/components/sections/HeartMoneySection'
 import AttendanceSection from '@/components/sections/AttendanceSection'
 import LazyGallerySection from '@/components/sections/LazyGallerySection'
@@ -227,7 +226,6 @@ export default function HomePage({
         <WeddingDateCountdownSection />
         <LazyGallerySection />
         <LocationSection />
-        <TransportSection />
         <HeartMoneySection />
         <AttendanceSection onOpenModal={openAttendanceModal} />
         <LazyGuestbookSection />

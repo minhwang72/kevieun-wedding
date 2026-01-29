@@ -47,7 +47,7 @@ export default function CoverSection() {
 
   const hasImage = Boolean(imageUrl)
   const overlayTextShadow = { textShadow: '1px 1px 1px rgba(0,0,0,0.3)' }
-  const beigeColor = '#F5F5DC' // 연한 베이지색 (beige)
+  const beigeColor = '#F5F5DC' // 베이지색 (beige)
   const ivoryColor = '#fff0d0' // 아이보리 (ivory)
 
 

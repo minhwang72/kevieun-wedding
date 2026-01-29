@@ -191,7 +191,34 @@ export default function LocationSection() {
             <div className="pt-2">
               <div className="flex items-center gap-2 mb-3">
                 <svg className="w-5 h-5 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                  {/* 지하철 몸체 */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 3h10a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"
+                  />
+                  {/* 전면 유리창 구분선 */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 11h14"
+                  />
+                  {/* 하단 전조등 (양쪽 점) */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 15h.01M15 15h.01"
+                  />
+                  {/* 선로/바디 지지대 */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 21l2-2m10 2l-2-2"
+                  />
                 </svg>
                 <h3 className="text-base md:text-lg font-bold text-black">지하철</h3>
               </div>
@@ -216,6 +243,36 @@ export default function LocationSection() {
               <p className="text-black leading-relaxed ml-7 text-sm md:text-base">
                 서대문역 사거리 → 정동사거리 우회전 500m 직진<br />
                 <span className="text-xs md:text-sm font-bold">*주차는 인근 배재빌딩 지하주차장을 이용해 주시길 바랍니다.</span>
+              </p>
+            </div>
+
+            {/* 구분선 */}
+            <div className="w-full h-px bg-gray-200"></div>
+
+            {/* 전세버스 */}
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <svg className="w-5 h-5 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {/* 바퀴 부분 */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 17a2 2 0 11-4 0 2 2 0 014 0zM20 17a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                  {/* 버스 몸체 및 창문 */}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M2 17h2m4 0h8m4 0h2M2 17V7a2 2 0 012-2h16a2 2 0 012 2v10M2 11h20M7 5v6M12 5v6M17 5v6"
+                  />
+                </svg>
+                <h3 className="text-base md:text-lg font-bold text-black">전세버스</h3>
+              </div>
+              <p className="text-black leading-relaxed ml-7 text-sm md:text-base">
+                춘천시 사우로 152 우두명가 앞 대로변<br />
+                <span className="text-xs md:text-sm font-bold">*오전 9시 30분에 출발합니다</span>
               </p>
             </div>
 
