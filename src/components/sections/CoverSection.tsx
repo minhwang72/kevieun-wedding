@@ -46,7 +46,7 @@ export default function CoverSection() {
 
 
   const hasImage = Boolean(imageUrl)
-  const overlayTextShadow = { textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.5)' }
+  const overlayTextShadow = { textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
   const beigeColor = '#F5F5DC' // 연한 베이지색 (beige)
 
 
@@ -91,15 +91,15 @@ export default function CoverSection() {
 
 
           {/* Bottom Info & Quote */}
-          <div className="absolute bottom-12 left-0 right-0 text-center pb-8 z-20" style={{ ...overlayTextShadow, color: beigeColor }}>
-            <p className="text-xs md:text-sm tracking-[0.2em] font-heading uppercase mb-6 opacity-0 animate-fade-in" style={{ animationDelay: '1000ms', animationFillMode: 'forwards' }}>
+          <div className="absolute bottom-12 left-0 right-0 text-center pb-8 z-20 px-8" style={{ ...overlayTextShadow, color: beigeColor }}>
+            <p className="text-sm md:text-lg tracking-[0.2em] font-heading uppercase mb-1 opacity-0 animate-fade-in" style={{ animationDelay: '1000ms', animationFillMode: 'forwards' }}>
               - Sat, Jun 13th, 2026 -
             </p>
             <div className="opacity-0 animate-fade-in" style={{ animationDelay: '1500ms', animationFillMode: 'forwards' }}>
-              <p className="text-base md:text-xl font-heading font-italic mb-1">
+              <p className="text-base md:text-xl font-heading mb-1">
                 Forever begins with a single step,
               </p>
-              <p className="text-base md:text-xl font-heading font-italic">
+              <p className="text-base md:text-xl font-heading">
                 And love guides us every step of the way.
               </p>
             </div>
