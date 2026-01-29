@@ -13,7 +13,15 @@ import Footer from '@/components/Footer'
 import DevToolsBlocker from '@/components/DevToolsBlocker'
 import AttendanceModal from '@/components/AttendanceModal'
 import AttendancePopup from '@/components/AttendancePopup'
-import type { Gallery } from '@/types'
+import type { Gallery, Guestbook } from '@/types'
+
+interface ContactPerson {
+  id: number
+  side: 'groom' | 'bride'
+  name: string
+  relationship: 'person' | 'father' | 'mother' | 'brother' | 'sister' | 'other'
+  phone?: string
+}
 
 interface HomePageProps {
   hideShareButtons?: boolean
@@ -29,6 +37,14 @@ export default function HomePage({
   const [mainImageUrl, setMainImageUrl] = useState<string>('')
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
   const [shareVisible, setShareVisible] = useState(false)
+  
+  // 모든 API 데이터를 한 번에 로드
+  const [coverImageUrl, setCoverImageUrl] = useState<string>('')
+  const [galleryData, setGalleryData] = useState<Gallery[]>([])
+  const [guestbookData, setGuestbookData] = useState<Guestbook[]>([])
+  const [blessingContent, setBlessingContent] = useState<string>('')
+  const [contacts, setContacts] = useState<ContactPerson[]>([])
+  const [isDataLoading, setIsDataLoading] = useState(true)
 
   // 카카오 SDK 초기화
   useEffect(() => {
@@ -59,35 +75,78 @@ export default function HomePage({
     }
   }, [enableKakao])
 
-  // 메인 이미지 가져오기
+  // 모든 API 데이터를 한 번에 로드
   useEffect(() => {
-    const fetchMainImage = async () => {
+    const fetchAllData = async () => {
       try {
-        // 캐시 무효화를 위한 타임스탬프 추가
         const timestamp = Date.now()
-        const response = await fetch(`/api/gallery?t=${timestamp}`)
-        const data = await response.json()
-        if (data.success) {
-          const mainImage = data.data.find((img: Gallery) => img.image_type === 'main')
-          if (mainImage?.url) {
-            // 상대 경로라면 절대 경로로 변환하고 타임스탬프 추가
-            const imageUrl = mainImage.url.startsWith('http')
-              ? `${mainImage.url}?t=${timestamp}`
-              : `https://kevieun.eungming.com${mainImage.url}?t=${timestamp}`
-            setMainImageUrl(imageUrl)
-          } else {
-            // 메인 이미지가 없으면 기본 이미지 사용
-            setMainImageUrl('https://kevieun.eungming.com/images/cover-image.jpg')
+        
+        // 모든 API를 병렬로 호출
+        const [coverRes, galleryRes, guestbookRes, blessingRes, contactsRes] = await Promise.all([
+          fetch(`/api/cover-image?t=${timestamp}`).catch(() => null),
+          fetch(`/api/gallery?t=${timestamp}`).catch(() => null),
+          fetch(`/api/guestbook?t=${timestamp}`).catch(() => null),
+          fetch(`/api/blessing?t=${timestamp}`).catch(() => null),
+          fetch(`/api/contacts?t=${timestamp}`).catch(() => null)
+        ])
+
+        // 커버 이미지
+        if (coverRes?.ok) {
+          const coverData = await coverRes.json()
+          if (coverData.success && coverData.data?.url) {
+            setCoverImageUrl(coverData.data.url)
+          }
+        }
+
+        // 갤러리 데이터
+        if (galleryRes?.ok) {
+          const galleryData = await galleryRes.json()
+          if (galleryData.success) {
+            setGalleryData(galleryData.data || [])
+            // 메인 이미지도 설정
+            const mainImage = galleryData.data?.find((img: Gallery) => img.image_type === 'main')
+            if (mainImage?.url) {
+              const imageUrl = mainImage.url.startsWith('http')
+                ? `${mainImage.url}?t=${timestamp}`
+                : `https://kevieun.eungming.com${mainImage.url}?t=${timestamp}`
+              setMainImageUrl(imageUrl)
+            } else {
+              setMainImageUrl('https://kevieun.eungming.com/images/cover-image.jpg')
+            }
+          }
+        }
+
+        // 방명록 데이터
+        if (guestbookRes?.ok) {
+          const guestbookData = await guestbookRes.json()
+          if (guestbookData.success) {
+            setGuestbookData(guestbookData.data || [])
+          }
+        }
+
+        // 축하 메시지
+        if (blessingRes?.ok) {
+          const blessingData = await blessingRes.json()
+          if (blessingData.success && blessingData.data?.content) {
+            setBlessingContent(blessingData.data.content)
+          }
+        }
+
+        // 연락처 정보
+        if (contactsRes?.ok) {
+          const contactsData = await contactsRes.json()
+          if (contactsData.success) {
+            setContacts(contactsData.data || [])
           }
         }
       } catch (error) {
-        console.error('Error fetching main image:', error)
-        // 기본 이미지 URL 설정
-        setMainImageUrl('https://kevieun.eungming.com/images/cover-image.jpg')
+        console.error('Error fetching all data:', error)
+      } finally {
+        setIsDataLoading(false)
       }
     }
 
-    fetchMainImage()
+    fetchAllData()
   }, [])
 
   // 공유 메뉴 닫기 함수
@@ -221,14 +280,14 @@ export default function HomePage({
     <main className="min-h-screen flex flex-col items-center justify-center theme-bg-main md:theme-bg-secondary py-0 md:py-8">
       <DevToolsBlocker />
       <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-lg md:shadow-xl overflow-hidden">
-        <CoverSection />
-        <BlessingSection />
+        <CoverSection imageUrl={coverImageUrl} isLoading={isDataLoading} />
+        <BlessingSection blessingContent={blessingContent} contacts={contacts} isLoading={isDataLoading} />
         <WeddingDateCountdownSection />
-        <LazyGallerySection />
+        <LazyGallerySection gallery={galleryData} />
         <LocationSection />
         <HeartMoneySection />
         <AttendanceSection onOpenModal={openAttendanceModal} />
-        <LazyGuestbookSection />
+        <LazyGuestbookSection guestbook={guestbookData} />
 
 
         <Footer />

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import SectionHeading from '@/components/SectionHeading'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
 
@@ -16,10 +16,20 @@ interface ContactPerson {
   phone?: string
 }
 
-export default function BlessingSection() {
-  const [content, setContent] = useState<string>(defaultContent)
-  const [loading, setLoading] = useState(true)
-  const [contacts, setContacts] = useState<ContactPerson[]>([])
+interface BlessingSectionProps {
+  blessingContent?: string
+  contacts?: ContactPerson[]
+  isLoading?: boolean
+}
+
+export default function BlessingSection({ 
+  blessingContent: propBlessingContent = '', 
+  contacts: propContacts = [],
+  isLoading: propIsLoading = true 
+}: BlessingSectionProps) {
+  const content = propBlessingContent || defaultContent
+  const contacts = propContacts
+  const loading = propIsLoading
 
   const lines = useMemo(() => {
     return content
@@ -30,55 +40,6 @@ export default function BlessingSection() {
 
   const firstParagraphAnimation = useScrollAnimation({ threshold: 0.3, animationDelay: 200, disabled: loading })
   const parentsAnimation = useScrollAnimation({ threshold: 0.3, animationDelay: 400, disabled: loading })
-
-  useEffect(() => {
-    let isMounted = true
-
-    const fetchBlessingContent = async () => {
-      try {
-        const response = await fetch(`/api/blessing?t=${Date.now()}`, {
-          cache: 'no-store',
-          headers: {
-            'Cache-Control': 'no-cache'
-          }
-        })
-        const data = await response.json()
-        if (isMounted && data.success && data.data?.content) {
-          setContent(data.data.content)
-        }
-      } catch (error) {
-        console.error('Error fetching blessing content:', error)
-      } finally {
-        if (isMounted) {
-          setLoading(false)
-        }
-      }
-    }
-
-    const fetchContacts = async () => {
-      try {
-        const response = await fetch(`/api/contacts?t=${Date.now()}`, {
-          cache: 'no-store',
-          headers: {
-            'Cache-Control': 'no-cache'
-          }
-        })
-        const data = await response.json()
-        if (isMounted && data.success && data.data) {
-          setContacts(data.data)
-        }
-      } catch (error) {
-        console.error('Error fetching contacts:', error)
-      }
-    }
-
-    fetchBlessingContent()
-    fetchContacts()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
 
   // 부모 정보 포맷팅 (기본값 포함)
   const getParentInfo = (side: 'groom' | 'bride') => {

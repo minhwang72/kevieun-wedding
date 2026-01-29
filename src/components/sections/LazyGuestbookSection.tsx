@@ -3,7 +3,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import GuestbookSection from './GuestbookSection'
 import type { Guestbook } from '@/types'
 
-// API 응답 캐시
+// API 응답 캐시 (방명록 업데이트용)
 interface CacheData {
   data: unknown
   timestamp: number
@@ -12,27 +12,21 @@ interface CacheData {
 const apiCache = new Map<string, CacheData>()
 const CACHE_DURATION = 5 * 60 * 1000 // 5분
 
-// 캐시된 API 호출 함수
+// 캐시된 API 호출 함수 (방명록 업데이트용)
 const fetchWithCache = async (url: string, forceRefresh = false) => {
   const now = Date.now()
   const cached = apiCache.get(url)
 
-  // forceRefresh가 true이거나 캐시가 만료된 경우 새로 요청
   if (!forceRefresh && cached && now - cached.timestamp < CACHE_DURATION) {
-    console.log('🔍 [DEBUG] Using cached data for:', url)
     return cached.data
   }
 
-  console.log('🔍 [DEBUG] Fetching fresh data for:', url)
-
-  // 타임아웃 설정 (10초)
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), 10000)
 
   try {
     const response = await fetch(url, {
       signal: controller.signal,
-      // 캐시 방지를 위한 헤더 추가
       headers: {
         'Cache-Control': 'no-cache',
         'Pragma': 'no-cache'
@@ -45,8 +39,6 @@ const fetchWithCache = async (url: string, forceRefresh = false) => {
     }
 
     const data = await response.json()
-
-    // 성공 시에만 캐시에 저장
     apiCache.set(url, { data, timestamp: now })
     return data
   } catch (error) {
@@ -91,10 +83,13 @@ const GuestbookLoading = () => (
   </section>
 )
 
-export default function LazyGuestbookSection() {
-  const [guestbook, setGuestbook] = useState<Guestbook[]>([])
-  const [loading, setLoading] = useState(false)
-  const [hasLoaded, setHasLoaded] = useState(false)
+interface LazyGuestbookSectionProps {
+  guestbook?: Guestbook[]
+}
+
+export default function LazyGuestbookSection({ guestbook: propGuestbook = [] }: LazyGuestbookSectionProps) {
+  const [isVisible, setIsVisible] = useState(false)
+  const [guestbook, setGuestbook] = useState<Guestbook[]>(propGuestbook)
 
   const { ref, shouldLoad } = useIntersectionObserver({
     rootMargin: '200px',
@@ -102,10 +97,20 @@ export default function LazyGuestbookSection() {
     triggerOnce: true
   })
 
+  // propGuestbook이 변경되면 업데이트
+  useEffect(() => {
+    setGuestbook(propGuestbook)
+  }, [propGuestbook])
+
+  useEffect(() => {
+    if (shouldLoad) {
+      setIsVisible(true)
+    }
+  }, [shouldLoad])
+
   // 방명록 데이터를 다시 가져오는 함수 (캐시 무시)
   const fetchGuestbook = useCallback(async () => {
     try {
-      setLoading(true)
       console.log('🔍 [DEBUG] Forcing guestbook refresh')
       // 강제로 최신 데이터 가져오기 (캐시 무시)
       const guestbookData = await fetchWithCache('/api/guestbook', true)
@@ -116,41 +121,15 @@ export default function LazyGuestbookSection() {
       }
     } catch (error) {
       console.error('Error fetching guestbook:', error)
-      setGuestbook([])
-    } finally {
-      setLoading(false)
     }
   }, [])
 
-  useEffect(() => {
-    if (shouldLoad && !hasLoaded) {
-      const fetchInitialGuestbook = async () => {
-        try {
-          setLoading(true)
-          const guestbookData = await fetchWithCache('/api/guestbook')
-
-          if (guestbookData && typeof guestbookData === 'object' && 'success' in guestbookData && guestbookData.success) {
-            setGuestbook((guestbookData as { data: Guestbook[] }).data || [])
-          }
-        } catch (error) {
-          console.error('Error fetching guestbook:', error)
-          setGuestbook([])
-        } finally {
-          setLoading(false)
-          setHasLoaded(true)
-        }
-      }
-
-      fetchInitialGuestbook()
-    }
-  }, [shouldLoad, hasLoaded])
-
   return (
     <div ref={ref}>
-      {loading && !hasLoaded ? (
-        <GuestbookLoading />
-      ) : (
+      {isVisible ? (
         <GuestbookSection guestbook={guestbook} onGuestbookUpdate={fetchGuestbook} />
+      ) : (
+        <GuestbookLoading />
       )}
     </div>
   )

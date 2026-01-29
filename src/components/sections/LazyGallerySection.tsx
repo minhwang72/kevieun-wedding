@@ -1,62 +1,7 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import GallerySection from './GallerySection'
 import type { Gallery } from '@/types'
-
-// API 응답 캐시
-interface CacheData {
-  data: unknown
-  timestamp: number
-}
-
-const apiCache = new Map<string, CacheData>()
-const CACHE_DURATION = 5 * 60 * 1000 // 5분
-
-// 캐시된 API 호출 함수
-const fetchWithCache = async (url: string, forceRefresh = false) => {
-  const now = Date.now()
-  const cached = apiCache.get(url)
-
-  if (!forceRefresh && cached && now - cached.timestamp < CACHE_DURATION) {
-    return cached.data
-  }
-
-  // 타임아웃 설정 (10초)
-  const controller = new AbortController()
-  const timeoutId = setTimeout(() => controller.abort(), 10000)
-
-  try {
-    // Cache busting을 위한 timestamp 추가
-    const timestamp = Date.now()
-    const response = await fetch(`${url}?t=${timestamp}`, {
-      signal: controller.signal,
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-cache',
-        'Pragma': 'no-cache'
-      }
-    })
-    clearTimeout(timeoutId)
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`)
-    }
-
-    const data = await response.json()
-    apiCache.set(url, { data, timestamp: now })
-    return data
-  } catch (error) {
-    clearTimeout(timeoutId)
-    if (error instanceof Error && error.name === 'AbortError') {
-      console.error(`Error fetching ${url}: Request timeout`)
-      // 타임아웃 시 캐시된 데이터 반환 (있으면)
-      if (cached) {
-        return cached.data
-      }
-    }
-    throw error
-  }
-}
 
 // 갤러리 로딩 스켈레톤
 const GalleryLoading = () => (
@@ -81,10 +26,12 @@ const GalleryLoading = () => (
   </section>
 )
 
-export default function LazyGallerySection() {
-  const [gallery, setGallery] = useState<Gallery[]>([])
-  const [loading, setLoading] = useState(false)
-  const [hasLoaded, setHasLoaded] = useState(false)
+interface LazyGallerySectionProps {
+  gallery?: Gallery[]
+}
+
+export default function LazyGallerySection({ gallery: propGallery = [] }: LazyGallerySectionProps) {
+  const [isVisible, setIsVisible] = useState(false)
 
   const { ref, shouldLoad } = useIntersectionObserver({
     rootMargin: '200px',
@@ -92,37 +39,18 @@ export default function LazyGallerySection() {
     triggerOnce: true
   })
 
-  const fetchGallery = useCallback(async (forceRefresh = false) => {
-    try {
-      setLoading(true)
-      const galleryData = await fetchWithCache('/api/gallery', forceRefresh)
-
-      if (galleryData && typeof galleryData === 'object' && 'success' in galleryData && galleryData.success) {
-        setGallery((galleryData as { data: Gallery[] }).data || [])
-      }
-    } catch (error) {
-      console.error('Error fetching gallery:', error)
-      // 에러 발생 시 기존 갤러리 데이터 유지 (무한 로딩 방지)
-      // setGallery([]) 제거하여 빈 화면 방지
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
   useEffect(() => {
-    if (shouldLoad && !hasLoaded) {
-      fetchGallery().then(() => setHasLoaded(true))
+    if (shouldLoad) {
+      setIsVisible(true)
     }
-  }, [shouldLoad, hasLoaded, fetchGallery])
-
-  // 자동 갱신 제거: 페이지 로드/새로고침 시 자동으로 API 호출되므로 불필요
+  }, [shouldLoad])
 
   return (
     <div ref={ref}>
-      {loading && !hasLoaded ? (
-        <GalleryLoading />
+      {isVisible ? (
+        <GallerySection gallery={propGallery} />
       ) : (
-        <GallerySection gallery={gallery} />
+        <GalleryLoading />
       )}
     </div>
   )
