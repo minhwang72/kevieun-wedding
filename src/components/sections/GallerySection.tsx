@@ -173,7 +173,7 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
           {/* 갤러리 그리드 - Masonry 레이아웃 */}
           <div
             ref={gridAnimation.ref}
-            className={`grid grid-cols-2 gap-0.5 md:gap-1 transition-all duration-800 ${gridAnimation.animationClass}`}
+            className={`grid grid-cols-3 gap-0.5 md:gap-1 transition-all duration-800 ${gridAnimation.animationClass}`}
           >
             {imagesToShow.map((item, index) => {
               return (

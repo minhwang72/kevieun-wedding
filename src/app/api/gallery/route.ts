@@ -25,7 +25,7 @@ export async function GET() {
           ELSE created_at
         END ASC
     `)
-    
+
     const gallery = (rows as DatabaseGalleryRow[]).map(row => ({
       id: row.id,
       url: `/uploads/${row.filename}`, // 파일 경로를 URL로 변환
@@ -89,29 +89,29 @@ export async function POST(request: Request) {
     if (image_type === 'main') {
       const koreaTime = new Date(Date.now() + (9 * 60 * 60 * 1000)) // UTC + 9시간
       const formattedTime = koreaTime.toISOString().slice(0, 19).replace('T', ' ')
-      
+
       // 기존 메인 이미지 파일명 조회 후 물리적 파일 삭제
       const [existingMainRows] = await pool.query(
         'SELECT filename FROM gallery WHERE image_type = "main" AND deleted_at IS NULL'
       )
       const existingMainImages = existingMainRows as { filename: string }[]
-      
+
       // 기존 메인 이미지 soft delete
       await pool.query(
         'UPDATE gallery SET deleted_at = ? WHERE image_type = "main" AND deleted_at IS NULL',
         [formattedTime]
       )
-      
+
       // 기존 메인 이미지 물리적 파일 삭제
       for (const existingImage of existingMainImages) {
         if (existingImage.filename) {
           try {
             const { unlink, access } = await import('fs/promises')
             const { join } = await import('path')
-            
-            const uploadsDir = process.env.UPLOAD_DIR || '/app/public/uploads'
+
+            const uploadsDir = process.env.UPLOAD_DIR || join(process.cwd(), 'public', 'uploads')
             const filePath = join(uploadsDir, existingImage.filename)
-            
+
             // 파일이 존재하는지 확인 후 삭제
             await access(filePath)
             await unlink(filePath)
@@ -210,9 +210,9 @@ export async function DELETE(request: Request) {
       try {
         const { unlink, access } = await import('fs/promises')
         const { join } = await import('path')
-        
+
         const filePath = join(process.cwd(), 'public', 'uploads', existingImage.filename)
-        
+
         // 파일이 존재하는지 확인 후 삭제
         await access(filePath)
         await unlink(filePath)

@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
   try {
     console.log('🔍 [DEBUG] Admin upload request started')
     console.log('🔍 [DEBUG] Request headers:', Object.fromEntries(request.headers.entries()))
-    
+
     // Check admin session
     const sessionToken = request.cookies.get('admin_session')?.value
     console.log('🔍 [DEBUG] Admin session:', sessionToken)
@@ -55,10 +55,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-    
+
     const fileData = formData.get('file')
     const image_type = formData.get('image_type') as string || 'gallery'
-    
+
     if (!fileData || typeof fileData === 'string') {
       console.log('❌ [DEBUG] No valid file provided or file is string')
       return NextResponse.json<ApiResponse<null>>(
@@ -69,10 +69,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-    
+
     // 이제 fileData는 File | Blob 타입임이 보장됨
     const filename = (fileData as { name?: string }).name || 'uploaded.jpg'
-    
+
     // 보안: 파일 확장자 검증 (경로 traversal 및 악성 파일 방지)
     const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp']
     const fileExtension = filename.toLowerCase().substring(filename.lastIndexOf('.'))
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-    
+
     // 보안: 파일명에서 경로 traversal 시도 차단
     if (filename.includes('..') || filename.includes('/') || filename.includes('\\')) {
       console.log('❌ [DEBUG] Path traversal attempt detected:', filename)
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-    
+
     // 보안: MIME 타입 검증
     const fileType = (fileData as { type?: string }).type || ''
     const allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-    
+
     console.log('🔍 [DEBUG] Upload info:', {
       filename,
       size: fileData.size,
@@ -139,9 +139,9 @@ export async function POST(request: NextRequest) {
     console.log('🔍 [DEBUG] File buffer size:', buffer.length)
 
     // Generate paths and filename - images 폴더로 통합 (환경변수 사용)
-    const uploadsDir = process.env.UPLOAD_DIR || '/app/public/uploads'
+    const uploadsDir = process.env.UPLOAD_DIR || join(process.cwd(), 'public', 'uploads')
     const imagesDir = join(uploadsDir, 'images')
-    
+
     // images 디렉토리 확인 및 생성 (권한 오류 무시)
     try {
       await import('fs/promises').then(async (fs) => {
@@ -162,10 +162,10 @@ export async function POST(request: NextRequest) {
       // 디렉토리 처리 실패해도 계속 진행 (Docker 볼륨 마운트에서는 이미 존재)
       console.log('ℹ️ [DEBUG] Directory access/creation failed (continuing anyway):', dirError)
     }
-    
+
     // 파일명 생성 로직 개선 (랜덤 문자열 사용, 보안 강화)
     let dbFilename: string
-    
+
     if (image_type === 'main') {
       // 메인 이미지는 main_cover.jpg로 저장
       dbFilename = 'main_cover.jpg'
@@ -177,12 +177,12 @@ export async function POST(request: NextRequest) {
       // 확장자는 항상 .jpg로 강제 (Sharp로 변환되므로)
       dbFilename = `gallery_${timestamp}_${randomString}.jpg`
     }
-    
+
     // 보안: 파일명 sanitization (경로 traversal 방지)
     const sanitizedFilename = dbFilename.replace(/[^a-zA-Z0-9._-]/g, '_')
     const filepath = join(imagesDir, sanitizedFilename)
     const dbPath = `images/${sanitizedFilename}` // DB에 저장할 상대 경로 (sanitized 사용)
-    
+
     console.log('🔍 [DEBUG] File paths:', {
       imagesDir,
       dbFilename,
@@ -194,23 +194,23 @@ export async function POST(request: NextRequest) {
     // Handle main image type - delete existing main image and remove physical files
     if (image_type === 'main') {
       console.log('🔍 [DEBUG] Processing main image upload - deleting existing')
-      
+
       // Get existing main images to delete physical files
       const [existingRows] = await pool.query(
         'SELECT filename FROM gallery WHERE image_type = "main"'
       )
       const existingImages = existingRows as { filename: string }[]
       console.log('🔍 [DEBUG] Existing main images to delete:', existingImages)
-      
+
       // Delete existing main images from database
       await pool.query(
         'DELETE FROM gallery WHERE image_type = "main"'
       )
-      
+
       // Delete physical files
       for (const image of existingImages) {
         if (image.filename) {
-          const uploadsDir = process.env.UPLOAD_DIR || '/app/public/uploads'
+          const uploadsDir = process.env.UPLOAD_DIR || join(process.cwd(), 'public', 'uploads')
           const oldFilePath = join(uploadsDir, image.filename)
           try {
             await import('fs/promises').then(async fs => {
@@ -239,7 +239,7 @@ export async function POST(request: NextRequest) {
       // 성능 최적화된 Sharp 설정
       const outputBuffer = await sharp(buffer)
         .rotate() // EXIF 방향 정보에 따라 자동 회전
-        .jpeg({ 
+        .jpeg({
           quality: 75, // 85 → 75로 낮춰서 처리 속도 향상
           progressive: true,
           mozjpeg: true // mozjpeg 압축 사용 (더 빠름)
@@ -255,14 +255,14 @@ export async function POST(request: NextRequest) {
       await import('fs/promises').then(async (fs) => {
         await fs.writeFile(filepath, outputBuffer)
       })
-      
+
       console.log('✅ [DEBUG] Image processed and saved with Sharp (optimized)')
     } catch (sharpError) {
       console.error('❌ [DEBUG] Sharp processing failed:', sharpError)
-      
+
       // HEIC 파일 특별 처리
       const isHeicFile = filename.toLowerCase().includes('.heic') || (fileData as { type?: string }).type === 'image/heic'
-      
+
       if (isHeicFile) {
         return NextResponse.json<ApiResponse<null>>(
           {
@@ -272,7 +272,7 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         )
       }
-      
+
       return NextResponse.json<ApiResponse<null>>(
         {
           success: false,
@@ -285,7 +285,7 @@ export async function POST(request: NextRequest) {
     // Save to database with file path
     const koreaTime = new Date(Date.now() + (9 * 60 * 60 * 1000))
     const formattedTime = koreaTime.toISOString().slice(0, 19).replace('T', ' ')
-    
+
     console.log('🔍 [DEBUG] Inserting to database:', {
       filename: dbPath,
       image_type,
@@ -301,14 +301,14 @@ export async function POST(request: NextRequest) {
       )
       const maxOrder = (maxOrderResult as { max_order: number | null }[])[0]?.max_order || 0
       const nextOrderIndex = maxOrder + 1
-      
+
       console.log('🔍 [DEBUG] Gallery order_index:', { maxOrder, nextOrderIndex })
-      
+
       insertResult = await pool.query(
         'INSERT INTO gallery (filename, image_type, order_index, created_at) VALUES (?, ?, ?, ?)',
         [dbPath, image_type, nextOrderIndex, formattedTime]
       )
-      
+
       console.log('✅ [DEBUG] Database insert result:', insertResult)
     } else {
       // 메인 이미지인 경우 order_index 없이 저장
@@ -316,7 +316,7 @@ export async function POST(request: NextRequest) {
         'INSERT INTO gallery (filename, image_type, created_at) VALUES (?, ?, ?)',
         [dbPath, image_type, formattedTime]
       )
-      
+
       console.log('✅ [DEBUG] Database insert result:', insertResult)
     }
 
