@@ -82,8 +82,8 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
                     fill={ivoryColor}
                     style={{
                       opacity: 0,
-                      animation: `fadeIn 0.5s ease-out forwards`,
-                      animationDelay: `${(index * 100) + 200}ms`
+                      animation: `fadeIn 1.5s ease-out forwards`,
+                      animationDelay: `${(index * 40) + 200}ms`
                     }}
                   />
                 ))}
