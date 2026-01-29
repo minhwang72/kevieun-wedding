@@ -52,9 +52,9 @@ export default function GallerySection({ gallery }: GallerySectionProps) {
     ? galleryImages
     : placeholderImages
 
-  // 표시할 이미지 개수 결정 (8개 제한 또는 모든 이미지)
-  const imagesToShow = showAll ? displayImages : displayImages.slice(0, 8)
-  const hasMoreImages = displayImages.length > 8
+  // 표시할 이미지 개수 결정 (9개 제한 또는 모든 이미지)
+  const imagesToShow = showAll ? displayImages : displayImages.slice(0, 9)
+  const hasMoreImages = displayImages.length > 9
 
   // 이미지 로드 실패 핸들러
   const handleImageError = (imageId: number) => {

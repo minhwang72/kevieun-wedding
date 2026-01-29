@@ -72,7 +72,7 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
 
         {/* Brush Texture SVG - 이미지 로드 후 애니메이션 시작 */}
         {svgAnimationStarted && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 translate-y-24">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 translate-y-16 md:translate-y-24">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-[80%] md:w-[100%]">
               <g>
                 {COVER_PATHS.map((pathD, index) => (
@@ -98,15 +98,15 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
 
 
           {/* Bottom Info & Quote */}
-          <div className="absolute bottom-20 md:bottom-24 left-0 right-0 text-center pb-8 z-20 px-8" style={{ ...overlayTextShadow, color: beigeColor }}>
-            <p className="text-sm md:text-lg tracking-[0.2em] font-heading uppercase mb-1">
+          <div className="absolute bottom-20 md:bottom-24 left-0 right-0 text-center pb-8 z-20 px-4 md:px-8" style={{ ...overlayTextShadow, color: beigeColor }}>
+            <p className="text-sm md:text-lg tracking-[0.2em] font-heading uppercase mb-1 whitespace-nowrap">
               - Sat, Jun 13th, 2026 -
             </p>
             <div>
-              <p className="text-base md:text-xl font-heading mb-1">
+              <p className="text-sm md:text-xl font-heading mb-1 whitespace-nowrap">
                 Forever begins with a single step,
               </p>
-              <p className="text-base md:text-xl font-heading">
+              <p className="text-sm md:text-xl font-heading whitespace-nowrap">
                 And love guides us every step of the way.
               </p>
             </div>
