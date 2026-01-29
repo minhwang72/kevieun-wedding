@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useScrollAnimation } from '@/hooks/useScrollAnimation'
-
+import { COVER_PATHS } from './CoverSectionPaths'
 
 export default function CoverSection() {
   const [imageUrl, setImageUrl] = useState<string>('')
@@ -46,8 +46,9 @@ export default function CoverSection() {
 
 
   const hasImage = Boolean(imageUrl)
-  const overlayTextShadow = { textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }
+  const overlayTextShadow = { textShadow: '1px 1px 1px rgba(0,0,0,0.3)' }
   const beigeColor = '#F5F5DC' // 연한 베이지색 (beige)
+  const ivoryColor = '#fff0d0' // 아이보리 (ivory)
 
 
 
@@ -84,6 +85,28 @@ export default function CoverSection() {
 
         </div>
 
+        {/* Brush Texture SVG */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196">
+            <g>
+              {COVER_PATHS.map((pathD, index) => (
+                <path
+                  key={index}
+                  d={pathD}
+                  fill={ivoryColor}
+                  stroke={ivoryColor}
+                  strokeWidth={0.5}
+                  style={{
+                    opacity: 0,
+                    animation: `fadeIn 0.5s ease-out forwards`,
+                    animationDelay: `${(index * 100) + 200}ms`
+                  }}
+                />
+              ))}
+            </g>
+          </svg>
+        </div>
+
         <div
           ref={photoAnimation.ref}
           className={`relative z-10 flex flex-col flex-1 px-6 md:px-12 py-10 text-white transition-opacity duration-700 ${photoAnimation.animationClass}`}
@@ -92,10 +115,10 @@ export default function CoverSection() {
 
           {/* Bottom Info & Quote */}
           <div className="absolute bottom-12 left-0 right-0 text-center pb-8 z-20 px-8" style={{ ...overlayTextShadow, color: beigeColor }}>
-            <p className="text-sm md:text-lg tracking-[0.2em] font-heading uppercase mb-1 opacity-0 animate-fade-in" style={{ animationDelay: '1000ms', animationFillMode: 'forwards' }}>
+            <p className="text-sm md:text-lg tracking-[0.2em] font-heading uppercase mb-1">
               - Sat, Jun 13th, 2026 -
             </p>
-            <div className="opacity-0 animate-fade-in" style={{ animationDelay: '1500ms', animationFillMode: 'forwards' }}>
+            <div>
               <p className="text-base md:text-xl font-heading mb-1">
                 Forever begins with a single step,
               </p>
