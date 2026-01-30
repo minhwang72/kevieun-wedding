@@ -36,6 +36,7 @@ const config: Config = {
       },
       animation: {
         'fade-in': 'fade-in 0.8s ease-in-out',
+        'bounce-slow': 'bounce 3s infinite',
       },
     },
   },

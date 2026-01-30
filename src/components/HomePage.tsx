@@ -13,6 +13,7 @@ import Footer from '@/components/Footer'
 import DevToolsBlocker from '@/components/DevToolsBlocker'
 import AttendanceModal from '@/components/AttendanceModal'
 import AttendancePopup from '@/components/AttendancePopup'
+import GlobalLoader from '@/components/GlobalLoader'
 import type { Gallery, Guestbook } from '@/types'
 
 interface ContactPerson {
@@ -42,18 +43,7 @@ const preloadImage = (src: string): Promise<void> => {
   })
 }
 
-function LoadingOverlay() {
-  return (
-    <div className="fixed inset-0 z-[9999] bg-[#FFFEF9] flex flex-col items-center justify-center transition-opacity duration-500">
-      <div className="flex flex-col items-center gap-4 animate-pulse">
-        <svg className="w-12 h-12 text-[#8B6F47]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-        </svg>
-        <p className="text-[#8B6F47] font-heading tracking-widest text-sm">INVITATION LOADING...</p>
-      </div>
-    </div>
-  )
-}
+
 
 export default function HomePage({
   hideShareButtons = false,
@@ -322,7 +312,7 @@ export default function HomePage({
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center theme-bg-main md:theme-bg-secondary py-0 md:py-8">
-      {isDataLoading && <LoadingOverlay />}
+      <GlobalLoader isLoading={isDataLoading} />
       <DevToolsBlocker />
       <div className="w-full max-w-[500px] mx-auto bg-white md:rounded-lg md:shadow-xl overflow-hidden">
         <CoverSection imageUrl={coverImageUrl} isLoading={isDataLoading} />
