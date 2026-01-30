@@ -16,12 +16,12 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
   const hasImage = Boolean(propImageUrl)
   const isLoading = propIsLoading || (hasImage && !imageLoaded) // 이미지가 없으면 로딩 상태 아님
 
-  // 이미지가 로드되면 SVG 애니메이션 시작 (이미지가 없으면 바로 시작)
+  // 로딩이 끝나면(이미지 로드 완료 + Global Loading 해제) SVG 애니메이션 시작
   useEffect(() => {
-    if ((hasImage ? imageLoaded : true) && !svgAnimationStarted) {
+    if (!isLoading && !svgAnimationStarted) {
       setSvgAnimationStarted(true)
     }
-  }, [hasImage, imageLoaded, svgAnimationStarted])
+  }, [isLoading, svgAnimationStarted])
 
 
   const overlayTextShadow = { textShadow: '1px 1px 1px rgba(0,0,0,0.3)' }
