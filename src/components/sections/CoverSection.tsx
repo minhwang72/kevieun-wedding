@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { COVER_PATHS } from './CoverSectionPaths'
+import { motion } from 'framer-motion'
+import { CLIP_PATH_1, CLIP_PATH_2, STROKE_PATH } from './CoverSectionPaths'
 
 interface CoverSectionProps {
   imageUrl?: string
@@ -70,25 +71,28 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
 
         </div>
 
-        {/* Brush Texture SVG - 이미지 로드 후 애니메이션 시작 */}
         {svgAnimationStarted && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 translate-y-8">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-[100%]">
-              <g>
-                {COVER_PATHS.map((pathD, index) => (
-                  <path
-                    key={index}
-                    d={pathD}
-                    fill={ivoryColor}
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    style={{
-                      opacity: 0,
-                      animation: `fadeIn 1.5s ease-out forwards`,
-                      animationDelay: `${(index * 40) + 200}ms`
-                    }}
-                  />
-                ))}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-[95%] md:w-[60%]">
+              <defs>
+                <clipPath id="text-mask">
+                  <path transform="translate(2 2)" d={CLIP_PATH_1} />
+                  <path transform="translate(2 2)" d={CLIP_PATH_2} />
+                </clipPath>
+              </defs>
+              <g transform="translate(85.353516, 34.804688)">
+                <motion.path
+                  d={STROKE_PATH}
+                  fill="none"
+                  stroke={ivoryColor}
+                  strokeWidth="50"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 2.5, ease: "easeInOut" }}
+                  clipPath="url(#text-mask)"
+                />
               </g>
             </svg>
           </div>
