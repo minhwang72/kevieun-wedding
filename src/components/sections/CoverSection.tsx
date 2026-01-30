@@ -99,9 +99,9 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
                     initial={{ pathLength: 0, opacity: 0, fillOpacity: 0 }}
                     animate={{ pathLength: 1, opacity: 1, fillOpacity: 1 }}
                     transition={{
-                      pathLength: { duration: 1.2, ease: "easeInOut", delay: index < 7 ? index * 0.1 : 1.5 + (index - 7) * 0.1 },
-                      opacity: { duration: 0.1, delay: index < 7 ? index * 0.1 : 1.5 + (index - 7) * 0.1 },
-                      fillOpacity: { duration: 0.8, ease: "easeIn", delay: (index < 7 ? index * 0.1 : 1.5 + (index - 7) * 0.1) + 0.8 }
+                      pathLength: { duration: 0.6, ease: "easeInOut", delay: index < 7 ? index * 0.15 : 1.2 + (index - 7) * 0.15 },
+                      opacity: { duration: 0.05, delay: index < 7 ? index * 0.15 : 1.2 + (index - 7) * 0.15 },
+                      fillOpacity: { duration: 0.4, ease: "easeIn", delay: (index < 7 ? index * 0.15 : 1.2 + (index - 7) * 0.15) + 0.3 }
                     }}
                   />
                 ))}
