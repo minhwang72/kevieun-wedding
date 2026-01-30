@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { CLIP_PATH_1, CLIP_PATH_2, STROKE_PATH } from './CoverSectionPaths'
+import { CLIP_PATHS, STROKE_PATH } from './CoverSectionPaths'
 
 interface CoverSectionProps {
   imageUrl?: string
@@ -76,8 +76,15 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-[95%] md:w-[60%]">
               <defs>
                 <clipPath id="text-mask">
-                  <path transform="translate(2 2)" d={CLIP_PATH_1} />
-                  <path transform="translate(2 2)" d={CLIP_PATH_2} />
+                  {CLIP_PATHS.map((pathData, index) => (
+                    <path
+                      key={index}
+                      transform="translate(2 2)"
+                      d={pathData}
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                    />
+                  ))}
                 </clipPath>
               </defs>
               <g>
