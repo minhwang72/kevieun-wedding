@@ -73,20 +73,9 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
 
         {svgAnimationStarted && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 translate-y-8">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-full px-6 md:px-12">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-full">
               <g>
-                {/* Background Layer (faint text) */}
-                <g opacity={0.3}>
-                  {CLIP_PATHS.map((pathData, index) => (
-                    <path
-                      key={`bg-${index}`}
-                      transform="translate(2 2)"
-                      d={pathData}
-                      fill={ivoryColor} // Or 'none' and stroke if preferred, but fill matches the "faint text" idea
-                      stroke="none"
-                    />
-                  ))}
-                </g>
+
 
                 {/* Animation Layer (drawing outlines) */}
                 {CLIP_PATHS.map((pathData, index) => (
@@ -102,9 +91,9 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
                     initial={{ pathLength: 0, opacity: 0 }}
                     animate={{ pathLength: 1, opacity: 1 }}
                     transition={{
-                      duration: 2.5,
+                      duration: 0.8,
                       ease: "easeInOut",
-                      delay: index < 7 ? index * 0.2 : 3.0 + (index - 7) * 0.2, // Sequence: Line 1 then Line 2
+                      delay: index < 7 ? index * 0.07 : 1.0 + (index - 7) * 0.07, // 3x faster sequence
                     }}
                   />
                 ))}
