@@ -80,17 +80,17 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
                   <path transform="translate(2 2)" d={CLIP_PATH_2} />
                 </clipPath>
               </defs>
-              <g transform="translate(85.353516, 34.804688)">
+              <g>
                 <motion.path
                   d={STROKE_PATH}
                   fill="none"
                   stroke={ivoryColor}
-                  strokeWidth="50"
+                  strokeWidth="100" // Increased stroke width for better coverage
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 2.5, ease: "easeInOut" }}
+                  transition={{ duration: 3, ease: "linear" }} // Increased duration slightly and linear ease for steady writing
                   clipPath="url(#text-mask)"
                 />
               </g>
