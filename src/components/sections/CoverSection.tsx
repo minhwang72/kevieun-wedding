@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { CLIP_PATHS, STROKE_PATH } from './CoverSectionPaths'
+import { CLIP_PATHS } from './CoverSectionPaths'
 
 interface CoverSectionProps {
   imageUrl?: string
@@ -74,32 +74,40 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
         {svgAnimationStarted && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 translate-y-8">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-[95%] md:w-[60%]">
-              <defs>
-                <clipPath id="text-mask">
+              <g>
+                {/* Background Layer (faint text) */}
+                <g opacity={0.3}>
                   {CLIP_PATHS.map((pathData, index) => (
                     <path
-                      key={index}
+                      key={`bg-${index}`}
                       transform="translate(2 2)"
                       d={pathData}
-                      fillRule="evenodd"
-                      clipRule="evenodd"
+                      fill={ivoryColor} // Or 'none' and stroke if preferred, but fill matches the "faint text" idea
+                      stroke="none"
                     />
                   ))}
-                </clipPath>
-              </defs>
-              <g>
-                <motion.path
-                  d={STROKE_PATH}
-                  fill="none"
-                  stroke={ivoryColor}
-                  strokeWidth="100" // Increased stroke width for better coverage
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 3, ease: "linear" }} // Increased duration slightly and linear ease for steady writing
-                  clipPath="url(#text-mask)"
-                />
+                </g>
+
+                {/* Animation Layer (drawing outlines) */}
+                {CLIP_PATHS.map((pathData, index) => (
+                  <motion.path
+                    key={`draw-${index}`}
+                    d={pathData}
+                    transform="translate(2 2)"
+                    fill="none"
+                    stroke={ivoryColor}
+                    strokeWidth="1.5" // Adjusted for outline look
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1 }}
+                    transition={{
+                      duration: 2.5,
+                      ease: "easeInOut",
+                      delay: index * 0.15, // Stagger effect
+                    }}
+                  />
+                ))}
               </g>
             </svg>
           </div>
