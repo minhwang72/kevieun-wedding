@@ -16,9 +16,9 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
   const hasImage = Boolean(propImageUrl)
   const isLoading = propIsLoading || (hasImage && !imageLoaded) // 이미지가 없으면 로딩 상태 아님
 
-  // 이미지가 로드되면 SVG 애니메이션 시작
+  // 이미지가 로드되면 SVG 애니메이션 시작 (이미지가 없으면 바로 시작)
   useEffect(() => {
-    if (hasImage && imageLoaded && !svgAnimationStarted) {
+    if ((hasImage ? imageLoaded : true) && !svgAnimationStarted) {
       setSvgAnimationStarted(true)
     }
   }, [hasImage, imageLoaded, svgAnimationStarted])
@@ -74,9 +74,17 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
         {svgAnimationStarted && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 translate-y-8">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-full">
-              <g>
-
-
+              <defs>
+                <filter id="noise-filter">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
+                  <feColorMatrix type="saturate" values="0" />
+                </filter>
+                <mask id="grunge-mask">
+                  <rect width="100%" height="100%" fill="white" />
+                  <rect width="100%" height="100%" fill="black" filter="url(#noise-filter)" opacity="0.7" />
+                </mask>
+              </defs>
+              <g mask="url(#grunge-mask)">
                 {/* Animation Layer (drawing outlines) */}
                 {CLIP_PATHS.map((pathData, index) => (
                   <motion.path
@@ -84,16 +92,16 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
                     d={pathData}
                     transform="translate(2 2)"
                     fill={ivoryColor}
-                    stroke={ivoryColor}
-                    strokeWidth="1.5" // Adjusted for outline look
+                    stroke="none"
+                    strokeWidth="1.0"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
+                    initial={{ pathLength: 0, opacity: 0, fillOpacity: 0 }}
+                    animate={{ pathLength: 1, opacity: 1, fillOpacity: 1 }}
                     transition={{
-                      duration: 1.2,
-                      ease: "easeInOut",
-                      delay: index < 7 ? index * 0.1 : 1.5 + (index - 7) * 0.1, // Slightly slower than 0.8s/0.07
+                      pathLength: { duration: 1.2, ease: "easeInOut", delay: index < 7 ? index * 0.1 : 1.5 + (index - 7) * 0.1 },
+                      opacity: { duration: 0.1, delay: index < 7 ? index * 0.1 : 1.5 + (index - 7) * 0.1 },
+                      fillOpacity: { duration: 0.8, ease: "easeIn", delay: (index < 7 ? index * 0.1 : 1.5 + (index - 7) * 0.1) + 0.8 }
                     }}
                   />
                 ))}
