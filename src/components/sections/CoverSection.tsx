@@ -116,9 +116,12 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
 
 
           {/* Bottom Info & Quote */}
-          <div className="absolute bottom-10 left-0 right-0 text-center z-20 px-4 md:px-8" style={{ ...overlayTextShadow, color: beigeColor }}>
-            <p className="text-sm md:text-lg tracking-[0.2em] font-heading uppercase mb-1 whitespace-nowrap">
+          <div className="absolute bottom-8 left-0 right-0 text-center z-20 px-4 md:px-8" style={{ ...overlayTextShadow, color: beigeColor }}>
+            <p className="text-sm md:text-lg tracking-[0.2em] font-heading uppercase mb-2 whitespace-nowrap">
               - Sat, Jun 13th, 2026 -
+            </p>
+            <p className="text-xs md:text-base tracking-[0.1em] font-heading uppercase opacity-90 whitespace-nowrap">
+              CHUNGDONG First Methodist Church
             </p>
           </div>
         </div>

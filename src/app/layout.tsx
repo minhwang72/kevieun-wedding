@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     canonical: 'https://kevieun.eungming.com',
   },
   title: '희근 ♥ 은혜\'s Wedding',
-  description: '2026년 6월 13일 오후1시 정동제일교회',
+  description: '2026년 6월 13일 오후1시\n정동제일교회',
   keywords: ["임희근", "이은혜", "결혼식", "청첩장", "웨딩", "wedding", "invitation", "정동제일교회"],
   icons: {
     icon: '/favicon.svg',

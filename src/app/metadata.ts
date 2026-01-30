@@ -65,11 +65,11 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: 'https://kevieun.eungming.com',
     },
     title: "희근 ♥ 은혜\'s Wedding",
-    description: "2026년 6월 13일 오후1시 정동제일교회",
+    description: "2026년 6월 13일 오후1시\n정동제일교회",
     keywords: ["결혼식", "청첩장", "wedding", "invitation", "임희근", "이은혜", "정동제일교회"],
     openGraph: {
       title: "희근 ♥ 은혜\'s Wedding",
-      description: "2026년 6월 13일 오후1시 정동제일교회",
+      description: "2026년 6월 13일 오후1시\n정동제일교회",
       url: "https://kevieun.eungming.com",
       siteName: "임희근 ♥ 이은혜 결혼식 청첩장",
       images: [
@@ -86,7 +86,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "희근 ♥ 은혜\'s Wedding",
-      description: "2026년 6월 13일 오후1시 정동제일교회",
+      description: "2026년 6월 13일 오후1시\n정동제일교회",
       images: [imageUrl],
     },
     icons: {

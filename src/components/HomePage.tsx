@@ -244,7 +244,7 @@ export default function HomePage({
           objectType: 'feed',
           content: {
             title: '임희근 ♥ 이은혜 결혼합니다',
-            description: '2026년 6월 13일 오후1시 정동제일교회',
+            description: '2026년 6월 13일 오후1시\n정동제일교회',
             imageUrl: shareImageUrl,
             link: {
               mobileWebUrl: 'https://kevieun.eungming.com',
