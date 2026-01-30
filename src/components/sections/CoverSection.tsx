@@ -73,7 +73,7 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
 
         {svgAnimationStarted && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 translate-y-8">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-[95%] md:w-[60%]">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 196" className="w-full px-6 md:px-12">
               <g>
                 {/* Background Layer (faint text) */}
                 <g opacity={0.3}>
@@ -104,7 +104,7 @@ export default function CoverSection({ imageUrl: propImageUrl = '', isLoading: p
                     transition={{
                       duration: 2.5,
                       ease: "easeInOut",
-                      delay: index * 0.15, // Stagger effect
+                      delay: index < 7 ? index * 0.2 : 3.0 + (index - 7) * 0.2, // Sequence: Line 1 then Line 2
                     }}
                   />
                 ))}
