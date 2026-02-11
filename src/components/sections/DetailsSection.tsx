@@ -238,7 +238,7 @@ export default function LocationSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 6H5a2 2 0 00-2 2v6a2 2 0 002 2h2m4 0h4a2 2 0 002-2V8a2 2 0 00-2-2h-2m0 0V4a2 2 0 00-2-2H9a2 2 0 00-2 2v2m6 0V4" />
                 </svg>
-                <h3 className="text-base md:text-lg font-bold text-black">자가</h3>
+                <h3 className="text-base md:text-lg font-bold text-black">자가용</h3>
               </div>
               <p className="text-black leading-relaxed ml-7 text-sm md:text-base">
                 서대문역 사거리 → 정동사거리 우회전 500m 직진<br />
